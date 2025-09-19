@@ -13,4 +13,4 @@ function FunctionCard() {
     )
 }
 
-export default FunctionCard
+export default FunctionCard;
