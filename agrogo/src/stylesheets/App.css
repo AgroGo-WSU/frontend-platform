@@ -1,0 +1,60 @@
+.dashboard {
+    background-color: beige;
+    width: 100vw;
+    display: grid;
+    grid-template-areas: 
+        "top-blank top-blank top-blank"
+        "left-menu top-nav right-blank"
+        "left-menu welcome-title right-blank"
+        "left-menu zones right-blank"
+        "left-menu weather right-blank"
+        "footer footer footer"
+        "bottom-blank bottom-blank bottom-blank";
+    grid-template-columns: 150px auto 30px;
+    grid-template-rows: 30px 65px 125px 200px 275px 100px 30px;
+}
+
+.top-blank {
+    background-color: green;
+    grid-area: top-blank;
+}
+
+.bottom-blank {
+    background-color: green;
+    grid-area: bottom-blank;
+}
+
+.right-blank {
+    background-color: purple;
+    grid-area: right-blank;
+}
+
+.footer {
+    background-color: red;
+    grid-area: footer;
+}
+
+.welcome-title {
+    background-color: pink;
+    grid-area: welcome-title;
+}
+
+.zones {
+    background-color: greenyellow;
+    grid-area: zones;
+}
+
+.weather {
+    background-color: blue;
+    grid-area: weather;
+}
+
+.top-nav {
+    background-color: bisque;
+    grid-area: top-nav;
+}
+
+.left-menu {
+    background-color: peru;
+    grid-area: left-menu;
+}
