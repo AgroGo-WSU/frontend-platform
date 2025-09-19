@@ -11,7 +11,7 @@
         "footer footer footer"
         "bottom-blank bottom-blank bottom-blank";
     grid-template-columns: 150px auto 30px;
-    grid-template-rows: 30px 65px 125px 200px 275px 100px 30px;
+    grid-template-rows: 30px 65px 125px 250px 300px 100px 30px;
 }
 
 .top-blank {
