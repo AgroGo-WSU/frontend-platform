@@ -1,18 +1,22 @@
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import './stylesheets/App.css'
-import FunctionCard from './components/FunctionCard'
+import MainTitle from './components/MainTitle'
+import LeftMenu from './components/LeftMenu'
+import TopNav from './components/TopNav'
+import ZoneCard from './components/ZoneCard';
+import WeatherCard from './components/WeatherCard';
 
 function App() {
 
   return (
     <div className="dashboard">
-      <div className="top-blank">I'm top blank</div>
       <div className="bottom-blank">I'm bottom blank</div>
-      <div className="left-menu">I'm left menu</div>
-      <div className="right-blank">I'm right blank</div>
-      <div className="topnav">I'm the topnav</div>
-      <div className="welcome-title">I'm the welcome title</div>
-      <div className="weather">I'm the weather cards</div>
-      <div className="zones">I'm the zones<FunctionCard/></div>
+      <div className="left-menu"><LeftMenu /></div>
+      <div className="right-blank">I'm right blank - I'm only here bc madeline hates managing margins in the css</div>
+      <div className="top-nav"><TopNav /></div>
+      <div className="welcome-title"><MainTitle name="AgroGo"/></div>
+      <div className="weather">I'm the weather cards - this will also be a flex box with title and cards<WeatherCard /></div>
+      <div className="zones">I'm the zones - this will be a flex box with a title card and the zone bubbles underneath<ZoneCard /></div>
       <div className="footer">I'm the footer</div>
     </div>
   )

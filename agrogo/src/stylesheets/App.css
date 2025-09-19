@@ -1,22 +1,17 @@
 .dashboard {
     background-color: beige;
     width: 100vw;
+    overflow-x: hidden;
     display: grid;
     grid-template-areas: 
-        "top-blank top-blank top-blank"
-        "left-menu top-nav right-blank"
+        "top-nav top-nav top-nav"
         "left-menu welcome-title right-blank"
         "left-menu zones right-blank"
         "left-menu weather right-blank"
         "footer footer footer"
         "bottom-blank bottom-blank bottom-blank";
-    grid-template-columns: 150px auto 30px;
-    grid-template-rows: 30px 65px 125px 250px 300px 100px 30px;
-}
-
-.top-blank {
-    background-color: green;
-    grid-area: top-blank;
+    grid-template-columns: fit-content(120px) auto 30px;
+    grid-template-rows: auto 125px 250px 300px 100px 30px;
 }
 
 .bottom-blank {

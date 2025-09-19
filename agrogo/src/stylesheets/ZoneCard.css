@@ -1,0 +1,24 @@
+.zone-card-container {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+}
+
+.circles {
+    background-color: red;
+    min-width: 75px;
+    min-height: 75px;
+    width: 7vw;
+    height: 7vw;
+    border-radius: 50%;
+    font-size: 10px;
+    text-align: center;
+    padding: 10px;
+}
+
+.caption {
+    background-color: beige;
+    min-width: 100px;
+    width: 9vw;
+    font-size: max(1.2vw, 12px); /*font will be 1.2 times the view width (if 1.2vw > 12px), but at least 12px*/
+}

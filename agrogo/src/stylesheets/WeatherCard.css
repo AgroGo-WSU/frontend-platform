@@ -4,3 +4,7 @@
     height: 75px;
     border-radius: 12px;
 }
+
+.list-group-flush {
+    color: red;
+}
