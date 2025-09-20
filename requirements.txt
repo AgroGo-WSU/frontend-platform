@@ -1,0 +1,2 @@
+React Bootstrap: v3.0.0-beta.4 (Bootstrap5)
+    You can install with the following command: npm install react-bootstrap bootstrap

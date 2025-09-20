@@ -1,0 +1,8 @@
+The color scheme for this project is:
+    *Primary: #173D23
+    *Secondary: #F2EEE3
+    *Tertiary: #549227
+
+The fonts are:
+    *Titles: Roboto
+    *Subtitles and other text: Nunito
