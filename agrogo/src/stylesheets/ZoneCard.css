@@ -1,6 +1,7 @@
 .zone-card-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin: 15px;
 }
 

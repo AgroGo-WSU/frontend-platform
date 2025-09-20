@@ -11,8 +11,10 @@
         "footer footer footer"
         "bottom-blank bottom-blank bottom-blank";
     grid-template-columns: fit-content(120px) auto 30px;
-    grid-template-rows: auto 125px 250px 300px 100px 30px;
+    grid-template-rows: auto 125px 250px 350px 100px 30px;
 }
+
+/* Main grid pieces styled here */
 
 .bottom-blank {
     background-color: green;
@@ -42,6 +44,7 @@
 .weather {
     background-color: blue;
     grid-area: weather;
+    overflow-x: scroll;
 }
 
 .top-nav {
@@ -52,4 +55,20 @@
 .left-menu {
     background-color: peru;
     grid-area: left-menu;
+}
+
+/* Flex containers styles here */
+
+.weather-flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: max(5vw, 50px);
+}
+
+.zone-flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 20px;
 }

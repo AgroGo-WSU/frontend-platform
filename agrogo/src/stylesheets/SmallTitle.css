@@ -1,0 +1,6 @@
+.small-title-container {
+    background-color: beige;
+    width: max(9vw, 150px);
+    height: max(3vw, 30px); 
+    font-size: max(1.5em, 18px);
+}
