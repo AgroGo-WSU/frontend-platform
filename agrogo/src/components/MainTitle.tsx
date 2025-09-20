@@ -8,7 +8,6 @@ function MainTitle({ name }: { name: string }) {
         <div className="main-title-container">
             {/* now we can display the variable on the component */}
             <h1>Welcome, {name}</h1>
-            <p>I need to be vertically centered in my div womp womp :(</p>
         </div>
     )
 }

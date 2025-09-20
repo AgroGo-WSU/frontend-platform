@@ -5,20 +5,19 @@
     margin: 15px;
 }
 
-.circles {
-    background-color: red;
+.circle-img {
+    background-color: white;
     min-width: 75px;
     min-height: 75px;
     width: 7vw;
     height: 7vw;
     border-radius: 50%;
-    font-size: 10px;
-    text-align: center;
     padding: 10px;
+    border-color: black;
+    border-width: 5px;
 }
 
 .caption {
-    background-color: beige;
     min-width: 100px;
     width: 9vw;
     font-size: max(1.2vw, 12px); /*font will be 1.2 times the view width (if 1.2vw > 12px), but at least 12px*/

@@ -1,3 +1,4 @@
+import "../stylesheets/TopNav.css";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -13,9 +14,9 @@ function TopNav() {
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
         {/* TODO: change these href routes to new pages/state so the links actually go somewhere */}
-        <Navbar.Brand href="#home">AgroGo</Navbar.Brand>
+        <Navbar.Brand href="#home" id="nav-bar-title">AgroGo</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">I'm a Bootstrap component that you can edit in TopNav
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#features">Weather</Nav.Link>
             <Nav.Link href="#pricing">Inventory</Nav.Link>
@@ -30,9 +31,9 @@ function TopNav() {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#notifications">notifications icon</Nav.Link>
-            <Nav.Link eventKey={2} href="#profile">profile icon</Nav.Link>
-            <Nav.Link eventKey={2} href="#settings">settings icon</Nav.Link>
+            <Nav.Link href="#notifications"><img className="icon-img" src="../src/assets/notifications-icon-173D23.svg" width="10px"></img></Nav.Link>
+            <Nav.Link eventKey={2} href="#profile"><img className="icon-img" src="../src/assets/profile-icon-173D23.svg"></img></Nav.Link>
+            <Nav.Link eventKey={2} href="#settings"><img className="icon-img" src="../src/assets/settings-icon-173D23.svg"></img></Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

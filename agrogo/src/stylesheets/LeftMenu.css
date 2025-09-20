@@ -2,3 +2,16 @@
     width: 12vw;
     min-width: 100px;
 }
+
+.links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: max(1.5vw, 15px);
+}
+
+.links {
+    color: #549227;
+    font-weight: 600;
+    font-size: max(1.2vw, 12px);
+}

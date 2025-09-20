@@ -5,7 +5,7 @@ function WeatherCard() {
   return (
     <div className="weather-card-container">
       <div className="card-flex-container">
-        <img className="weather-card-image" src="../assets/weather.jpg"></img>
+        <img className="weather-card-image" src="../src/assets/sun.png"></img>
         <div className="day-caption">Today</div>
         <div className="weather-card-title">Sept. 21</div>
         <div className="weather-card-subtitle">Looks like it's gonna be sunny or smth</div>

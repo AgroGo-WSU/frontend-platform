@@ -1,11 +1,12 @@
-import "../stylesheets/ZoneCard.css"
+// import "../assets/plant.png"
+import "../stylesheets/ZoneCard.css";
 
 
 function ZoneCard() {
 
     return (
         <div className="zone-card-container">
-            <div className="circles">I'm a zone - text will be replaced by image soon</div>
+            <img className="circle-img" src="../src/assets/plant.png"></img>
             <div className="caption">Carrots, zinnias, etc</div>
         </div>
     )

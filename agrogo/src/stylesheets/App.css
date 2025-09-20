@@ -1,5 +1,5 @@
 .dashboard {
-    background-color: beige;
+    background-color: #f2eee3;
     width: 100vw;
     overflow-x: hidden;
     display: grid;
@@ -11,49 +11,62 @@
         "footer footer footer"
         "bottom-blank bottom-blank bottom-blank";
     grid-template-columns: fit-content(120px) auto 30px;
-    grid-template-rows: auto 125px 250px 350px 100px 30px;
+    grid-template-rows: auto 125px 250px 375px 100px 30px;
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 /* Main grid pieces styled here */
 
 .bottom-blank {
-    background-color: green;
+    background-color: #F2EEE3;
     grid-area: bottom-blank;
 }
 
 .right-blank {
-    background-color: purple;
+    background-color: #F2EEE3;
     grid-area: right-blank;
 }
 
 .footer {
-    background-color: red;
+    background-color: #F2EEE3;
     grid-area: footer;
+    text-align: center;
+    padding: 50px;
 }
 
 .welcome-title {
-    background-color: pink;
+    background-color: white;
     grid-area: welcome-title;
+    padding-left: 15px;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
 }
 
 .zones {
-    background-color: greenyellow;
+    background-color: white;
     grid-area: zones;
+    overflow-x: scroll;
+    padding-left: 15px;
 }
 
 .weather {
-    background-color: blue;
+    background-color: white;
     grid-area: weather;
     overflow-x: scroll;
+    padding-left: 15px;
+    border-bottom-left-radius: 28px;
+    border-bottom-right-radius: 28px;
 }
 
 .top-nav {
-    background-color: bisque;
+    background-color: #F2EEE3;
     grid-area: top-nav;
 }
 
 .left-menu {
-    background-color: peru;
+    background-color: #F2EEE3;
     grid-area: left-menu;
 }
 

@@ -6,7 +6,7 @@
 
 .weather-card-image {
     background-color: white;
-    width: max(15vw, 150px);
-    height: max(12vw, 150px);
+    width: max(11vw, 150px);
+    height: max(11vw, 150px);
     border-radius: 28px;
 }
