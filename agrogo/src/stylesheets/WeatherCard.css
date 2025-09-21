@@ -1,7 +1,11 @@
 .weather-card-container {
     width: max(12vw, 120px); /*font will be 1.2 times the view width (if 1.2vw > 12px), but at least 12px*/
     height: max(5vw, 50px);
-    margin-top: 15px;
+    margin-top: 55px;
+}
+
+.card-flex-container {
+    padding: 10px;
 }
 
 .weather-card-image {
@@ -9,4 +13,21 @@
     width: max(11vw, 150px);
     height: max(11vw, 150px);
     border-radius: 28px;
+}
+
+.day-caption {
+    color: rgba(23, 61, 35, 75%);
+    font-size: max(1vw, 12px);
+}
+
+.weather-card-title {
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: max(1.2vw, 18px);
+}
+
+.weather-card-subtitle {
+    font-size: max(1vw, 15px);
+    width: max(8vw, 90px);
 }

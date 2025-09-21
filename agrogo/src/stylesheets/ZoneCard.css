@@ -2,23 +2,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 15px;
+    margin-top: 55px;
 }
 
 .circle-img {
     background-color: white;
-    min-width: 75px;
-    min-height: 75px;
-    width: 7vw;
-    height: 7vw;
+    width: max(7vw, 125px);
+    height: max(7vw, 125px);
     border-radius: 50%;
-    padding: 10px;
     border-color: black;
     border-width: 5px;
 }
 
 .caption {
-    min-width: 100px;
-    width: 9vw;
-    font-size: max(1.2vw, 12px); /*font will be 1.2 times the view width (if 1.2vw > 12px), but at least 12px*/
+    width: max(7vw, 100px);
+    height: max(3vw, 50px);
+    margin: 8px;
+    padding: 5px;
+    font-size: max(1vw, 12px); /* font will be 1.2 times the view width (if 1.2vw > 12px), but at least 12px */
+    text-align: center;
+    overflow: hidden;
+    /* white-space: nowrap; */ /* commenting this out for now, but eventually this will be used to indicate that the name of the zone is too long - this will require ts logic */
 }

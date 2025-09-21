@@ -1,5 +1,4 @@
 import "../stylesheets/LeftMenu.css";
-import SmallTitle from "./SmallTitle";
 
 
 function LeftMenu() {
@@ -7,10 +6,10 @@ function LeftMenu() {
     return (
         <div className="left-menu-container">
             <div className="links-container">
-            <SmallTitle title="Menu"/>
-            <div className="links">View inventory</div>
-            <div className="links">Go to account</div>
-            <div className="links">Another link</div>
+                <div className="menu-title">Menu</div>
+                <div className="links">View inventory</div>
+                <div className="links">Go to account</div>
+                <div className="links">Another link</div>
             </div>
         </div>
     )

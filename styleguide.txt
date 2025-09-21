@@ -1,8 +1,19 @@
 The color scheme for this project is:
     *Primary: #173D23
     *Secondary: #F2EEE3
-    *Tertiary: #549227
+    *Tertiary: #549227 // Note: the tertiary color does not meet Web Content Accessibility Guidelines (WCAG) for text contrast; 
+                         // we can use this as an accent color on the site, but it can't be used for text.
+                         // we can test color contrast using this site: https://webaim.org/resources/contrastchecker/
+                         // our primary color scored >10 on this site, so it can be used for any text, of any size/weight
+                         // this will be taken care of before iteration #2
 
 The fonts are:
     *Titles: Roboto
     *Subtitles and other text: Nunito
+
+The font size hierarchy is: 
+    *Main title: max(4vw, 35px); // Main title - this is the biggest text on any page at any given time
+    *Small title: max(1.75em, 20px); // Small titles - this is for the "Weather"and "Zones" titles
+    *Captions: max(1.2vw, 18px); // this is for titles like the "weather-card-title" on the weather cards
+    *Small captions: font-size: max(1vw, 15px); // this is for captions like the "weather-card-subtitle" class on the weather cards
+    *Smallest captions: max(1vw, 12px); // this is for the "day-caption" class on the weather cards
