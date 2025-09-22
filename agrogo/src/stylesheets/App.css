@@ -40,6 +40,7 @@
     background-color: white;
     grid-area: welcome-title;
     padding-left: 15px;
+    margin-top: 10px;
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
 }
