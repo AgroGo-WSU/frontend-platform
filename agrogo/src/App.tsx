@@ -72,7 +72,7 @@ function App() {
           <ZoneCard plants="Carrots and cucumbers"        image="../src/assets/zone-images/vegetable.png"/>
           <ZoneCard plants="Cosmos and petunias"          image="../src/assets/zone-images/flower.png"/>
           <ZoneCard plants="Peppers, lavender, kale"      image="../src/assets/zone-images/plant.png"/>
-          <div className="last-connect">Last: { last_connection.getReceivedAt() }</div> {/* Now we can display our db data on the homepage */}
+          <div className="last-connect"><SmallTitle title="Last connection: " /><div id="timestamp">{ last_connection.getReceivedAt() }</div></div> {/* Now we can display our db data on the homepage */}
           </div>
         </div>
       <div className="weather"><div className="small-title-fixer"><SmallTitle title="Weather"/></div>

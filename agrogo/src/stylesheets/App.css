@@ -92,3 +92,24 @@
 .small-title-fixer {
     position: absolute;
 }
+
+/* Last connection display for the demo */
+
+.last-connect {
+    background-color: #F2EEE3;
+    width: 500px;
+    height: 80px;
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    border: 2px solid #173D23;
+    border-radius: 28px;
+}
+
+#timestamp {
+    padding-top: 10px;
+    font-style: italic;
+    font-size: max(1.2vw, 18px);
+}
+
+/* end of demo stylings */
