@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { 
+  signInWithEmailAndPassword
+} from "firebase/auth";
 import { auth } from "../firebase/config.ts";
 import { Modal, Button, Form } from "react-bootstrap";
+import ThirdPartyAuth from "./ThirdPartyAuth.tsx";
 
 interface LoginProps {
   show: boolean;
@@ -14,7 +17,7 @@ function Login({ show, onClose, setUserAuthed }: LoginProps) {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleEmailLogin = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       try {
@@ -35,7 +38,7 @@ function Login({ show, onClose, setUserAuthed }: LoginProps) {
             <Modal.Title>Login</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form onSubmit={handleLogin}>
+            <Form onSubmit={handleEmailLogin}>
               <Form.Group controlId="loginEmail">
                 <Form.Control
                   type="email"
@@ -58,6 +61,7 @@ function Login({ show, onClose, setUserAuthed }: LoginProps) {
               {error && <p className="error">{error}</p>}
               <Button type="submit" variant="primary" className="w-100">Login</Button>
             </Form>
+            <ThirdPartyAuth onClose={onClose} setUserAuthed={setUserAuthed} setErrorMessage={setError} />
           </Modal.Body>
         </Modal>
     );

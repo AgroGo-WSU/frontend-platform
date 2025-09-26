@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase/config";
 import { Modal, Button, Form } from "react-bootstrap";
+import ThirdPartyAuth from "./ThirdPartyAuth";
 
 interface SignupProps {
   show: boolean
@@ -76,6 +77,7 @@ function Signup({ show, onClose, setUserAuthed }: SignupProps) {
             {error && <p className="error">{error}</p>}
             <Button type="submit">Sign Up</Button>
         </Form>
+        <ThirdPartyAuth onClose={onClose} setUserAuthed={setUserAuthed} setErrorMessage={setError} />
       </Modal.Body>
     </Modal>
   );
