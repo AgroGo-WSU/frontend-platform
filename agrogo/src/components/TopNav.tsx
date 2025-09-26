@@ -3,6 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Login from "./Login";
+import { useState } from "react";
 
 // this is a React Bootstrap component - you can find docs for this at https://react-bootstrap.netlify.app/docs/components/navbar
 // this is the "CollapsibleExample" navbar, the first under "Responsive behaviors section"
@@ -10,6 +12,10 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 // I changed the css file to be the regular, not the .min css to make it easier for us to change, but it can be switched back to .min later to svae space
 
 function TopNav() {
+  const [showLogin, setShowLogin] = useState(false);
+
+  let authed = false;
+
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
@@ -31,10 +37,22 @@ function TopNav() {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#notifications"><img className="icon-img" src="../src/assets/icons/notifications-icon-173D23.svg" width="10px"></img></Nav.Link>
-            <Nav.Link eventKey={2} href="#profile"><img className="icon-img" src="../src/assets/icons/profile-icon-173D23.svg"></img></Nav.Link>
-            <Nav.Link eventKey={2} href="#settings"><img className="icon-img" src="../src/assets/icons/settings-icon-173D23.svg"></img></Nav.Link>
-          </Nav>
+            { authed === false ?
+                <>
+                  <Nav.Link eventKey={2} href="#profile" onClick={() => setShowLogin(true)}><p>Login</p></Nav.Link>
+                  <Nav.Link eventKey={2} href="#profile"><p>Sign Up</p></Nav.Link>
+                  {showLogin && (
+                    <Login onClose={() => setShowLogin(false)} />
+                  )}
+                </>
+              :
+                <>
+                  <Nav.Link href="#notifications"><img className="icon-img" src="../src/assets/icons/notifications-icon-173D23.svg" width="10px"></img></Nav.Link>
+                  <Nav.Link eventKey={2} href="#profile"><img className="icon-img" src="../src/assets/icons/profile-icon-173D23.svg"></img></Nav.Link>
+                  <Nav.Link eventKey={2} href="#settings"><img className="icon-img" src="../src/assets/icons/settings-icon-173D23.svg"></img></Nav.Link>
+                </>
+            }
+            </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
