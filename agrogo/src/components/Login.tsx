@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config.ts";
+import { Modal, Button, Form } from "react-bootstrap";
 
 interface LoginProps {
+  show: boolean;
   onClose: () => void;
   setUserAuthed: (authed: boolean) => void;
 }
 
-function Login({ onClose, setUserAuthed }: LoginProps) {
+function Login({ show, onClose, setUserAuthed }: LoginProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -23,31 +25,41 @@ function Login({ onClose, setUserAuthed }: LoginProps) {
       } catch (err: unknown) {
         if(err instanceof Error) setError(err.message);
         else setError("Unknown error");
-        setUserAuthed(true);
+        setUserAuthed(false);
       }
     };
 
     return (
-        <div className="loginOverlay">
-          <div className="login">
-            <form onSubmit={handleLogin}>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+        <Modal show={show} onHide={onClose} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Login</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleLogin}>
+              <Form.Group controlId="loginEmail">
+                <Form.Control
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mb-2"
+                />
+              </Form.Group>
+              <Form.Group controlId="loginPassword">
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mb-2"
+                />
+              </Form.Group>
+              
               {error && <p className="error">{error}</p>}
-              <button type="submit">Login</button>
-            </form>
-          </div>
-        </div>
+              <Button type="submit" variant="primary" className="w-100">Login</Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
     );
 }
 

@@ -21,18 +21,18 @@ function TopNav() {
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
         {/* TODO: change these href routes to new pages/state so the links actually go somewhere */}
-        <Navbar.Brand href="#home" id="nav-bar-title">AgroGo</Navbar.Brand>
+        <Navbar.Brand className="hover-effect p-2" href="#home" id="nav-bar-title">AgroGo</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#weather">Weather</Nav.Link>
-            <Nav.Link href="#inventory">Inventory</Nav.Link>
-            <NavDropdown title="Actions" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#watering">Set watering</NavDropdown.Item>
-              <NavDropdown.Item href="#fan">Set fan</NavDropdown.Item>
-              <NavDropdown.Item href="#greenhouse-stats">View greenhouse stats</NavDropdown.Item>
+            <Nav.Link className="hover-effect" href="#weather">Weather</Nav.Link>
+            <Nav.Link className="hover-effect" href="#inventory">Inventory</Nav.Link>
+            <NavDropdown className="hover-effect" title="Actions" id="collapsible-nav-dropdown">
+              <NavDropdown.Item className="hover-effect" href="#watering">Set watering</NavDropdown.Item>
+              <NavDropdown.Item className="hover-effect" href="#fan">Set fan</NavDropdown.Item>
+              <NavDropdown.Item className="hover-effect" href="#greenhouse-stats">View greenhouse stats</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#manage-zones">
+              <NavDropdown.Item className="hover-effect" href="#manage-zones">
                 Manage zones
               </NavDropdown.Item>
             </NavDropdown>
@@ -40,20 +40,16 @@ function TopNav() {
           <Nav>
             { userAuthed === false ?
                 <>
-                  <Nav.Link eventKey={2} href="#profile" onClick={() => setShowLogin(true)}><p>Login</p></Nav.Link>
-                  <Nav.Link eventKey={2} href="#profile" onClick={() => setShowSignup(true)}><p>Sign Up</p></Nav.Link>
-                  {showLogin && (
-                    <Login onClose={() => setShowLogin(false)} setUserAuthed={setUserAuthed} />
-                  )}
-                  {showSignup && (
-                    <Signup onClose={() => setShowSignup(false)} setUserAuthed={setUserAuthed} />
-                  )}
+                  <Nav.Link className="hover-effect" eventKey={2} href="#profile" onClick={() => setShowLogin(true)}>Login</Nav.Link>
+                  <Nav.Link className="hover-effect" eventKey={2} href="#profile" onClick={() => setShowSignup(true)}>Sign Up</Nav.Link>
+                  <Login show={showLogin} onClose={() => setShowLogin(false)} setUserAuthed={setUserAuthed} />
+                  <Signup show={showSignup} onClose={() => setShowSignup(false)} setUserAuthed={setUserAuthed} />
                 </>
               :
                 <>
-                  <Nav.Link href="#notifications"><img className="icon-img" src="../src/assets/icons/notifications-icon-173D23.svg" width="10px"></img></Nav.Link>
-                  <Nav.Link eventKey={2} href="#profile"><img className="icon-img" src="../src/assets/icons/profile-icon-173D23.svg"></img></Nav.Link>
-                  <Nav.Link eventKey={2} href="#settings"><img className="icon-img" src="../src/assets/icons/settings-icon-173D23.svg"></img></Nav.Link>
+                  <Nav.Link className="hover-effect" href="#notifications"><img className="icon-img" src="../src/assets/icons/notifications-icon-173D23.svg" width="10px"></img></Nav.Link>
+                  <Nav.Link className="hover-effect" eventKey={2} href="#profile"><img className="icon-img" src="../src/assets/icons/profile-icon-173D23.svg"></img></Nav.Link>
+                  <Nav.Link className="hover-effect" eventKey={2} href="#settings"><img className="icon-img" src="../src/assets/icons/settings-icon-173D23.svg"></img></Nav.Link>
                 </>
             }
             </Nav>

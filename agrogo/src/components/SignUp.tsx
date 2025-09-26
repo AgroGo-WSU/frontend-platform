@@ -1,19 +1,27 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../firebase/config"
+import { auth } from "../firebase/config";
+import { Modal, Button, Form } from "react-bootstrap";
 
 interface SignupProps {
-    onClose: () => void;
-    setUserAuthed: (authed: boolean) => void
+  show: boolean
+  onClose: () => void;
+  setUserAuthed: (authed: boolean) => void
 }
 
-function Signup({ onClose, setUserAuthed }: SignupProps) {
-  const [email, setEmail] = useState();
+function Signup({ show, onClose, setUserAuthed }: SignupProps) {
+  const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if(password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -32,26 +40,44 @@ function Signup({ onClose, setUserAuthed }: SignupProps) {
   }
 
   return (
-    <div className="signupOverlay">
-      <div className="signup">
-        <form onSubmit={handleSignup}>
-            <input
+    <Modal show={show} onHide={onClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Sign Up</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="signup">
+        <Form onSubmit={handleSignup}>
+          <Form.Group controlId="signupEmail">
+            <Form.Control
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="mb-2"
             />
-            <input
+          </Form.Group>
+          <Form.Group controlId="signupPassword">
+            <Form.Control
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="mb-2"
             />
+          </Form.Group>
+          <Form.Group controlId="signupConfirmPassword">
+            <Form.Control
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="mb-2"
+            />
+          </Form.Group>
             {error && <p className="error">{error}</p>}
-            <button type="submit" onClick={handleSignup}>Sign Up</button>
-        </form>
-      </div>
-    </div>
+            <Button type="submit">Sign Up</Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }
 
