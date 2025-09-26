@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 
 // Firebase config object, information comes from Firebase and is safe to put in our code like this - Drew
 const firebaseConfig = {
-  apiKey: "AIzaSyD448I2rEq2TgALUiQQglRdGhaGw3nPnqA",
-  authDomain: "agrogo-153e5.firebaseapp.com",
-  projectId: "agrogo-153e5",
-  storageBucket: "agrogo-153e5.firebasestorage.app",
-  messagingSenderId: "740635863871",
-  appId: "1:740635863871:web:57841f4a312baf515ac18a"
+  apiKey: "AIzaSyD5H47l8jzAJeve392CLEPPRVWFad40KJE",
+  authDomain: "agrogo-c4f0e.firebaseapp.com",
+  projectId: "agrogo-c4f0e",
+  storageBucket: "agrogo-c4f0e.firebasestorage.app",
+  messagingSenderId: "811174867409",
+  appId: "1:811174867409:web:165003e239e8e0cc11f0f0"
 };
 
 // Initialize Firebase

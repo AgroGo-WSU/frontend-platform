@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Login from "./Login";
 import { useState } from "react";
+import Signup from "./SignUp";
 
 // this is a React Bootstrap component - you can find docs for this at https://react-bootstrap.netlify.app/docs/components/navbar
 // this is the "CollapsibleExample" navbar, the first under "Responsive behaviors section"
@@ -12,9 +13,9 @@ import { useState } from "react";
 // I changed the css file to be the regular, not the .min css to make it easier for us to change, but it can be switched back to .min later to svae space
 
 function TopNav() {
+  const [userAuthed, setUserAuthed] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-
-  let authed = false;
+  const [showSignup, setShowSignup] = useState(false);
 
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -37,12 +38,15 @@ function TopNav() {
             </NavDropdown>
           </Nav>
           <Nav>
-            { authed === false ?
+            { userAuthed === false ?
                 <>
                   <Nav.Link eventKey={2} href="#profile" onClick={() => setShowLogin(true)}><p>Login</p></Nav.Link>
-                  <Nav.Link eventKey={2} href="#profile"><p>Sign Up</p></Nav.Link>
+                  <Nav.Link eventKey={2} href="#profile" onClick={() => setShowSignup(true)}><p>Sign Up</p></Nav.Link>
                   {showLogin && (
-                    <Login onClose={() => setShowLogin(false)} />
+                    <Login onClose={() => setShowLogin(false)} setUserAuthed={setUserAuthed} />
+                  )}
+                  {showSignup && (
+                    <Signup onClose={() => setShowSignup(false)} setUserAuthed={setUserAuthed} />
                   )}
                 </>
               :

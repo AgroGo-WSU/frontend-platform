@@ -4,9 +4,10 @@ import { auth } from "../firebase/config.ts";
 
 interface LoginProps {
   onClose: () => void;
+  setUserAuthed: (authed: boolean) => void;
 }
 
-function Login({ onClose }: LoginProps) {
+function Login({ onClose, setUserAuthed }: LoginProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -17,12 +18,12 @@ function Login({ onClose }: LoginProps) {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log("Logged in as:", userCredential.user);
+        setUserAuthed(true);
         onClose();
       } catch (err: unknown) {
-        if(err instanceof Error)
-          setError(err.message);
-        else
-          setError("Unknown error");
+        if(err instanceof Error) setError(err.message);
+        else setError("Unknown error");
+        setUserAuthed(true);
       }
     };
 
