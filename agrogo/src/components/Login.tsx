@@ -5,6 +5,7 @@ import {
 import { auth } from "../firebase/config.ts";
 import { Modal, Button, Form } from "react-bootstrap";
 import ThirdPartyAuth from "./ThirdPartyAuth.tsx";
+import "../stylesheets/Auth.css";
 
 interface LoginProps {
   show: boolean;
@@ -33,11 +34,12 @@ function Login({ show, onClose, setUserAuthed }: LoginProps) {
     };
 
     return (
-        <Modal show={show} onHide={onClose} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
+        <Modal show={show} onHide={onClose} centered className="auth-menu">
+          <Modal.Header closeButton className="auth-header">
+            <Modal.Title>Log In</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="auth-body">
+            <hr />
             <Form onSubmit={handleEmailLogin}>
               <Form.Group controlId="loginEmail">
                 <Form.Control
@@ -59,7 +61,7 @@ function Login({ show, onClose, setUserAuthed }: LoginProps) {
               </Form.Group>
               
               {error && <p className="error">{error}</p>}
-              <Button type="submit" variant="primary" className="w-100">Login</Button>
+              <Button type="submit" className="submit-button w-100">Login</Button>
             </Form>
             <ThirdPartyAuth onClose={onClose} setUserAuthed={setUserAuthed} setErrorMessage={setError} />
           </Modal.Body>

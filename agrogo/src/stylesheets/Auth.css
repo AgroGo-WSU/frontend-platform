@@ -1,0 +1,43 @@
+/**
+ * Styling for User Authentication
+ * Used in the following components:
+ * - Signup
+ * - Login
+ * - ThirdPartyAuth
+*/
+
+.auth-menu {
+    font-family: "Nunito", sans-serif;
+}
+
+.auth-header {
+    border: 2px solid #173D23;
+    border-radius: 6px 6px 0px 0px;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: -1em;
+}
+.auth-body {
+    border: 2px solid #173D23;
+    border-radius: 0px 0px 6px 6px;
+    border-top: none;
+}
+
+.submit-button {
+    background-color: #ffffff;
+    color: #173D23;
+    border: 2px solid #173D23;
+    border-radius: 12px;
+}
+
+.submit-button:hover {
+    background-color: #173D23;
+    color: white;
+    border: 2px solid #173D23;
+}
+
+.submit-button:active {
+    background-color: #173D23 !important;
+    color: rgb(255, 255, 255) !important;
+    border: 2px solid #173D23 !important;
+}

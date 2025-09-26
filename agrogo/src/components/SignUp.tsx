@@ -3,6 +3,7 @@ import { useState } from "react";
 import { auth } from "../firebase/config";
 import { Modal, Button, Form } from "react-bootstrap";
 import ThirdPartyAuth from "./ThirdPartyAuth";
+import "../stylesheets/Auth.css";
 
 interface SignupProps {
   show: boolean
@@ -41,7 +42,7 @@ function Signup({ show, onClose, setUserAuthed }: SignupProps) {
   }
 
   return (
-    <Modal show={show} onHide={onClose} centered>
+    <Modal show={show} onHide={onClose} centered className="auth-menu">
       <Modal.Header closeButton>
         <Modal.Title>Sign Up</Modal.Title>
       </Modal.Header>
@@ -75,7 +76,7 @@ function Signup({ show, onClose, setUserAuthed }: SignupProps) {
             />
           </Form.Group>
             {error && <p className="error">{error}</p>}
-            <Button type="submit">Sign Up</Button>
+            <Button type="submit" className="submit-button w-100">Sign Up</Button>
         </Form>
         <ThirdPartyAuth onClose={onClose} setUserAuthed={setUserAuthed} setErrorMessage={setError} />
       </Modal.Body>

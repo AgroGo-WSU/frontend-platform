@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { Button } from "react-bootstrap";
 import { auth } from "../firebase/config";
+import "../stylesheets/Auth.css";
 
 interface LoginProps {
   onClose: () => void;
