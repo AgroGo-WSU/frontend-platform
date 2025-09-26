@@ -3,7 +3,8 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 import { auth } from "../firebase/config.ts";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, InputGroup } from "react-bootstrap";
+import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import ThirdPartyAuth from "./ThirdPartyAuth.tsx";
 import "../stylesheets/Auth.css";
 
@@ -17,6 +18,7 @@ function Login({ show, onClose, setUserAuthed }: LoginProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleEmailLogin = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -41,23 +43,26 @@ function Login({ show, onClose, setUserAuthed }: LoginProps) {
           <Modal.Body className="auth-body">
             <hr />
             <Form onSubmit={handleEmailLogin}>
-              <Form.Group controlId="loginEmail">
-                <Form.Control
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mb-2"
-                />
+              <Form.Group controlId="loginEmail" className="mb-2">
+                  <Form.Control
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
               </Form.Group>
               <Form.Group controlId="loginPassword">
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="mb-2"
-                />
+                <InputGroup className="mb-2">
+                  <Form.Control
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <InputGroup.Text onClick={() => setShowPassword((prev) => !prev)} style={{cursor: "pointer", background: "white"}}>
+                    {showPassword ? <EyeSlashFill /> : <EyeFill />}
+                  </InputGroup.Text>
+                </InputGroup>
               </Form.Group>
               
               {error && <p className="error">{error}</p>}

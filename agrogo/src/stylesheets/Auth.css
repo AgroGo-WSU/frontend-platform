@@ -41,3 +41,8 @@
     color: rgb(255, 255, 255) !important;
     border: 2px solid #173D23 !important;
 }
+
+.rule {
+    color: red;
+    margin-bottom: 0;
+}

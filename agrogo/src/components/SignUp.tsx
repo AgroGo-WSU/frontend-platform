@@ -1,7 +1,8 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase/config";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, InputGroup } from "react-bootstrap";
+import { EyeFill, EyeSlashFill } from "react-bootstrap-icons"
 import ThirdPartyAuth from "./ThirdPartyAuth";
 import "../stylesheets/Auth.css";
 
@@ -16,12 +17,33 @@ function Signup({ show, onClose, setUserAuthed }: SignupProps) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // === Password Validation Logic === 
+  const passwordRules = {
+    minLength: (pw: string) => pw.length >= 6,
+    lowercase: (pw: string) => /[a-z]/.test(pw),
+    uppercase: (pw: string) => /[A-Z]/.test(pw),
+    number: (pw: string) => /\d/.test(pw),
+    specialChar: (pw: string) => /[!@#$%^&*()]/.test(pw),
+    match: (pw: string, confirm: string) => pw === confirm
+  };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if(password !== confirmPassword) {
-      setError("Passwords do not match");
+    // Check all rules
+    const rulesPassed = 
+      passwordRules.minLength(password) &&
+      passwordRules.lowercase(password) &&
+      passwordRules.uppercase(password) &&
+      passwordRules.number(password) &&
+      passwordRules.specialChar(password) &&
+      passwordRules.match(password, confirmPassword);
+    
+    if(!rulesPassed) {
+      setError("Please fix the password requirements before signing up");
       return;
     }
 
@@ -58,25 +80,39 @@ function Signup({ show, onClose, setUserAuthed }: SignupProps) {
             />
           </Form.Group>
           <Form.Group controlId="signupPassword">
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mb-2"
-            />
+            <InputGroup className="mb-2">
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <InputGroup.Text onClick={() => setShowPassword((prev) => !prev)} style={{cursor: "pointer", background: "white"}}>
+                {showPassword ? <EyeSlashFill /> : <EyeFill />}
+              </InputGroup.Text>
+            </InputGroup>
           </Form.Group>
           <Form.Group controlId="signupConfirmPassword">
-            <Form.Control
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="mb-2"
-            />
+            <InputGroup className="mb-2">
+              <Form.Control
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <InputGroup.Text onClick={() => setShowConfirmPassword((prev) => !prev)} style={{cursor: "pointer", background: "white"}}>
+                {showConfirmPassword ? <EyeSlashFill /> : <EyeFill />}
+              </InputGroup.Text>
+            </InputGroup>
           </Form.Group>
-            {error && <p className="error">{error}</p>}
-            <Button type="submit" className="submit-button w-100">Sign Up</Button>
+          {!passwordRules.minLength(password) && <p className="rule">Password must be at least 6 characters</p>}
+          {!passwordRules.lowercase(password) && <p className="rule">Password must have at least 1 lowercase letter</p>}
+          {!passwordRules.uppercase(password) && <p className="rule">Password must have at least 1 uppercase letter</p>}
+          {!passwordRules.number(password) && <p className="rule">Password must have at least 1 number</p>}
+          {!passwordRules.specialChar(password) && <p className="rule">Password must have at least 1 special character (i.e. !, @, #, $)</p>}
+          {!passwordRules.match(password, confirmPassword) && <p className="rule">Passwords must match</p>}
+          {error && <p className="error">{error}</p>}
+          <Button type="submit" className="submit-button w-100">Sign Up</Button>
         </Form>
         <ThirdPartyAuth onClose={onClose} setUserAuthed={setUserAuthed} setErrorMessage={setError} />
       </Modal.Body>
