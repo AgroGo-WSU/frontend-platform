@@ -8,3 +8,8 @@
     width: max(1.5vw, 15px);
     margin-left: 10px;
 }
+
+.hover-effect:hover {
+    background-color: rgba(0, 0, 0, 0.096);
+    text-decoration: underline;
+}
