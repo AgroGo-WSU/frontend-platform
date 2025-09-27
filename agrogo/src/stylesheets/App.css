@@ -5,12 +5,12 @@
     display: grid;
     grid-template-areas: 
         "top-nav top-nav top-nav"
-        "left-menu welcome-title right-blank"
-        "left-menu zones right-blank"
-        "left-menu weather right-blank"
+        "profile-display welcome-title right-blank"
+        "profile-display zones right-blank"
+        "profile-display weather right-blank"
         "footer footer footer"
         "bottom-blank bottom-blank bottom-blank";
-    grid-template-columns: fit-content(120px) auto 30px;
+    grid-template-columns: auto auto 30px;
     grid-template-rows: auto 125px 250px 375px 100px 30px;
     font-family: "Nunito", sans-serif;
     font-weight: 400;
@@ -66,9 +66,10 @@
     grid-area: top-nav;
 }
 
-.left-menu {
+.profile-display {
     background-color: #F2EEE3;
-    grid-area: left-menu;
+    grid-area: profile-display;
+    width: fit-content;
 }
 
 /* Flex containers styles here */
@@ -93,23 +94,3 @@
     position: absolute;
 }
 
-/* Last connection display for the demo */
-
-.last-connect {
-    background-color: #F2EEE3;
-    width: 500px;
-    height: 80px;
-    display: flex;
-    gap: 10px;
-    padding: 15px;
-    border: 2px solid #173D23;
-    border-radius: 28px;
-}
-
-#timestamp {
-    padding-top: 10px;
-    font-style: italic;
-    font-size: max(1.2vw, 18px);
-}
-
-/* end of demo stylings */

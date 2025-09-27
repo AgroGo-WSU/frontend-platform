@@ -1,4 +1,4 @@
-import "../stylesheets/ZoneCard.css";
+import "../../stylesheets/ZoneCard.css";
 
 interface ZoneCardProps {
   /* These are the props that must be passed when this card is rendered on the parent component - go to App.tsx to see how these props are being passed to this component */

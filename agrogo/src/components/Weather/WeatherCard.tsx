@@ -1,4 +1,4 @@
-import '../stylesheets/WeatherCard.css';
+import '../../stylesheets/WeatherCard.css';
 
 
 interface WeatherCardProps {

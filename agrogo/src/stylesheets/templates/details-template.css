@@ -1,0 +1,25 @@
+.grid {
+    background-color: #f2eee3;
+    width: 100vw;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-areas: 
+        "top-nav top-nav top-nav"
+        "profile-display welcome-title right-blank"
+        "profile-display zones right-blank"
+        "profile-display weather right-blank"
+        "footer footer footer"
+        "bottom-blank bottom-blank bottom-blank";
+    grid-template-columns: fit-content(120px) auto 30px;
+    grid-template-rows: auto 125px 250px 375px 100px 30px;
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Main grid pieces styled here */
+
+.bottom-blank {
+    background-color: #F2EEE3;
+    grid-area: bottom-blank;
+}

@@ -1,10 +1,10 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import './stylesheets/App.css'
 import MainTitle from './components/MainTitle'
-import LeftMenu from './components/LeftMenu'
+import ProfileDisplay from './components/Profile/ProfileDisplay'
 import TopNav from './components/TopNav'
-import ZoneCard from './components/ZoneCard';
-import WeatherCard from './components/WeatherCard';
+import ZoneCard from './components/Zones/ZoneCard';
+import WeatherCard from './components/Weather/WeatherCard';
 import SmallTitle from './components/SmallTitle';
 
 // useEffect and useState are React hooks - useState manages state, and useEffect allows us to sync to the external database
@@ -63,7 +63,7 @@ function App() {
   return (
     <div className="dashboard">
       <div className="bottom-blank"></div>
-      <div className="left-menu"><LeftMenu /></div>
+      <div className="profile-display"><ProfileDisplay /></div>
       <div className="right-blank"></div>
       <div className="top-nav"><TopNav /></div>
       <div className="welcome-title"><MainTitle name="AgroGo"/></div>
@@ -72,7 +72,7 @@ function App() {
           <ZoneCard plants="Carrots and cucumbers"        image="../src/assets/zone-images/vegetable.png"/>
           <ZoneCard plants="Cosmos and petunias"          image="../src/assets/zone-images/flower.png"/>
           <ZoneCard plants="Peppers, lavender, kale"      image="../src/assets/zone-images/plant.png"/>
-          <div className="last-connect"><SmallTitle title="Last connection: " /><div id="timestamp">{ last_connection.getReceivedAt() }</div></div> {/* Now we can display our db data on the homepage */}
+          <div className="last-connect"></div>
           </div>
         </div>
       <div className="weather"><div className="small-title-fixer"><SmallTitle title="Weather"/></div>
