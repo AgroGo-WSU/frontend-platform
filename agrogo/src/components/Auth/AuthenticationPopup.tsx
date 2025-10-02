@@ -5,7 +5,7 @@ import { doSignInWithEmailAndPassword,
         doCreateUserWithEmailAndPassword,
         doPasswordReset
  } from '../firebase/auth.ts';
-import { useAuth } from '../contexts/authContext/authentication';
+import { useAuth } from '../contexts/authContext/authentication.tsx';
 
 
 function AuthenticationPopup() {
