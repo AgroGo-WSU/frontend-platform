@@ -49,8 +49,9 @@ function SignupMenu({ show, onClose, onSignup }: SignupProps) {
     try {
       await onSignup({ email, password, firstName, lastName });
       onClose(); // Close modal on success
-    } catch(err: any) {
-      setError(err?.message ?? 'Login failed');
+    } catch(err: unknown) {
+      if(err instanceof Error) setError(err.message);
+      else setEmail('Login failed');
     }
   }
 

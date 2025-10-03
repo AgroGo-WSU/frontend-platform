@@ -10,16 +10,17 @@ import { useAuth } from '../contexts/authContext/authentication.tsx';
 import { FirebaseError } from 'firebase/app';
 import LoginMenu from './LoginMenu.tsx';
 import SignupMenu from './SignupMenu.tsx';
+import ResetPasswordMenu from './ResetPasswordMenu.tsx';
 
 function AuthenticationPopup() {
     const { userLoggedIn } = useAuth();
 
-    const [email] = useState('');
     const [isSigningIn, setIsSigningIn] = useState(false);
     const [isSigningOut, setIsSigningOut] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
+    const [showReset, setShowReset] = useState(false);
 
     // Common wrapper for all authentication actions, a similar try/catch/finally block is used for all
     const handleAuthAction = async <T,>(action: () => Promise<T>) => {
@@ -73,9 +74,13 @@ function AuthenticationPopup() {
         await handleAuthAction(() => doSignInWithGithub());
     }
 
-    const onPasswordReset = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        await handleAuthAction(() => doPasswordReset(email));
+    const onPasswordResetFromModal = async(creds: { email: string; }) => {
+        try {
+            await handleAuthAction(() => doPasswordReset(creds.email));
+            console.log("Password reset email sent!");
+        } catch (err) {
+            console.error("Password reset failed:", err);
+        }
     }
 
     const onSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -106,7 +111,7 @@ function AuthenticationPopup() {
         <button onClick={() => setShowLogin(true)}>Click to sign in with email and password</button>
         <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGoogleSignIn(e) }}>Click to sign in with Google</button>
         <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGithubSignIn(e) }}>Click to sign in with Github</button>
-        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onPasswordReset(e) }}>Click to reset password</button>
+        <button onClick={() => setShowReset(true)}>Click to reset password</button>
         <button onClick={() => setShowSignup(true)}>Click to sign up</button>
         {userLoggedIn && <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onSignOut(e) }}>Click to sign out</button>}
         <LoginMenu 
@@ -118,6 +123,11 @@ function AuthenticationPopup() {
             show={showSignup}
             onClose={() => setShowSignup(false)}
             onSignup={onSignupFromModal}
+        />
+        <ResetPasswordMenu
+            show={showReset}
+            onClose={() => setShowReset(false)}
+            onResetPassword={onPasswordResetFromModal}
         />
         </>
     )

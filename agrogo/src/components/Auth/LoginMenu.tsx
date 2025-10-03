@@ -49,8 +49,9 @@ function LoginMenu({ show, onClose, onLogin }: LoginProps) {
     try {
       await onLogin({ email, password });
       onClose(); // Close modal on success
-    } catch(err: any) {
-      setError(err?.message ?? 'Login failed');
+    } catch(err: unknown) {
+      if(err instanceof Error) setError(err.message);
+      else setError('Login failed');
     }
   }
 
