@@ -13,6 +13,40 @@ interface SignupProps {
   }) => Promise<void>;
 }
 
+/**
+ * Signup Component
+ *
+ * A modal-based registration form that allows new users to sign up with
+ * an email and password using Firebase Authentication. Includes built-in
+ * password validation, error handling, and third-party authentication.
+ *
+ * Props:
+ * - show (boolean): Controls whether the modal is visible.
+ * - onClose (function): Callback to close the modal.
+ * - onSignup (function): Async function called on form submit,
+ * receives an object:
+ *    {
+ *      email: string;
+ *      password: string;
+ *      firstName: string;
+ *      lastName: string;
+ *    }
+ *
+ * Features:
+ * - Firebase email/password signup via `createUserWithEmailAndPassword`.
+ * - Enforces password rules:
+ *   - At least 6 characters
+ *   - Contains lowercase and uppercase letters
+ *   - Contains at least one number
+ *   - Contains at least one special character (!, @, #, $, etc.)
+ *   - Must match the confirm password field
+ * - Displays real-time validation messages for unmet password requirements.
+ * - Password visibility toggles with eye icons for both password fields.
+ * - Displays validation and Firebase error messages to the user.
+ *
+ * 9.26 - Created by Drew
+ * 10.3 - Ported over to new-user-auth branch by Drew
+ */
 function SignupMenu({ show, onClose, onSignup }: SignupProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

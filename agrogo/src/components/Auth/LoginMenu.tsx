@@ -22,12 +22,11 @@ interface LoginProps {
  * Props:
  * - show (boolean): Controls whether the modal is visible.
  * - onClose (function): Callback to close the modal.
- * - onLogin (function): Async function called on form submit, receives an object:
+ * - onLogin (function): Async function called on form submit,
+ * receives an object:
  *    {
  *      email: string;
  *      password: string;
- *      firstName: string;
- *      lastName: string;
  *    }
  *
  * Features:

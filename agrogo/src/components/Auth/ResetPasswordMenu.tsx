@@ -9,6 +9,30 @@ interface ResetPasswordProps {
   }) => Promise<void>;
 }
 
+/**
+ * Reset Password Component
+ * 
+ * A modal-based password reset form that allows users to reset their
+ * password using their email address. The component kicks off a 
+ * built-in Firebase Authentication API call. The API call will send
+ * an email with password reset options to the email passed (if it
+ * exists in our user database)
+ * 
+ * Props:
+ * - show (boolean): Controls whether the modal is visible.
+ * - onClose (function): Callback to close the modal.
+ * - onLogin (function): Async function called on form submit,
+ * receives an object:
+ *    {
+ *      email: string;
+ *    }
+ * 
+ * Features
+ * - Firebase password reset. User enters their email, and Firebase
+ * sends an email with reset password options.
+ * 
+ * 10.3 - Created by Drew
+ */
 function ResetPasswordMenu({ show, onClose, onResetPassword }: ResetPasswordProps) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');

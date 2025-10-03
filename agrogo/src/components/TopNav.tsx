@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useAuth } from "./contexts/authContext/authentication";
+import { useAuth } from "../hooks/UseAuth.tsx";
 import { FirebaseError } from 'firebase/app';
 import { doSignOut } from "./firebase/auth";
 import { useState } from "react";
@@ -22,6 +22,7 @@ function TopNav() {
     e.preventDefault();
     if(!userLoggedIn) {
       setError("Error: user already signed out...");
+      console.error(error);
       return;
     }
     if(isSigningOut) return;
@@ -31,6 +32,7 @@ function TopNav() {
       await doSignOut();
     } catch (err) {
       if(err instanceof FirebaseError) setError(err.message);
+      console.error(error);
     } finally {
       setIsSigningOut(false);
     }

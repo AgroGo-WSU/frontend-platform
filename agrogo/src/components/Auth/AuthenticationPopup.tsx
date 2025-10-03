@@ -5,7 +5,7 @@ import { doSignInWithEmailAndPassword,
         doCreateUserWithEmailAndPassword,
         doPasswordReset,
 } from '../firebase/auth.ts';
-import { useAuth } from '../contexts/authContext/authentication.tsx';
+import { useAuth } from '../../hooks/UseAuth.tsx';
 import { FirebaseError } from 'firebase/app';
 import LoginMenu from './LoginMenu.tsx';
 import SignupMenu from './SignupMenu.tsx';
