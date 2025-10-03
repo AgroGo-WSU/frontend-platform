@@ -3,6 +3,7 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     GoogleAuthProvider,
+    GithubAuthProvider,
     signInWithPopup,
     sendPasswordResetEmail,
     updatePassword, 
@@ -32,6 +33,13 @@ export const doSignInWithGoogle = async () => {
     // for testing purposes, you can see the user info with this: result.user
     return result;
 };
+
+// sign in with Github
+export const doSignInWithGithub = async () => {
+    const provider = new GithubAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    return result;
+}
 
 // sign out function
 export const doSignOut = () => {

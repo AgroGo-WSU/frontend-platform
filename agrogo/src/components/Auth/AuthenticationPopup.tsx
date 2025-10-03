@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { doSignInWithEmailAndPassword,
         doSignInWithGoogle,
+        doSignInWithGithub,
         doCreateUserWithEmailAndPassword,
         doPasswordReset,
         doSignOut
@@ -67,6 +68,11 @@ function AuthenticationPopup() {
         await handleAuthAction(() => doSignInWithGoogle());
     }
 
+    const onGithubSignIn = async(e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        await handleAuthAction(() => doSignInWithGithub());
+    }
+
     const onPasswordReset = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         await handleAuthAction(() => doPasswordReset(email));
@@ -98,7 +104,8 @@ function AuthenticationPopup() {
         <>
         <h1>I hope you remember your gmail password</h1>
         <button onClick={() => setShowLogin(true)}>Click to sign in with email and password</button>
-        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGoogleSignIn(e) }}>Click to sign in with Gooble</button>
+        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGoogleSignIn(e) }}>Click to sign in with Google</button>
+        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGithubSignIn(e) }}>Click to sign in with Github</button>
         <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onPasswordReset(e) }}>Click to reset password</button>
         <button onClick={() => setShowSignup(true)}>Click to sign up</button>
         {userLoggedIn && <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onSignOut(e) }}>Click to sign out</button>}
