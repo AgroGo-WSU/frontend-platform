@@ -55,6 +55,8 @@ function SignupMenu({ show, onClose, onSignup }: SignupProps) {
     }
   }
 
+
+
   return (
     <Modal show={show} onHide={onClose} centered className="auth-menu">
       {/* Header displaying the close button and title */}

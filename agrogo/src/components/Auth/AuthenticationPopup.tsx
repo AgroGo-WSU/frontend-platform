@@ -4,8 +4,7 @@ import { doSignInWithEmailAndPassword,
         doSignInWithGithub,
         doCreateUserWithEmailAndPassword,
         doPasswordReset,
-        doSignOut
- } from '../firebase/auth.ts';
+} from '../firebase/auth.ts';
 import { useAuth } from '../contexts/authContext/authentication.tsx';
 import { FirebaseError } from 'firebase/app';
 import LoginMenu from './LoginMenu.tsx';
@@ -16,7 +15,6 @@ function AuthenticationPopup() {
     const { userLoggedIn } = useAuth();
 
     const [isSigningIn, setIsSigningIn] = useState(false);
-    const [isSigningOut, setIsSigningOut] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
@@ -26,7 +24,6 @@ function AuthenticationPopup() {
     const handleAuthAction = async <T,>(action: () => Promise<T>) => {
         // These checks stops multiple authentication attempts when one is already being performed
         if(isSigningIn) return;
-        if(isSigningOut) return;
         
         // Once that check has been performed, we can guarantee that we are using this authentication method
         // Set the flag to true so that no other authentication methods can be used while this one is in use
@@ -83,24 +80,6 @@ function AuthenticationPopup() {
         }
     }
 
-    const onSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        if(!userLoggedIn) {
-            setErrorMessage("Error: user already signed out...");
-            return;
-        }
-        if(isSigningOut) return;
-        setIsSigningOut(true);
-
-        try {
-            await doSignOut();
-        } catch (err) {
-            if(err instanceof FirebaseError) setErrorMessage(err.message);
-        } finally {
-            setIsSigningOut(false);
-        }
-    }
-
     console.log("userLoggedIn: ", userLoggedIn);
     console.log("isSigningIn: ", isSigningIn);
     console.error(errorMessage);
@@ -113,7 +92,8 @@ function AuthenticationPopup() {
         <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGithubSignIn(e) }}>Click to sign in with Github</button>
         <button onClick={() => setShowReset(true)}>Click to reset password</button>
         <button onClick={() => setShowSignup(true)}>Click to sign up</button>
-        {userLoggedIn && <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onSignOut(e) }}>Click to sign out</button>}
+
+        {/* popup modal menus, don't show from the start */}
         <LoginMenu 
             show={showLogin} 
             onClose={() => setShowLogin(false)} 

@@ -1,19 +1,18 @@
 import "../../stylesheets/AppContainer.css";
 import Dashboard from "../Dashboard/Dashboard";
 import AuthenticationPopup from "../Auth/AuthenticationPopup";
+import { useAuth } from "../contexts/authContext/authentication";
 
 function AppContainer() {
+    const { userLoggedIn } = useAuth();
 
-    // this is for testing purposes - eventually this will come from the authentication context/state
-    const isUserLoggedIn: boolean = false;
-
-    if(isUserLoggedIn) {
+    if(userLoggedIn) {
         return(
             <div>
                 <Dashboard />
             </div>
         )
-    } else if(!isUserLoggedIn) {
+    } else if(!userLoggedIn) {
         return(
             <div>
                 <AuthenticationPopup />
