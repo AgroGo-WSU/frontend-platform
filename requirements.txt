@@ -1,2 +1,8 @@
 React Bootstrap: v3.0.0-beta.4 (Bootstrap5)
-    You can install with the following command: npm install react-bootstrap bootstrap
+    npm install react-bootstrap bootstrap
+
+Axios v1.12.2
+    npm install axios
+
+Firebase v12.3.0
+    npm install firebase

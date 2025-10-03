@@ -4,7 +4,8 @@ import './index.css'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // commenting this out for now - StrictMode is for development but it is getting in the way of some of the Authentication flow for now
+  // <StrictMode>
     <App />
-  </StrictMode>,
+  // </StrictMode>,
 )
