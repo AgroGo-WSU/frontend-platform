@@ -16,12 +16,12 @@ import {
 // we can also add password reset, password change, and email verification
 
 // create a new user
-export const doCreateUserWithEmailAndPassword = async (email, password) => {
+export const doCreateUserWithEmailAndPassword = async (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password);
 };
 
 // sign in using email and password
-export const doSignInWithEmailAndPassword = async (email, password) => {
+export const doSignInWithEmailAndPassword = async (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password);
 };
 
@@ -39,18 +39,18 @@ export const doSignOut = () => {
 };
 
 // password reset
-export const doPasswordReset = (email) => {
+export const doPasswordReset = (email: string) => {
     return sendPasswordResetEmail(auth, email);
 };
 
 // update password
-export const doUpdatePassword = (password) => {
-    return updatePassword(auth.currentUser, password);
+export const doUpdatePassword = (password: string) => {
+    return updatePassword(auth.currentUser!, password);
 };
 
 // send email verification
 export const doSendEmailVerification = () => {
-    return sendEmailVerification(auth.currentUser, {
+    return sendEmailVerification(auth.currentUser!, {
         url: `${window.location.origin}/home`
     });
 };

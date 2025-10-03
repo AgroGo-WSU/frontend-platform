@@ -5,15 +5,15 @@ import AuthenticationPopup from "../Auth/AuthenticationPopup";
 function AppContainer() {
 
     // this is for testing purposes - eventually this will come from the authentication context/state
-    const isUserLoggedIn = false;
+    const isUserLoggedIn: boolean = false;
 
-    if(isUserLoggedIn == true) {
+    if(isUserLoggedIn) {
         return(
             <div>
                 <Dashboard />
             </div>
         )
-    } else if(isUserLoggedIn == false) {
+    } else if(!isUserLoggedIn) {
         return(
             <div>
                 <AuthenticationPopup />
