@@ -1,0 +1,37 @@
+/* src/stylesheets/ConnectivityStatus.css */
+.connection-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 2px solid #fff;           /* subtle ring so it reads on navbar bg */
+  box-shadow: 0 0 0 1px rgba(0,0,0,.06);
+  display: inline-block;
+}
+
+/* Colors */
+.status-dot.online   { background: #1F8A36; }  /* green */
+.status-dot.offline  { background: #A11414; }  /* red */
+.status-dot.checking { background: #BFBFBF; }  /* gray */
+
+.status-text { font-weight: 600; }
+
+.status-checked {
+  opacity: 0.7;
+  font-size: 0.85em;
+  margin-left: 4px;
+}
+
+.status-error {
+  color: #A11414;
+  font-size: 0.85em;
+  margin-left: 4px;
+}

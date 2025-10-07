@@ -15,6 +15,8 @@
     font-family: "Nunito", sans-serif;
     font-weight: 400;
     font-style: normal;
+    grid-row-gap: 0; 
+    row-gap: 0; 
 }
 
 /* Main grid pieces styled here */
@@ -37,12 +39,16 @@
 }
 
 .welcome-title {
-    background-color: white;
     grid-area: welcome-title;
+    background-color: white;
     padding-left: 15px;
     margin-top: 10px;
+    border: 4px solid #800020; /* burgundy */
+    border-bottom: none;
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
+    margin-bottom: 0; 
+    padding-bottom: 0;
 }
 
 .zones {
@@ -50,7 +56,16 @@
     grid-area: zones;
     overflow-x: scroll;
     padding-left: 15px;
+    border-left: 4px solid #800020;
+    border-right: 4px solid #800020;
+    border-top: none;
+    border-bottom: none;
+    margin-top: 0;  
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
+
 
 .weather {
     background-color: white;
@@ -59,11 +74,17 @@
     padding-left: 15px;
     border-bottom-left-radius: 28px;
     border-bottom-right-radius: 28px;
+    border: 4px solid #800020;
+    border-top: none;
+    border-bottom-left-radius: 28px;
+    border-bottom-right-radius: 28px;
+    margin-top: 0; 
 }
 
 .top-nav {
-    background-color: #F2EEE3;
     grid-area: top-nav;
+    background-color: transparent;
+    border-bottom: 4px solid #800020;
 }
 
 .profile-display {
@@ -93,4 +114,3 @@
 .small-title-fixer {
     position: absolute;
 }
-
