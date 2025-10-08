@@ -1,0 +1,11 @@
+.profile-creation-container {
+    background-color: red;
+    width: 800px;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-form-container {
+    background-color: blue;
+}
