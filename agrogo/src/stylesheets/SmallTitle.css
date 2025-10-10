@@ -1,7 +1,7 @@
 .small-title-container {
-    width: max(18vw, 150px); /* put this back to 12vw after demo on 9/24 */
+    width: max(18vw, 200px);
     height: max(3vw, 30px); 
-    font-size: max(1.75em, 20px);
+    font-size: max(1.75vw, 20px);
     font-family: "Roboto", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;

@@ -46,7 +46,7 @@ function ProfileCreation() {
             }
 
         // actual post request
-        axios.post('https://example/api/for/user', submissionData)
+        axios.post('https://example/api/', submissionData)
             .then(response => {
                 console.log('Submitted!', response.data);
             })
@@ -57,7 +57,7 @@ function ProfileCreation() {
 
     return(
         <div className="profile-creation-container">
-            <SmallTitle title="Create your profile"/>
+            <div className="smaller-title"><SmallTitle title="Create your profile"/></div>
             <div className="profile-form-container">
              <form id="profile-form" className="flex-form" onSubmit={handleSubmit}>
                 <div className="field"><label htmlFor="first-name">First name:</label>
