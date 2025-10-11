@@ -10,13 +10,11 @@
         "profile-display weather right-blank"
         "footer footer footer"
         "bottom-blank bottom-blank bottom-blank";
-    grid-template-columns: auto auto 30px;
+    grid-template-columns: 272px auto 12px;
     grid-template-rows: auto 125px 250px 375px 100px 30px;
     font-family: "Nunito", sans-serif;
     font-weight: 400;
     font-style: normal;
-    grid-row-gap: 0; 
-    row-gap: 0; 
 }
 
 /* Main grid pieces styled here */
@@ -90,7 +88,6 @@
 .profile-display {
     background-color: #F2EEE3;
     grid-area: profile-display;
-    width: fit-content;
 }
 
 /* Flex containers styles here */

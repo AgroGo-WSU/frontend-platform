@@ -1,0 +1,40 @@
+.profile-creation-container {
+    background-color: #F2EEE3;
+    padding: 10px;
+    border: 4px solid #800020;
+    border-radius: 28px;
+}
+
+.profile-form-container {
+    padding: 20px;
+}
+
+.flex-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* for the profile image input field */
+#profile-image {
+    width: 250px;
+}
+
+#image-label {
+    width: 180px;
+}
+
+input {
+    width: 200px;
+    margin-top: 5px;
+}
+
+label {
+    width: 120px;
+}

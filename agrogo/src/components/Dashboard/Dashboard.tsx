@@ -7,58 +7,11 @@ import ZoneCard from '../../components/Zones/ZoneCard';
 import WeatherCard from '../../components/Weather/WeatherCard';
 import SmallTitle from '../../components/SmallTitle';
 
-// useEffect and useState are React hooks - useState manages state, and useEffect allows us to sync to the external database
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-// creating the class for the instances of the table we're expecting from our JSON response
-class DeviceDTO {
-  private id: string;
-  private device_id: string;
-  private received_at: string;
-
-  // this constructor MUST specify the individual members of the array/object from response.data or React will not accept it
-  // this is a work around where you are basically "hard-coding" the object that you're expecting
-  public constructor(dataInstance: {id: string, device_id: string, received_at: string}) {
-
-    this.id = dataInstance.id;
-    this.device_id = dataInstance.device_id;
-    this.received_at = dataInstance.received_at;
-
-  }
-
-  // will go back later to add the other getters - I only want the timestamp for the received time right now
-  public getReceivedAt(): string {
-    return this.received_at;
-  }
-}
 
 
 function Dashboard() {
 
-    // this is where state gets initialized and managed. Even in TS, you can let these hooks infer the type (and here, you should let useState infer the type of data) but I've set the type for the message state
-    const [data, setData] = useState(null);
-    const [error, setMessage] = useState<string | null>(null);
-
-    // you MUST use the useEffect and useState hooks for this- useEffect is crucial in how the DOM renders data on screen and when you can pull data from where, and useState is how the data gets saved once useEffect is called - ask Madeline if you would like clarification on why this happens
-    useEffect(() => {
-        // this is the axios GET response - POST requests work similarly, where you must specify the exact endpoint and use a try/catch
-        axios
-            .get("https://backend.agrogodev.workers.dev/api/data/Raspi001")
-            .then((response) => {
-              setData(response.data); // this sets the state - response is of type <AxiosResponse> and calling response.data gives us the actual array of arrays that make up the individual instances of our db table
-              console.log(response.data);
-              setMessage("Success!");
-            })
-            .catch(() => {
-              setMessage("Failure :(");
-            });
-    },[]);
-
-    // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
-    const last_connection = new DeviceDTO(data ? data[0] : {id: "00", device_id: "00", received_at: "Loading..."});
-    console.log("Last connection: ", last_connection.getReceivedAt());
-
+  
   return (
     <>
     <div className="dashboard">

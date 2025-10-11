@@ -5,7 +5,7 @@ function ProfileImage() {
 
     return (
         <div className="profile-image-container">
-            <img className="profile-display" src="../../assets/zone-images/flower.png"></img>
+            <img className="profile-image-display" src="../../src/assets/icons/profile-icon-549227.svg"></img>
         </div>
     )
 }

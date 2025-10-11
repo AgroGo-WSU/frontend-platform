@@ -1,6 +1,7 @@
 The color scheme for this project is:
     *Primary: #173D23
     *Secondary: #F2EEE3
+    *Accent: #800020;
     *Tertiary: #549227 // Note: the tertiary color does not meet Web Content Accessibility Guidelines (WCAG) for text contrast; 
                          // we can use this as an accent color on the site, but it can't be used for text.
                          // we can test color contrast using this site: https://webaim.org/resources/contrastchecker/
