@@ -1,0 +1,32 @@
+.large-weather-card-container {
+    width: max(18vw, 180px); /*font will be 12 times the view width (if 12vw > 12px), but at least 12px*/
+    height: max(7.5vw, 75px);
+}
+
+.large-card-flex-container {
+    padding: 10px;
+}
+
+.large-weather-card-image {
+    background-color: white;
+    width: max(18vw, 225px);
+    height: max(18vw, 225px);
+    border-radius: 28px;
+}
+
+.large-day-caption {
+    color: rgba(23, 61, 35, 75%);
+    font-size: max(1.2vw, 12px);
+}
+
+.large-weather-card-title {
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: max(1.5vw, 18px);
+}
+
+.large-weather-card-subtitle {
+    font-size: max(1.2vw, 15px);
+    width: max(18vw, 90px);
+}
