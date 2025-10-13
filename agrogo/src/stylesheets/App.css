@@ -10,7 +10,7 @@
         "profile-display zones weather right-blank"
         "footer footer footer footer"
         "bottom-blank bottom-blank bottom-blank bottom-blank";
-    grid-template-columns: max(18vw, 50px) max(30vw, 100px) max(45vw, 200px) auto;
+    grid-template-columns: max(18vw, 50px) max(30vw, 120px) max(45vw, 200px) auto;
     grid-template-rows: auto 130px 300px 400px 40px 30px;
     font-family: "Nunito", sans-serif;
     font-weight: 400;
@@ -52,7 +52,7 @@
 .zones {
     background-color: white;
     grid-area: zones;
-    padding-left: 15px;
+    width: max(30vw, 100px);
     border-left: 4px solid #800020;
     border-bottom-left-radius: 28px;
     border-bottom: 4px solid #800020;
@@ -67,7 +67,7 @@
 .weather {
     background-color: white;
     grid-area: weather;
-    padding-left: 50px;
+    width: max(45vw, 200px);
     border-right: 4px solid #800020;
     border-bottom-right-radius: 28px;
     border-bottom: 4px solid #800020;
@@ -86,11 +86,3 @@
     grid-area: profile-display;
 }
 
-/* Flex containers styles here */
-
-.zone-flex-container {
-    /* display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap; */
-    gap: max(2vw, 10px);
-}
