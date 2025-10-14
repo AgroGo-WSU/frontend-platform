@@ -6,8 +6,8 @@
 
 .circle-img {
     background-color: white;
-    width: max(7vw, 120px);
-    height: max(7vw, 120px);
+    width: max(7vw, 100px);
+    height: max(7vw, 100px);
     border-radius: 50%;
     border-color: black;
     border-width: 5px;

@@ -11,9 +11,9 @@
 
 .weather-card-image {
     background-color: white;
-    width: max(5vw, 75px);
-    height: max(5vw, 75px);
-    border-radius: 28px;
+    width: max(5vw, 45px);
+    height: max(5vw, 45px);
+    border-radius: 14px;
 }
 
 .day-caption {

@@ -9,8 +9,8 @@
 
 .large-weather-card-image {
     background-color: white;
-    width: max(18vw, 225px);
-    height: max(18vw, 225px);
+    width: max(18vw, 150px);
+    height: max(18vw, 150px);
     border-radius: 28px;
 }
 
@@ -27,6 +27,6 @@
 }
 
 .large-weather-card-subtitle {
-    font-size: max(1.2vw, 15px);
+    font-size: max(1.05vw, 15px);
     width: max(18vw, 90px);
 }
