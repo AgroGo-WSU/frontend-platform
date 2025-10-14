@@ -75,6 +75,34 @@ console.log(
 console.log("\nHourly data", weatherData.hourly)
 console.log("\nDaily data", weatherData.daily)
 
+interface weatherInfoType {
+	id: number
+	time: Date;
+	max: number;
+	min: number;
+	uvIndex: number;
+	clouds: number;
+	showers: number;
+	rain: number;
+	wind: number;
+}
+
+const weatherInfo: weatherInfoType[] = [];
+
+for(let i = 1; i < 7; i++) {
+	const temp = {
+		id: i,
+		time: weatherData.daily.time ? weatherData.daily.time[i] : new Date(0),
+		max: weatherData.daily.temperature_2m_max ? weatherData.daily.temperature_2m_max[i] : 0,
+		min: weatherData.daily.temperature_2m_min ? weatherData.daily.temperature_2m_min[i] : 0,
+		uvIndex: weatherData.daily.uv_index_max ? weatherData.daily.uv_index_max[i] : 0,
+		clouds: weatherData.hourly.cloud_cover ? weatherData.hourly.cloud_cover[i] : 0,
+		showers: weatherData.hourly.showers ? weatherData.hourly.showers[i] : 0,
+		rain: weatherData.hourly.rain ? weatherData.hourly.rain[i] : 0,
+		wind: weatherData.hourly.wind_speed_10m ? weatherData.hourly.wind_speed_10m[i] : 0,
+	} as weatherInfoType;
+	weatherInfo.push(temp);
+}
 
 function WeatherContainer() {
 
@@ -82,14 +110,25 @@ function WeatherContainer() {
         <div>
         <div className="weather-container mx-auto p-2 justify-content-evenly">
         <div className="main-weather-card"><LargeWeatherCard day="Today" date="Sept. 22" weather="Sunny with a high of 78" image="../src/assets/weather-images/sun.png"/></div>
-        <div className="weather-flex-container">
-          <WeatherCard day="Tomorrow"   date="Sept. 23"   weather="Cloudy with a high of 71"  image="../src/assets/weather-images/partial-clouds.png"/>
+			{weatherInfo.map(item => (
+                <div className="job-listings-flex-items">
+                <WeatherCard key={item.id}
+				time = {item.time}
+                max = {item.max}
+                min = {item.min}
+                uvIndex = {item.uvIndex}
+                clouds = {item.clouds}
+                showers = {item.showers}
+                rain = {item.rain}
+				wind = {item.wind}/>
+                </div>
+          ))}
+          {/* <WeatherCard day="Tomorrow"   date="Sept. 23"   weather="Cloudy with a high of 71"  			image="../src/assets/weather-images/partial-clouds.png"/>
           <WeatherCard day="Wednesday"  date="Sept. 24"   weather="Rainy with a high of 67"             image="../src/assets/weather-images/rain.png"/>
           <WeatherCard day="Thursday"   date="Sept. 25"   weather="Rainy with a high of 71"             image="../src/assets/weather-images/rain.png"/>
           <WeatherCard day="Friday"     date="Sept. 26"   weather="Sunny with a high of 75"             image="../src/assets/weather-images/sun.png"/>
           <WeatherCard day="Saturday"   date="Sept. 27"   weather="Sunny with a high of 77"             image="../src/assets/weather-images/sun.png"/>
-          <WeatherCard day="Sunday"     date="Sept. 28"   weather="Cloudy with a high of 72"  image="../src/assets/weather-images/partial-clouds.png"/>
-        </div>
+          <WeatherCard day="Sunday"     date="Sept. 28"   weather="Cloudy with a high of 72"  			image="../src/assets/weather-images/partial-clouds.png"/> */}
         </div>
         </div>
     )

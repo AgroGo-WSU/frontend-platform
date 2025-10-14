@@ -1,26 +1,30 @@
 import '../../stylesheets/WeatherCard.css';
 
 
-interface WeatherCardProps {
-  /* These are the props that must be passed when this card is rendered on the parent component - go to App.tsx to see how these props are being passed to this component */
-  /* Later, these will be passed programmatically via mapping or other function, but for now, they are hard-coded in the parent component */
-  /* The day of the week, the date, the weather, and the image file */
-  /* The string for image file must be in this form: "../src/assets/weather-images/sun.png" where "weather" can be replaced by "sun", "partial-clouds", or "rain"*/
-  day: string;
-  date: string;
-  weather: string;
-  image: string;
+interface weatherInfoType {
+  id: number
+	time: Date;
+	max: number;
+	min: number;
+	uvIndex: number;
+	clouds: number;
+	showers: number;
+	rain: number;
+	wind: number;
 }
 
 
-function WeatherCard({ day, date, weather, image }: WeatherCardProps) {
+function WeatherCard({ id, time, max, min, uvIndex, clouds, showers, rain, wind }: weatherInfoType) {
+
+  const daytime = time.toString();
+  
   return (
     <div className="weather-card-container">
-      <img className="weather-card-image" src={ image }></img>
+      <img className="weather-card-image" src={ "./src/assets/weather-images/sun.png" }></img>
       <div className="card-flex-container">
-        <div className="day-caption">{ day }</div>
-        <div className="weather-card-title">{ date }</div>
-        <div className="weather-card-subtitle">{ weather }</div>
+        <div className="day-caption">{ daytime }</div>
+        <div className="weather-card-title">{ daytime }</div>
+        <div className="weather-card-subtitle">{ max }</div>
       </div>
     </div>
   );
