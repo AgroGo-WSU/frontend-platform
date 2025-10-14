@@ -5,11 +5,10 @@ import LargeWeatherCard from './LargeWeatherCard';
 
 // this is data from OpenMeteo
 const params = {
-	"latitude": 42.3297,
-	"longitude": 83.0425,
-	"daily": ["temperature_2m_max", "temperature_2m_min", "uv_index_max"],
-	"hourly": ["rain", "showers", "snowfall", "cloud_cover", "wind_speed_10m", "weather_code"],
-	"current": "temperature_2m",
+	"latitude": 42.3314,
+	"longitude": -83.0457,
+	"daily": ["temperature_2m_max", "temperature_2m_min", "rain_sum", "showers_sum", "snowfall_sum", "cloud_cover_max", "wind_speed_10m_max", "uv_index_max", "weather_code"],
+	"hourly": "temperature_2m",
 	"timezone": "America/New_York",
 	"wind_speed_unit": "mph",
 	"temperature_unit": "fahrenheit",
@@ -36,26 +35,16 @@ console.log(
 	`\nTimezone difference to GMT+0: ${utcOffsetSeconds}s`,
 );
 
-const current = response.current()!;
 const hourly = response.hourly()!;
 const daily = response.daily()!;
 
 // Note: The order of weather variables in the URL query and the indices below need to match!
 const weatherData = {
-	current: {
-		time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
-		temperature_2m: current.variables(0)!.value(),
-	},
 	hourly: {
 		time: [...Array((Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval())].map(
 			(_, i) => new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000)
 		),
-		rain: hourly.variables(0)!.valuesArray(),
-		showers: hourly.variables(1)!.valuesArray(),
-		snowfall: hourly.variables(2)!.valuesArray(),
-		cloud_cover: hourly.variables(3)!.valuesArray(),
-		wind_speed_10m: hourly.variables(4)!.valuesArray(),
-		weather_code: hourly.variables(5)!.valuesArray(),
+		temperature_2m: hourly.variables(0)!.valuesArray(),
 	},
 	daily: {
 		time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
@@ -63,18 +52,22 @@ const weatherData = {
 		),
 		temperature_2m_max: daily.variables(0)!.valuesArray(),
 		temperature_2m_min: daily.variables(1)!.valuesArray(),
-		uv_index_max: daily.variables(2)!.valuesArray(),
+		rain_sum: daily.variables(2)!.valuesArray(),
+		showers_sum: daily.variables(3)!.valuesArray(),
+		snowfall_sum: daily.variables(4)!.valuesArray(),
+		cloud_cover_max: daily.variables(5)!.valuesArray(),
+		wind_speed_10m_max: daily.variables(6)!.valuesArray(),
+		uv_index_max: daily.variables(7)!.valuesArray(),
+		weather_code: daily.variables(8)!.valuesArray(),
 	},
 };
 
 // 'weatherData' now contains a simple structure with arrays with datetime and weather data
-console.log(
-	`\nCurrent time: ${weatherData.current.time}`,
-	weatherData.current.temperature_2m,
-);
 console.log("\nHourly data", weatherData.hourly)
 console.log("\nDaily data", weatherData.daily)
 
+
+// type for the info we will pass to weather cards
 interface weatherInfoType {
 	id: number
 	time: Date;
@@ -87,8 +80,10 @@ interface weatherInfoType {
 	wind: number;
 }
 
+// we will use this array for the mapping function to dynamically render components
 const weatherInfo: weatherInfoType[] = [];
 
+// this loop starts on 1 instead of 0 because the 1st instance of this data will be passed to the LargeWeatherCard outside of the mapping function
 for(let i = 1; i < 7; i++) {
 	const temp = {
 		id: i,
@@ -96,23 +91,38 @@ for(let i = 1; i < 7; i++) {
 		max: weatherData.daily.temperature_2m_max ? weatherData.daily.temperature_2m_max[i] : 0,
 		min: weatherData.daily.temperature_2m_min ? weatherData.daily.temperature_2m_min[i] : 0,
 		uvIndex: weatherData.daily.uv_index_max ? weatherData.daily.uv_index_max[i] : 0,
-		clouds: weatherData.hourly.cloud_cover ? weatherData.hourly.cloud_cover[i] : 0,
-		showers: weatherData.hourly.showers ? weatherData.hourly.showers[i] : 0,
-		rain: weatherData.hourly.rain ? weatherData.hourly.rain[i] : 0,
-		wind: weatherData.hourly.wind_speed_10m ? weatherData.hourly.wind_speed_10m[i] : 0,
+		clouds: weatherData.daily.cloud_cover_max ? weatherData.daily.cloud_cover_max[i] : 0,
+		showers: weatherData.daily.showers_sum ? weatherData.daily.showers_sum[i] : 0,
+		rain: weatherData.daily.rain_sum ? weatherData.daily.rain_sum[i] : 0,
+		wind: weatherData.daily.wind_speed_10m_max ? weatherData.daily.wind_speed_10m_max[i] : 0,
 	} as weatherInfoType;
 	weatherInfo.push(temp);
 }
+
+// the first instance of the data for large weather card
+const largeCardInfo = {
+		id: 0,
+		time: weatherData.daily.time ? weatherData.daily.time[0] : new Date(0),
+		max: weatherData.daily.temperature_2m_max ? weatherData.daily.temperature_2m_max[0] : 0,
+		min: weatherData.daily.temperature_2m_min ? weatherData.daily.temperature_2m_min[0] : 0,
+		uvIndex: weatherData.daily.uv_index_max ? weatherData.daily.uv_index_max[0] : 0,
+		clouds: weatherData.daily.cloud_cover_max ? weatherData.daily.cloud_cover_max[0] : 0,
+		showers: weatherData.daily.showers_sum ? weatherData.daily.showers_sum[0] : 0,
+		rain: weatherData.daily.rain_sum ? weatherData.daily.rain_sum[0] : 0,
+		wind: weatherData.daily.wind_speed_10m_max ? weatherData.daily.wind_speed_10m_max[0] : 0,
+	} as weatherInfoType;
 
 function WeatherContainer() {
 
     return(
         <div>
         <div className="weather-container mx-auto p-2 justify-content-evenly">
-        <div className="main-weather-card"><LargeWeatherCard day="Today" date="Sept. 22" weather="Sunny with a high of 78" image="../src/assets/weather-images/sun.png"/></div>
+        <div className="main-weather-card"><LargeWeatherCard { ...largeCardInfo }/></div>
+		<div className="weather-flex-container">
 			{weatherInfo.map(item => (
-                <div className="job-listings-flex-items">
+                <div className="weather-card-items">
                 <WeatherCard key={item.id}
+				id = {item.id}
 				time = {item.time}
                 max = {item.max}
                 min = {item.min}
@@ -123,6 +133,7 @@ function WeatherContainer() {
 				wind = {item.wind}/>
                 </div>
           ))}
+		  </div>
           {/* <WeatherCard day="Tomorrow"   date="Sept. 23"   weather="Cloudy with a high of 71"  			image="../src/assets/weather-images/partial-clouds.png"/>
           <WeatherCard day="Wednesday"  date="Sept. 24"   weather="Rainy with a high of 67"             image="../src/assets/weather-images/rain.png"/>
           <WeatherCard day="Thursday"   date="Sept. 25"   weather="Rainy with a high of 71"             image="../src/assets/weather-images/rain.png"/>
