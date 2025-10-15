@@ -1,0 +1,14 @@
+.weather-container {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+}
+
+.weather-flex-container {
+    width: max(21vw, 210px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    row-gap: max(7vw, 75px);
+}

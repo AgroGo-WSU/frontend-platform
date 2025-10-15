@@ -1,26 +1,53 @@
 import '../../stylesheets/WeatherCard.css';
 
 
-interface WeatherCardProps {
-  /* These are the props that must be passed when this card is rendered on the parent component - go to App.tsx to see how these props are being passed to this component */
-  /* Later, these will be passed programmatically via mapping or other function, but for now, they are hard-coded in the parent component */
-  /* The day of the week, the date, the weather, and the image file */
-  /* The string for image file must be in this form: "../src/assets/weather-images/sun.png" where "weather" can be replaced by "sun", "partial-clouds", or "rain"*/
-  day: string;
-  date: string;
-  weather: string;
-  image: string;
+interface weatherInfoType {
+  id: number
+	time: Date;
+	max: number;
+	min: number;
+	uvIndex: number;
+	clouds: number;
+	showers: number;
+	rain: number;
+	wind: number;
 }
 
 
-function WeatherCard({ day, date, weather, image }: WeatherCardProps) {
+function WeatherCard({ id, time, max, min, uvIndex, clouds, showers, rain, wind }: weatherInfoType) {
+
+  const daytime = time.toString();
+  let dayOfTheWeek = daytime;
+  const splitDate = daytime.split(" ");
+  const displayDate = splitDate[1] + ". " + splitDate[2];
+
+  if(id == 1) {
+    dayOfTheWeek = "Tomorrow";
+  } else {
+    dayOfTheWeek = daytime.slice(0, 3);
+  }
+
+  let file;
+  let weatherType;
+
+  if(showers > 0) {
+    file = "./src/assets/weather-images/rain.png";
+    weatherType = "Rain";
+  } else if(clouds > 50) {
+    file = "./src/assets/weather-images/partial-clouds.png"
+    weatherType = "Cloudy";
+  } else {
+    file = "./src/assets/weather-images/sun.png";
+    weatherType = "Sunny";
+  }
+  
   return (
     <div className="weather-card-container">
-      <img className="weather-card-image" src={ image }></img>
+      <img className="weather-card-image" src={ file }></img>
       <div className="card-flex-container">
-        <div className="day-caption">{ day }</div>
-        <div className="weather-card-title">{ date }</div>
-        <div className="weather-card-subtitle">{ weather }</div>
+        <div className="day-caption">{ dayOfTheWeek }</div>
+        <div className="weather-card-title">{ displayDate }</div>
+        <div className="weather-card-subtitle">{ weatherType } with a high of { Math.round(max) }, low of { Math.round(min) }</div>
       </div>
     </div>
   );

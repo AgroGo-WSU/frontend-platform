@@ -2,13 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 55px;
 }
 
 .circle-img {
     background-color: white;
-    width: max(7vw, 125px);
-    height: max(7vw, 125px);
+    width: max(7vw, 100px);
+    height: max(7vw, 100px);
     border-radius: 50%;
     border-color: black;
     border-width: 5px;
@@ -17,8 +16,6 @@
 .caption {
     width: max(7vw, 100px);
     height: max(3vw, 50px);
-    margin: 8px;
-    padding: 5px;
     font-size: max(1vw, 12px); /* font will be 1.2 times the view width (if 1.2vw > 12px), but at least 12px */
     text-align: center;
     overflow: hidden;

@@ -6,3 +6,6 @@ Axios v1.12.2
 
 Firebase v12.3.0
     npm install firebase
+
+OpenMeteo weather API
+    npm install openmeteo
