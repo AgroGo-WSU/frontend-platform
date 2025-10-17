@@ -10,6 +10,7 @@ import { FirebaseError } from 'firebase/app';
 import LoginMenu from './LoginMenu.tsx';
 import SignupMenu from './SignupMenu.tsx';
 import ResetPasswordMenu from './ResetPasswordMenu.tsx';
+import '../../stylesheets/AuthenticationPopup.css';
 
 function AuthenticationPopup() {
     const { userLoggedIn } = useAuth();
@@ -86,12 +87,42 @@ function AuthenticationPopup() {
 
     return (
         <>
-        <h1>I hope you remember your gmail password</h1>
-        <button onClick={() => setShowLogin(true)}>Click to sign in with email and password</button>
-        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGoogleSignIn(e) }}>Click to sign in with Google</button>
-        <button onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGithubSignIn(e) }}>Click to sign in with Github</button>
-        <button onClick={() => setShowReset(true)}>Click to reset password</button>
-        <button onClick={() => setShowSignup(true)}>Click to sign up</button>
+        <div className="auth-popup-container">
+            <div className="auth-popup-card">
+                <h2 className="auth-popup-title">Welcome Back</h2>
+                <p className="auth-popup-subtitle">Sign in to continue to AgroGo</p>
+
+                <div className="auth-social-btns">
+                    <button 
+                        className="auth-btn google" 
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGoogleSignIn(e) }} 
+                        disabled={isSigningIn}
+                    >
+                        <span className="icon">🌐</span> Continue with Google
+                    </button>
+
+                    <button 
+                        className="auth-btn github" 
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => { onGithubSignIn(e) }} 
+                        disabled={isSigningIn}
+                    >
+                        <span className="icon">😸</span> Continue with GitHub
+                    </button>
+                </div>
+
+                <div className="auth-divider">
+                    <span></span>or<span></span>
+                </div>
+
+                <div className="auth-links">
+                    <button className="auth-link" onClick={() => setShowLogin(true)}>Sign in with Email</button>
+                    <button className="auth-link" onClick={() => setShowSignup(true)}>Create Account</button>
+                    <button className="auth-link" onClick={() => setShowReset(true)}>Forgot Password</button>
+                </div>
+
+                {errorMessage && <p className="auth-error">{errorMessage}</p>}
+            </div>
+        </div>
 
         {/* popup modal menus, don't show from the start */}
         <LoginMenu 
@@ -111,7 +142,6 @@ function AuthenticationPopup() {
         />
         </>
     )
-
 }
 
 export default AuthenticationPopup;
