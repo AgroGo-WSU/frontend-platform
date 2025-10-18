@@ -6,7 +6,6 @@ import TopNav from '../../components/TopNav'
 import ZoneContainer from '../../components/Zones/ZoneContainer';
 import WeatherContainer from '../../components/Weather/WeatherContainer';
 import SmallTitle from '../../components/SmallTitle';
-import InventoryPopUp from '../Inventory/InventoryPopUp';
 
 
 
@@ -24,7 +23,6 @@ function Dashboard() {
         <ZoneContainer />
       </div>
       <div className="weather mx-auto p-4"><SmallTitle title="Weather"/><WeatherContainer />
-      <InventoryPopUp />
       </div>
       <div className="footer">copyright AgroGo 2025</div>
     </div>

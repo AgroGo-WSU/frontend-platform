@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ConnectivityStatus from "./ConnectivityStatus";
+import InventoryPopUp from "./Inventory/InventoryPopUp.tsx";
 import { useAuth } from "../hooks/UseAuth.tsx";
 import { FirebaseError } from 'firebase/app';
 import { doSignOut } from "./firebase/auth";
@@ -32,7 +33,7 @@ function TopNav() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#weather">Weather</Nav.Link>
-            <Nav.Link href="#inventory">Inventory</Nav.Link>
+            <Nav.Link><InventoryPopUp /></Nav.Link> {/** this is our inventory pop up */}
             <NavDropdown title="Actions" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#watering">Set watering</NavDropdown.Item>
               <NavDropdown.Item href="#fan">Set fan</NavDropdown.Item>

@@ -1,6 +1,5 @@
 import "../../../src/stylesheets/InventoryPopUp.css"
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Inventory from "./Inventory";
 
@@ -17,9 +16,9 @@ function InventoryPopUp() {
 
     return(
         <>
-        <Button className="show-inventory-button" onClick={() => handleShow()}>
+        <div className="show-inventory-button" onClick={() => handleShow()}>
           Inventory
-        </Button>
+        </div>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
             <Modal.Header closeButton>
             <Modal.Title>Modal</Modal.Title>
