@@ -1,14 +1,20 @@
 .weather-container {
+    min-height: 27vw;
+    max-width: 45vw;
     display: flex;
     flex-direction: row;
     column-gap: 15px;
 }
 
+/** tiny weather tiles container */
 .weather-flex-container {
     width: max(21vw, 210px);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    column-gap: 5px;
-    row-gap: max(7vw, 75px);
+    justify-content: space-around;
+}
+
+.weather-dropdown {
+    width: max(18vw, 120px);
 }

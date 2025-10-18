@@ -1,16 +1,12 @@
 .large-weather-card-container {
-    width: max(18vw, 180px); /*font will be 12 times the view width (if 12vw > 12px), but at least 12px*/
-    height: max(7.5vw, 75px);
-}
-
-.large-card-flex-container {
-    padding: 10px;
+    width: max(18vw, 120px);
+    height: max(18vw, 120px);
 }
 
 .large-weather-card-image {
     background-color: white;
-    width: max(18vw, 150px);
-    height: max(18vw, 150px);
+    width: max(18vw, 120px);
+    height: max(18vw, 120px);
     border-radius: 28px;
 }
 

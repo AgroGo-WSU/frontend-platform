@@ -3,7 +3,6 @@ import { fetchWeatherApi } from 'openmeteo';
 import WeatherCard from './WeatherCard';
 import LargeWeatherCard from './LargeWeatherCard';
 import WeatherAccordion from './WeatherAccordion';
-import Accordion from 'react-bootstrap/Accordion';
 
 
 // this is data from OpenMeteo
@@ -125,7 +124,7 @@ function WeatherContainer() {
     return(
         <div>
 		{/** the bootstrap here is specifying when the flex should be row vs column, spaces it evenly, and centers the element in the parent */}
-        <div className="weather-container d-flex flex-column flex-xl-row row-gap-5 mx-auto p-2 justify-content-evenly">
+        <div className="weather-container d-flex flex-column flex-xl-row row-gap-2">
         <div className="main-weather-card"><LargeWeatherCard { ...largeCardInfo }/></div>
 		<div className="weather-flex-container">
 				{weatherInfo.map(item => (
@@ -143,8 +142,8 @@ function WeatherContainer() {
 					</div>
 				))}
 		</div>
-		{/** the bootstrap css "d-block d-sm-none" means this dropdown will only be visible when the screen is small*/}
-		<div className="weather-dropdown mx-auto p-2 d-xl-none">
+		{/** the bootstrap css "d-xl-none" means this dropdown will only be visible when the screen is smaller than xl (extra large)*/}
+		<div className="weather-dropdown d-xl-none">
 			<WeatherAccordion { ...fullWeatherInfo }/>
 		</div>
         </div>
