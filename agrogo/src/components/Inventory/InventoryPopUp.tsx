@@ -21,7 +21,7 @@ function InventoryPopUp() {
         </div>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
             <Modal.Header closeButton>
-            <Modal.Title>Modal</Modal.Title>
+            <Modal.Title>Plant inventory</Modal.Title>
             </Modal.Header>
             <Modal.Body><Inventory /></Modal.Body>
         </Modal>

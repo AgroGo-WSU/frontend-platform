@@ -17,7 +17,7 @@ function Dashboard() {
 
   let userName = "friend";
   if(currentUser) {
-    userName = currentUser.displayName;
+    userName = (currentUser.displayName)?.split(" ")[0];
   } 
 
   return (

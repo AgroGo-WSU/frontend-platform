@@ -84,5 +84,9 @@
 .profile-display {
     background-color: #F2EEE3;
     grid-area: profile-display;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
 }
 

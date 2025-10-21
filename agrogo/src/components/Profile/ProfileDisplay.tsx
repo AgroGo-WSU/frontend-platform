@@ -15,15 +15,12 @@ function ProfileDisplay() {
     }
 
   return (
-    <div>
+    <div className="profile-display-all">
       {/* Profile Card */}
       <div className="profile-display-container">
         <ProfileImage />
         {/* Example placeholders of the info that will go here */}
         <div className="name">{userName}</div>
-        <div className="next-water">Next water: Monday, 5pm</div>
-        <div className="next-fan">Next fan: Monday, 5:15pm</div>
-        <div className="growing-since">Growing since 2025</div>
       </div>
 
       {/* Today’s Plan bubble */}
