@@ -18,3 +18,7 @@
 .weather-dropdown {
     width: max(18vw, 120px);
 }
+
+.accordion-main {
+    width: max(30vw, 120px);
+}

@@ -67,6 +67,7 @@
 .weather {
     background-color: white;
     grid-area: weather;
+    align-items: center;
     width: max(42vw, 120px);
     border-right: 4px solid #800020;
     border-bottom-right-radius: 28px;
