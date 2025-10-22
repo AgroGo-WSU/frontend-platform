@@ -1,9 +1,18 @@
 .plan-bubble {
     background-color: #ffffff;
-    border: 4px solid #800020; /* Match exact profile border thickness */
-    border-radius: 25px;       /* Match the profile card’s corner curve */
+    border: 4px solid #800020;
+    border-radius: 25px;      
     box-sizing: border-box;
-    width: max(18vw, 100px);
+  
+    /* Alignment and sizing */
+    width: 90%;               
+    max-width: 280px;         
+    margin: 16px auto 0 auto;  
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
   }
   
   .plan-title {
