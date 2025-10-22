@@ -1,5 +1,5 @@
 .weather-card-container {
-    width: max(6vw, 50px); /*font will be 5 times the view width (if 12vw > 12px), but at least 12px*/
+    width: max(6vw, 50px); 
     height: max(6vw, 50px);
 }
 
@@ -25,11 +25,11 @@
     font-family: "Roboto", sans-serif;
     font-weight: 600;
     font-style: normal;
-    font-size: max(1vw, 16px);
+    font-size: max(1vw, 11px);
 }
 
 .weather-card-subtitle {
-    font-size: max(0.8vw, 12px);
+    font-size: max(0.8vw, 10px);
     width: max(5vw, 50px);
     text-wrap: wrap;
 }

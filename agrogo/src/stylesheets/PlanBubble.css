@@ -45,10 +45,4 @@
     color: rgba(23, 61, 35, 0.85);
   }
   
-  /* keep width consistent across viewports */
-  @media (min-width: 900px) {
-    .plan-bubble {
-      max-width: 272px;
-    }
-  }
   

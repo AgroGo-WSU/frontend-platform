@@ -1,4 +1,5 @@
 import Accordion from 'react-bootstrap/Accordion';
+import "../../stylesheets/WeatherContainer.css"
 
 interface weatherInfoType {
   id: number
@@ -40,7 +41,7 @@ function WeatherAccordion(weatherInfo: weatherInfoType[]) {
     }
 
   return (
-    <Accordion >
+    <Accordion className="accordion-main">
 			<Accordion.Item eventKey="0">
 				<Accordion.Header>Today</Accordion.Header>
 				<Accordion.Body>

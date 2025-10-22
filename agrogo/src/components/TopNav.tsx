@@ -3,7 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import ConnectivityStatus from "./ConnectivityStatus";
+// import ConnectivityStatus from "./ConnectivityStatus";
+import InventoryPopUp from "./Inventory/InventoryPopUp.tsx";
 import { useAuth } from "../hooks/UseAuth.tsx";
 import { FirebaseError } from 'firebase/app';
 import { doSignOut } from "./firebase/auth";
@@ -32,7 +33,7 @@ function TopNav() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#weather">Weather</Nav.Link>
-            <Nav.Link href="#inventory">Inventory</Nav.Link>
+            <Nav.Link><InventoryPopUp /></Nav.Link> {/** this is our inventory pop up */}
             <NavDropdown title="Actions" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#watering">Set watering</NavDropdown.Item>
               <NavDropdown.Item href="#fan">Set fan</NavDropdown.Item>
@@ -41,8 +42,8 @@ function TopNav() {
               <NavDropdown.Item href="#manage-zones">Manage zones</NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Nav className="align-items-center" style={{ gap: 12 }}>
-            <ConnectivityStatus />
+          <Nav className="green-icons d-flex flex-row">
+            {/* <ConnectivityStatus /> */}
             <Nav.Link href="#notifications"><img className="icon-img" src="../src/assets/icons/notifications-icon-173D23.svg" width="10px" /></Nav.Link>
             <Nav.Link eventKey={2} href="#profile"><img className="icon-img" src="../src/assets/icons/profile-icon-173D23.svg" /></Nav.Link>
             <Nav.Link eventKey={2} href="#settings"><img className="icon-img" src="../src/assets/icons/settings-icon-173D23.svg" /></Nav.Link>
