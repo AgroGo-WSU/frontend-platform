@@ -1,14 +1,19 @@
 import "../../stylesheets/ProfileDisplay.css";
+import "../../stylesheets/SidebarColumn.css"; // NEW
 import ProfileImage from "./ProfileImage";
 import PlanBubble from "../Plan/PlanBubble";
+import NotificationsPanel from "../Notification/NotificationsPanel";
+import { useNotifications } from "../../hooks/UseNotifications";
 
 function ProfileDisplay() {
+  const { items, clear } = useNotifications();
+
   return (
-    <div>
+    <aside className="sidebar-column">
       {/* Profile Card */}
       <div className="profile-display-container">
         <ProfileImage />
-        {/* Example placeholders of the info that will go here */}
+        {/* placeholders */}
         <div className="name">Madeline</div>
         <div className="location">Detroit, MI</div>
         <div className="next-water">Next water: Monday, 5pm</div>
@@ -16,9 +21,12 @@ function ProfileDisplay() {
         <div className="growing-since">Growing since 2025</div>
       </div>
 
-      {/* Today’s Plan bubble */}
+      {/* Today’s Plan */}
       <PlanBubble />
-    </div>
+
+      {/* Notifications */}
+      <NotificationsPanel items={items} onClearAll={clear} />
+    </aside>
   );
 }
 
