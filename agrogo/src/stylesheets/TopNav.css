@@ -50,4 +50,8 @@
     width: max(1.5vw, 15px);
     margin-left: 10px;
   }
+
+  .green-icons {
+    flex-wrap: wrap;
+  }
   

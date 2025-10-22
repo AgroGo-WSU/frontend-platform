@@ -3,7 +3,6 @@ import { fetchWeatherApi } from 'openmeteo';
 import WeatherCard from './WeatherCard';
 import LargeWeatherCard from './LargeWeatherCard';
 import WeatherAccordion from './WeatherAccordion';
-import Accordion from 'react-bootstrap/Accordion';
 
 
 // this is data from OpenMeteo
@@ -13,6 +12,7 @@ const params = {
 	"daily": ["temperature_2m_max", "temperature_2m_min", "rain_sum", "showers_sum", "snowfall_sum", "wind_speed_10m_max", "uv_index_max", "weather_code", "cloud_cover_mean"],
 	"hourly": "temperature_2m",
 	"timezone": "America/New_York",
+	"forecast_days": 14,
 	"wind_speed_unit": "mph",
 	"temperature_unit": "fahrenheit",
 	"precipitation_unit": "inch",
@@ -91,20 +91,20 @@ const fullWeatherInfo: weatherInfoType[] = [];
 // the first instance of the data for large weather card
 const largeCardInfo = {
 		id: 0,
-		time: weatherData.daily.time ? weatherData.daily.time[0] : new Date(0),
-		max: weatherData.daily.temperature_2m_max ? weatherData.daily.temperature_2m_max[0] : 0,
-		min: weatherData.daily.temperature_2m_min ? weatherData.daily.temperature_2m_min[0] : 0,
-		uvIndex: weatherData.daily.uv_index_max ? weatherData.daily.uv_index_max[0] : 0,
-		clouds: weatherData.daily.cloud_cover_mean ? weatherData.daily.cloud_cover_mean[0] : 0,
-		showers: weatherData.daily.showers_sum ? weatherData.daily.showers_sum[0] : 0,
-		rain: weatherData.daily.rain_sum ? weatherData.daily.rain_sum[0] : 0,
-		wind: weatherData.daily.wind_speed_10m_max ? weatherData.daily.wind_speed_10m_max[0] : 0,
+		time: weatherData.daily.time ? weatherData.daily.time[1] : new Date(0),
+		max: weatherData.daily.temperature_2m_max ? weatherData.daily.temperature_2m_max[1] : 0,
+		min: weatherData.daily.temperature_2m_min ? weatherData.daily.temperature_2m_min[1] : 0,
+		uvIndex: weatherData.daily.uv_index_max ? weatherData.daily.uv_index_max[1] : 0,
+		clouds: weatherData.daily.cloud_cover_mean ? weatherData.daily.cloud_cover_mean[1] : 0,
+		showers: weatherData.daily.showers_sum ? weatherData.daily.showers_sum[1] : 0,
+		rain: weatherData.daily.rain_sum ? weatherData.daily.rain_sum[1] : 0,
+		wind: weatherData.daily.wind_speed_10m_max ? weatherData.daily.wind_speed_10m_max[1] : 0,
 	} as weatherInfoType;
 
 fullWeatherInfo.push(largeCardInfo);
 
 // this loop starts on 1 instead of 0 because the 1st instance of this data will be passed to the LargeWeatherCard outside of the mapping function
-for(let i = 1; i < 7; i++) {
+for(let i = 2; i < 8; i++) {
 	const temp = {
 		id: i,
 		time: weatherData.daily.time ? weatherData.daily.time[i] : new Date(0),
@@ -125,7 +125,7 @@ function WeatherContainer() {
     return(
         <div>
 		{/** the bootstrap here is specifying when the flex should be row vs column, spaces it evenly, and centers the element in the parent */}
-        <div className="weather-container d-flex flex-column flex-xl-row row-gap-5 mx-auto p-2 justify-content-evenly">
+        <div className="weather-container d-flex flex-column flex-xl-row row-gap-2">
         <div className="main-weather-card"><LargeWeatherCard { ...largeCardInfo }/></div>
 		<div className="weather-flex-container">
 				{weatherInfo.map(item => (
@@ -143,8 +143,8 @@ function WeatherContainer() {
 					</div>
 				))}
 		</div>
-		{/** the bootstrap css "d-block d-sm-none" means this dropdown will only be visible when the screen is small*/}
-		<div className="weather-dropdown mx-auto p-2 d-xl-none">
+		{/** the bootstrap css "d-xl-none" means this dropdown will only be visible when the screen is smaller than xl (extra large)*/}
+		<div className="weather-dropdown d-xl-none">
 			<WeatherAccordion { ...fullWeatherInfo }/>
 		</div>
         </div>

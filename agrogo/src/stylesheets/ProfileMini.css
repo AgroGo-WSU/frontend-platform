@@ -1,0 +1,23 @@
+.mini-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+}
+
+.profile-mini-image-display {
+    background-color: white;
+    border-radius: 50%;
+    width: 60px;
+}
+
+.plan-bubble-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30px;
+}
+
+.button-label-mini {
+    /* font-size: 12px; */
+}

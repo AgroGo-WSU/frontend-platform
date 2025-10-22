@@ -1,4 +1,4 @@
-/* src/stylesheets/ConnectivityStatus.css */
+/** src/stylesheets/ConnectivityStatus.css
 .connection-status {
   display: inline-flex;
   align-items: center;
@@ -12,15 +12,14 @@
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  border: 2px solid #fff;           /* subtle ring so it reads on navbar bg */
+  border: 2px solid #fff;
   box-shadow: 0 0 0 1px rgba(0,0,0,.06);
   display: inline-block;
 }
 
-/* Colors */
-.status-dot.online   { background: #1F8A36; }  /* green */
-.status-dot.offline  { background: #A11414; }  /* red */
-.status-dot.checking { background: #BFBFBF; }  /* gray */
+.status-dot.online   { background: #1F8A36; }  
+.status-dot.offline  { background: #A11414; } 
+.status-dot.checking { background: #BFBFBF; }
 
 .status-text { font-weight: 600; }
 
@@ -34,4 +33,30 @@
   color: #A11414;
   font-size: 0.85em;
   margin-left: 4px;
+}
+*/
+
+.status-online {
+  color: #173D23;
+}
+
+.status-offline {
+  color: #A11414;
+}
+
+.device-line {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+}
+
+.connect-container {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: solid 4px #173D23;
 }
