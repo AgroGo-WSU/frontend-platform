@@ -1,43 +1,35 @@
-// src/components/ConnectivityStatus.tsx
 import { useEffect, useState, useContext } from "react";
-import "../stylesheets/ConnectivityStatus.css";
+import "../stylesheets/Humidity.css";
 import axios from "axios";
 import { AuthContext } from '../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
 
-
 // creating the class for the instances of the table we're expecting from our JSON response
-class DeviceDTO {
-  public id: string;
-  public createdAt: string;
-  public location: string;
-  public email: string;
-  public firstName: string;
-  public lastName: string;
-  public raspiMac: string;
-
+class HumidityDTO {
+  public rowid: string;
+  public userID: string;
+  public type: string;
+  public received_at: string;
+  public value: string;
 
   // this constructor MUST specify the individual members of the array/object from response.data or React will not accept it
   // this is a work around where you are basically "hard-coding" the object that you're expecting
-  public constructor(dataInstance: {  id: string, createdAt: string, location: string, email: string, firstName: string, lastName: string, raspiMac: string}) {
+  public constructor(dataInstance: {  rowid: string, userID: string, type: string, received_at: string, value: string}) {
 
-    this.id = dataInstance.id;
-    this.createdAt = dataInstance.createdAt;
-    this.location = dataInstance.location;
-    this.email = dataInstance.email;
-    this.firstName = dataInstance.firstName;
-    this.lastName = dataInstance.lastName;
-    this.raspiMac = dataInstance.raspiMac;
-
+    this.rowid = dataInstance.rowid;
+    this.userID = dataInstance.userID;
+    this.type = dataInstance.type;
+    this.received_at = dataInstance.received_at;
+    this.value = dataInstance.value;
   }
 
   // will go back later to add the other getters - I only want the name for the received time right now
-  public getName(): string {
-    return this.firstName;
+  public getValue(): string {
+    return this.value;
   }
 }
 
-function ConnectivityStatus() {
+function Humidity() {
 
   const { currentUser } = useContext(AuthContext);
 
@@ -63,19 +55,19 @@ function ConnectivityStatus() {
         const token = await user.getIdToken();
         console.log(token);
       
-        const response = await axios.get("https://backend.agrogodev.workers.dev/api/user/user", {
+        const response = await axios.get("https://backend.agrogodev.workers.dev/api/user/tempAndHumidity", {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
                 }
             });
 
-          console.log("SETTING DATA: ", response.data.data);
+          console.log("SETTING HUMIDITY DATA: ", response.data.data);
           setData(response.data.data); // this sets the state - response is of type <AxiosResponse> and calling response.data gives us the actual array of arrays that make up the individual instances of our db table
           } catch(error){
             console.error('Error fetching data:', error);
           } finally {
-            console.log("DATA at FINALLY: ", data);
+            console.log("Data for HUMIDITY: ", data);
       }
     };
 
@@ -83,37 +75,36 @@ function ConnectivityStatus() {
 
     },[]);
 
-    console.log("RESPONSE", data);
+    console.log("HUMIDITY RESPONSE", data);
 
     // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
-    const last_connection = new DeviceDTO(data ? data[0] : {id: "00", createdAt: "00", location: "00", email: "00", firstName: "00", lastName: "00", raspiMac: "00"});
-    console.log("Final data: ", last_connection);
+    const humidity = new HumidityDTO(data ? data[0] : {rowid: "00", userID: "00", type: "00", received_at: "00", value: "00"});
+    console.log("Humidity final data: ", humidity);
 
-    function getTimeChecked() {
-      const time_milli = new Date();
-      const time_raw = time_milli.toISOString();
-      const full_time = time_raw.split("T")[1];
-      const short_time = full_time.split(":");
-      const hour = short_time[0];
-      const minute = short_time[1];
-      const final_time = hour + ":" + minute;
+    // not sure if we'll need this
+    // function getTimeChecked() {
+    //   const time_milli = new Date();
+    //   const time_raw = time_milli.toISOString();
+    //   const full_time = time_raw.split("T")[1];
+    //   const short_time = full_time.split(":");
+    //   const hour = short_time[0];
+    //   const minute = short_time[1];
+    //   const final_time = hour + ":" + minute;
 
-      return final_time;
-    }
+    //   return final_time;
+    // }
 
-    const time_checked = getTimeChecked();
-    let status = "offline.";
-    if((last_connection.id != "00") && (last_connection.id != null)) {
-      status = "online.";
-    }
+    // const time_checked = getTimeChecked();
+    const humidity_reading = humidity.value;
+    console.log("humidity_reading value: ", humidity_reading);
+
 
 
   return (
-    <div className="connect-container">
-    <div className="device-line"><div className="your-device">Your device is</div> <div>{status === "online" ? <div className="status-online">{status}</div> : <div className="status-onffline">{status}</div>}</div></div>
-    <div className="checked-line"><div> last checked at {time_checked}</div></div>
+    <div className="humidity-container">
+        <div className="humidity-reading">{humidity_reading != "00" ? <div className="h-read">Current humidity: {humidity_reading}</div> : <div className="h-read">Current humidity: not found</div>}</div>
     </div>
   );
 }
 
-export default ConnectivityStatus;
+export default Humidity;

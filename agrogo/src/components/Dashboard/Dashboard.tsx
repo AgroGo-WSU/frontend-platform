@@ -6,6 +6,7 @@ import TopNav from '../../components/TopNav'
 import ZoneContainer from '../../components/Zones/ZoneContainer';
 import WeatherContainer from '../../components/Weather/WeatherContainer';
 import SmallTitle from '../../components/SmallTitle';
+import Temp from '../../components/Temp';
 import { useContext } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
 
@@ -30,6 +31,7 @@ function Dashboard() {
       <div className="welcome-title"><MainTitle name={userName}/></div>
       <div className="zones mx-auto p-4"><div className="small-title-fixer"><SmallTitle title="Zones"/></div>
         <ZoneContainer />
+        <Temp />
       </div>
       <div className="weather mx-auto p-4"><SmallTitle title="Weather"/><WeatherContainer />
       </div>

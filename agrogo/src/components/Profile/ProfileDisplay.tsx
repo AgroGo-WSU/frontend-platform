@@ -4,6 +4,7 @@ import PlanBubble from "../Plan/PlanBubble";
 import ProfileMini from "./ProfileMini";
 import { useContext } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
+import ConnectivityStatus from "../ConnectivityStatus";
 
 function ProfileDisplay() {
 
@@ -23,6 +24,8 @@ function ProfileDisplay() {
         {/* Example placeholders of the info that will go here */}
         <div className="name">{userName}</div>
       </div>
+
+      <div><ConnectivityStatus /></div>
 
       {/* Today’s Plan bubble */}
       <div className="d-none d-xl-block">
