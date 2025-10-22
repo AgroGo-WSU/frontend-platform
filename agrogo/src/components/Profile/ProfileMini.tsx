@@ -1,5 +1,8 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import "../../stylesheets/ProfileMini.css"
+import ConnectivityStatus from '../ConnectivityStatus';
+import Temp from '../Temp';
+import Humidity from '../Humidity';
 
 function ProfileMini() {
 
@@ -13,8 +16,9 @@ function ProfileMini() {
                </Dropdown.Toggle>
 
                <Dropdown.Menu>
-                   <Dropdown.Item>Watering: not set</Dropdown.Item>
-                   <Dropdown.Item>Fan: not set</Dropdown.Item>
+                   <Dropdown.Item><Humidity /></Dropdown.Item>
+                   <Dropdown.Item><Temp /></Dropdown.Item>
+                   <Dropdown.Item><ConnectivityStatus /></Dropdown.Item>
                </Dropdown.Menu>
                </Dropdown>
             </div>

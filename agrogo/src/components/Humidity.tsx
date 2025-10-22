@@ -102,7 +102,7 @@ function Humidity() {
 
   return (
     <div className="humidity-container">
-        <div className="humidity-reading">{humidity_reading != "00" ? <div className="h-read">Current humidity: {humidity_reading}</div> : <div className="h-read">Current humidity: not found</div>}</div>
+        <div className="humidity-reading">{humidity_reading != "00" ? <div className="h-read">Current humidity: {humidity_reading}%</div> : <div className="h-read">Current humidity: not found</div>}</div>
     </div>
   );
 }

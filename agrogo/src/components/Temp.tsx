@@ -78,7 +78,7 @@ function Temp() {
     console.log("TEMP RESPONSE", data);
 
     // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
-    const temp = new TempDTO(data ? data[0] : {rowid: "00", userID: "00", type: "00", received_at: "00", value: "00"});
+    const temp = new TempDTO(data ? data[3] : {rowid: "00", userID: "00", type: "00", received_at: "00", value: "00"});
     console.log("Temp final data: ", temp);
 
     // not sure if we'll need this
@@ -102,7 +102,7 @@ function Temp() {
 
   return (
     <div className="temp-container">
-        <div className="temp-reading">{temp_reading != "00" ? <div className="t-read">Current temperature: {temp_reading}</div> : <div className="t-read">Current temperature: not found</div>}</div>
+        <div className="temp-reading">{temp_reading != "00" ? <div className="t-read">Current temperature: {temp_reading}°F</div> : <div className="t-read">Current temperature: not found</div>}</div>
     </div>
   );
 }
