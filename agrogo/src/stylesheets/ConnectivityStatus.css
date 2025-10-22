@@ -1,4 +1,4 @@
-/** src/stylesheets/ConnectivityStatus.css
+/* src/stylesheets/ConnectivityStatus.css */
 .connection-status {
   display: inline-flex;
   align-items: center;
@@ -34,7 +34,6 @@
   font-size: 0.85em;
   margin-left: 4px;
 }
-*/
 
 .status-online {
   color: #173D23;

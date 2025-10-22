@@ -24,9 +24,12 @@ function ProfileDisplay() {
 
   return (
     <div className="profile-display-all">
+      <aside className="sidebar-column">
       {/* Profile Card */}
       <div className="profile-display-container d-none d-xl-block">
         <ProfileImage />
+
+      <div className="name">{userName}</div>
 
       {/* Today’s Plan */}
       <PlanBubble />
@@ -48,9 +51,11 @@ function ProfileDisplay() {
            {/* Notifications */}
       <NotificationsPanel items={items} onClearAll={clear} />
         {/* Example placeholders of the info that will go here */}
-        <div className="name">{userName}</div>
+    
       </div>
+      </aside>
     </div>
+    
   );
 }
 
