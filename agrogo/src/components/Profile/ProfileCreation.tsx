@@ -2,6 +2,7 @@ import "../../stylesheets/ProfileCreation.css"
 import SmallTitle from "../SmallTitle";
 import { useState } from 'react';
 import axios from "axios";
+import { getAuth } from "firebase/auth";
 
 function ProfileCreation() {
 
@@ -12,6 +13,41 @@ function ProfileCreation() {
         location: '',
         photo: null as File | null,
     });
+
+    async function syncUserToBackend() {
+        try {
+            const auth = getAuth();
+            const user = auth.currentUser;
+
+            if(!user) {
+                console.error("No authenticated user found");
+                return;
+            }
+
+            // Get the firebase ID token (used for Bearer authentication)
+            const token = await user.getIdToken();
+            
+            // Call the backend API route
+            const res = axios.post(
+                "https://backend.agrogodev.workers.dev/api/auth/login",
+                {
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    location: formData.location
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": 'application/json'
+                    }
+                }
+            );
+
+            console.log("Sent user to backend", (await res).data);
+        } catch(err) {
+            console.log("Error syncing user to backend", err)
+        }
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // this will sort the form data by the field name, extract the value (user input) and the file (only for photo upload)
@@ -41,38 +77,31 @@ function ProfileCreation() {
         submissionData.append('firstName', formData.firstName);
         submissionData.append('lastName', formData.lastName);
         submissionData.append('location', formData.location);
-            if (formData.photo) {
-                submissionData.append('photo', formData.photo);
-            }
+        if (formData.photo) {
+            submissionData.append('photo', formData.photo);
+        }
 
-        // actual post request
-        axios.post('https://example/api/', submissionData)
-            .then(response => {
-                console.log('Submitted!', response.data);
-            })
-            .catch(err => {
-                console.error('Error, womp womp :( ', err);
-            });
-        };
+        syncUserToBackend();
+    };
 
     return(
         <div className="profile-creation-container">
             <div className="smaller-title"><SmallTitle title="Create your profile"/></div>
             <div className="profile-form-container">
              <form id="profile-form" className="flex-form" onSubmit={handleSubmit}>
-                <div className="field"><label htmlFor="first-name">First name:</label>
+                <div className="field"><label htmlFor="firstName">First name:</label>
                 <input 
                     type="text"
-                    id="first-name"
-                    name="first-name"
+                    id="firstName"
+                    name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}>
                 </input></div>
-                <div className="field"><label htmlFor="last-name">Last name:</label>
+                <div className="field"><label htmlFor="lastName">Last name:</label>
                 <input 
                     type="text" 
-                    id="last-name" 
-                    name="last-name"
+                    id="lastName" 
+                    name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}>
                 </input></div>
