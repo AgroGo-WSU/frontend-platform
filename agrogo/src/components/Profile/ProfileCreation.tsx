@@ -4,13 +4,17 @@ import { useState } from 'react';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 
-function ProfileCreation() {
+interface ProfileCreationProps {
+    onProfileCreated: () => void;
+}
+
+function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
 
     // saving form data in state to use 
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
-        location: '',
+        location: 'Detroit',
         photo: null as File | null,
     });
 
@@ -27,7 +31,8 @@ function ProfileCreation() {
             // Get the firebase ID token (used for Bearer authentication)
             const token = await user.getIdToken();
             
-            // Call the backend API route
+            // Call the backend API route this syncs the Firebase
+            // data to our D1 database
             const res = axios.post(
                 "https://backend.agrogodev.workers.dev/api/auth/login",
                 {
@@ -44,6 +49,9 @@ function ProfileCreation() {
             );
 
             console.log("Sent user to backend", (await res).data);
+
+            // Trigger to re-check in the parent
+            onProfileCreated();
         } catch(err) {
             console.log("Error syncing user to backend", err)
         }
@@ -111,7 +119,8 @@ function ProfileCreation() {
                     id="location" 
                     name="location"
                     value={formData.location}
-                    onChange={handleChange}>
+                    onChange={handleChange}
+                    readOnly>
                 </input></div>
                 <div className="field"><label id="image-label" htmlFor="photo">Upload a profile picture:</label>
                 <input 
