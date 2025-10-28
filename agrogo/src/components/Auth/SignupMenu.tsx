@@ -8,8 +8,6 @@ interface SignupProps {
   onSignup: (creds: {
     email: string;
     password: string;
-    firstName: string;
-    lastName: string;
   }) => Promise<void>;
 }
 
@@ -50,8 +48,6 @@ interface SignupProps {
 function SignupMenu({ show, onClose, onSignup }: SignupProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -81,7 +77,7 @@ function SignupMenu({ show, onClose, onSignup }: SignupProps) {
         }
 
     try {
-      await onSignup({ email, password, firstName, lastName });
+      await onSignup({ email, password });
       onClose(); // Close modal on success
     } catch(err: unknown) {
       if(err instanceof Error) setError(err.message);
@@ -138,22 +134,6 @@ function SignupMenu({ show, onClose, onSignup }: SignupProps) {
                 {showConfirmPassword ? <EyeSlashFill /> : <EyeFill />}
               </InputGroup.Text>
             </InputGroup>
-          </Form.Group>
-
-          {/* User first and last name fields */}
-          <Form.Group controlId="userFullName">
-            <Form.Control 
-              type="text"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <Form.Control 
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
           </Form.Group>
 
           {/* Password rules display */}
