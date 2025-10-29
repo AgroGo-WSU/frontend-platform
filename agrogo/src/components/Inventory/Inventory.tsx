@@ -5,7 +5,22 @@ import axios from "axios";
 import { AuthContext } from '../../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
 import InventoryPlantItem from './InventoryPlantItem';
+import InventoryAddPlantItem from './InventoryAddPlantItem';
 
+// type for new columns
+class InputTypes {
+  public plantName: string;
+  public plantType: string;
+  public plantQuantity: string;
+  public plantDate: string;
+
+  public constructor(plantInstance: {plantName: string, plantType: string, plantQuantity: string, plantDate: string}) {
+      this.plantName = "Plant name";
+      this.plantType = "Plant type";
+      this.plantQuantity = "Quantity";
+      this.plantDate = "Date planted";
+  }
+}
 
 // creating the class for the instances of the table we're expecting from our JSON response
 class PlantInventoryDTO {
@@ -51,13 +66,14 @@ class PlantInventoryDTO {
 
 function Inventory() {
 
+  // this will be how we access the current user's info from Firebase
   const { currentUser } = useContext(AuthContext);
 
   
-    // this is where state gets initialized and managed. Even in TS, you can let these hooks infer the type (and here, you should let useState infer the type of data) but I've set the type for the message state
-    const [data, setData] = useState(null);
-    const [error, setMessage] = useState<string | null>(null);
-    const [token, setToken] = useState(null);
+  // this is where state gets initialized and managed. Even in TS, you can let these hooks infer the type (and here, you should let useState infer the type of data) but I've set the type for the message state
+  const [data, setData] = useState(null);
+  const [error, setMessage] = useState<string | null>(null);
+  const [token, setToken] = useState(null);
 
 
     // you MUST use the useEffect and useState hooks for this- useEffect is crucial in how the DOM renders data on screen and when you can pull data from where, and useState is how the data gets saved once useEffect is called - ask Madeline if you would like clarification on why this happens
@@ -73,7 +89,7 @@ function Inventory() {
         }
 
         const token = await user.getIdToken();
-        console.log(token);
+        // console.log(token);
       
         const response = await axios.get("https://backend.agrogodev.workers.dev/api/user/plantInventory", {
               headers: {
@@ -123,6 +139,25 @@ function Inventory() {
     // check what the table looks like when there are 0 plants (new users)
     // add the "add/remove/edit" feature
 
+    // when newTablesNum < 1, do nothing
+    // when it's > 1, render each new input field that many times
+
+    const [numberOfNewColumns, setNumberOfNewColumns] = useState(0);
+
+    const newInputLabels: InputTypes[] = [];
+
+    // Need to set the numberOfNewColumns with state, but if you do that outside of a useEffect function, it will cause the loop to run infinitely
+    // so, when user clicks "add new plant" you need to do: setNumberOfNewColumns(numberOfNewColumns+1);
+    // right now this is hardcoded below as 6 so we can see the array being created
+
+    const newColumns = 4;
+
+    if(newColumns > 0) {
+      for(let i = 0; i < newColumns; i++) {
+        const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted"});
+        newInputLabels.push(newPlantLabels);
+      }
+    }
 
     return(
         <>
@@ -134,6 +169,11 @@ function Inventory() {
             {nameData.map(item => (
               <td><InventoryPlantItem
               value={item} /></td>))}
+            
+            {newColumns > 0 ? newInputLabels.map(item => (
+              <td><InventoryAddPlantItem
+              add_value_type={item.plantName} /></td>)) : <></>}
+
           </tr>
         </thead>
         <tbody>
@@ -142,18 +182,30 @@ function Inventory() {
             {typeData.map(item => (
               <td><InventoryPlantItem
               value={item} /></td>))}
+
+            {newColumns > 0 ? newInputLabels.map(item => (
+              <td><InventoryAddPlantItem
+              add_value_type={item.plantType} /></td>)) : <></>}
           </tr>
           <tr>
             <th>Quantity</th>
             {quantityData.map(item => (
               <td><InventoryPlantItem
               value={item} /></td>))}
+
+            {newColumns > 0 ? newInputLabels.map(item => (
+              <td><InventoryAddPlantItem
+              add_value_type={item.plantQuantity} /></td>)) : <></>}
           </tr>
           <tr>
             <th>Date planted</th>
             {dateData.map(item => (
               <td><InventoryPlantItem
               value={item} /></td>))}
+
+            {newColumns > 0 ? newInputLabels.map(item => (
+              <td><InventoryAddPlantItem
+              add_value_type={item.plantDate} /></td>)): <></>}
           </tr>
         </tbody>
       </Table>
