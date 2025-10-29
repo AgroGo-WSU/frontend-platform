@@ -3,6 +3,8 @@ import "../stylesheets/Humidity.css";
 import axios from "axios";
 import { AuthContext } from '../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
+// import moment from 'moment-timezone';
+
 
 // creating the class for the instances of the table we're expecting from our JSON response
 class HumidityDTO {
@@ -16,11 +18,20 @@ class HumidityDTO {
   // this is a work around where you are basically "hard-coding" the object that you're expecting
   public constructor(dataInstance: {  rowid: string, userID: string, type: string, received_at: string, value: string}) {
 
-    this.rowid = dataInstance.rowid;
-    this.userID = dataInstance.userID;
-    this.type = dataInstance.type;
-    this.received_at = dataInstance.received_at;
-    this.value = dataInstance.value;
+    if(dataInstance != null) {
+      this.rowid = dataInstance.rowid;
+      this.userID = dataInstance.userID;
+      this.type = dataInstance.type;
+      this.received_at = dataInstance.received_at;
+      this.value = dataInstance.value;
+    } else {
+        this.rowid = "null";
+        this.userID = "null";
+        this.type = "null";
+        this.received_at = "null";
+        this.value = "not set";
+    }
+
   }
 
   // will go back later to add the other getters - I only want the name for the received time right now
@@ -81,20 +92,12 @@ function Humidity() {
     const humidity = new HumidityDTO(data ? data[0] : {rowid: "00", userID: "00", type: "00", received_at: "00", value: "00"});
     console.log("Humidity final data: ", humidity);
 
-    // not sure if we'll need this
-    // function getTimeChecked() {
-    //   const time_milli = new Date();
-    //   const time_raw = time_milli.toISOString();
-    //   const full_time = time_raw.split("T")[1];
-    //   const short_time = full_time.split(":");
-    //   const hour = short_time[0];
-    //   const minute = short_time[1];
-    //   const final_time = hour + ":" + minute;
+    // get the time with moment.js formatting
+    // const timezone = new Date();
+    // const string_date = timezone.toISOString();
+    // const time_checked_moment = moment(string_date);
+    // const time_checked = time_checked_moment.tz('America/New_York').format('h:mm A');
 
-    //   return final_time;
-    // }
-
-    // const time_checked = getTimeChecked();
     const humidity_reading = humidity.value;
     console.log("humidity_reading value: ", humidity_reading);
 
@@ -102,7 +105,7 @@ function Humidity() {
 
   return (
     <div className="humidity-container">
-        <div className="humidity-reading">{humidity_reading != "00" ? <div className="h-read">Current humidity: {humidity_reading}%</div> : <div className="h-read">Current humidity: not found</div>}</div>
+        <div className="humidity-reading">{humidity_reading != "not set" ? <div className="h-read">Current humidity: {humidity_reading}%</div> : <div className="h-read">Current humidity: not found</div>}</div>
     </div>
   );
 }
