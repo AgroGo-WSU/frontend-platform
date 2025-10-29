@@ -4,6 +4,7 @@ import "../../stylesheets/Inventory.css";
 import axios from "axios";
 import { AuthContext } from '../../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
+import InventoryPlantItem from './InventoryPlantItem';
 
 
 // creating the class for the instances of the table we're expecting from our JSON response
@@ -14,18 +15,32 @@ class PlantInventoryDTO {
   public plantType: string;
   public quantity: string;
   public zoneId: string;
+  public datePlanted: string;
 
 
   // this constructor MUST specify the individual members of the array/object from response.data or React will not accept it
   // this is a work around where you are basically "hard-coding" the object that you're expecting
-  public constructor(dataInstance: {  id: string, userId: string, plantType: string, plantName: string, zoneId: string, quantity: string}) {
+  public constructor(dataInstance: {  id: string, userId: string, plantType: string, plantName: string, zoneId: string, quantity: string, datePlanted: string}) {
 
-    this.id = dataInstance.id;
-    this.userId = dataInstance.userId;
-    this.plantType = dataInstance.plantType;
-    this.plantName = dataInstance.plantName;
-    this.zoneId = dataInstance.zoneId;
-    this.quantity = dataInstance.quantity;
+    if(dataInstance != null) {
+      this.id = dataInstance.id;
+      this.userId = dataInstance.userId;
+      this.plantType = dataInstance.plantType;
+      this.plantName = dataInstance.plantName;
+      this.zoneId = dataInstance.zoneId;
+      this.quantity = dataInstance.quantity;
+      this.datePlanted = dataInstance.datePlanted;
+    } else {
+        this.id = "null";
+        this.userId = "null";
+        this.plantType = "plant type";
+        this.plantName = "plant name";
+        this.zoneId = "not set";
+        this.quantity = "quantity";
+        this.datePlanted = "date planted";
+    }
+
+
   }
 
   // will go back later to add the other getters - I only want the name for the received time right now
@@ -83,20 +98,30 @@ function Inventory() {
     console.log("INVENTORY RESPONSE", data);
 
     // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
-    const inv1 = new PlantInventoryDTO(data ? data[0] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00"});
+    const inv1 = new PlantInventoryDTO(data ? data[0] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00", datePlanted: "00"});
     console.log("Inventory final data: ", inv1);
 
-    const inv2 = new PlantInventoryDTO(data ? data[1] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00"});
-    console.log("Inventory final data: ", inv2);
+    // arrays which will be mapped to table values
+    let nameData = [];
+    let typeData = [];
+    let quantityData = [];
+    let dateData = [];
 
-    const inv3 = new PlantInventoryDTO(data ? data[2] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00"});
-    console.log("Inventory final data: ", inv3);
+    // build out the arrays for mapping
+    if(data != null) {
+      for(let i = 0; i < data.length; i++) {
+        nameData.push(data[i].plantName);
+        typeData.push(data[i].plantType);
+        quantityData.push(data[i].quantity);
+        dateData.push(data[i].datePlanted);
+      }
+    }
 
-    const inv4 = new PlantInventoryDTO(data ? data[3] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00"});
-    console.log("Inventory final data: ", inv4);
-
-    const inv5 = new PlantInventoryDTO(data ? data[3] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00"});
-    console.log("Inventory final data: ", inv5);
+    // to do: 
+    // add flex styling so the row of plants wraps
+    // make the first row sticky so you can always see category names
+    // check what the table looks like when there are 0 plants (new users)
+    // add the "add/remove/edit" feature
 
 
     return(
@@ -105,38 +130,30 @@ function Inventory() {
         <Table responsive="sm">
         <thead>
           <tr>
-            <th></th>
-            <th>{inv1.plantName}</th>
-            <th>{inv2.plantName}</th>
-            <th>{inv3.plantName}</th>
-            <th>{inv4.plantName}</th>
-            <th>{inv5.plantName}</th>
+            <th>Plant</th>
+            {nameData.map(item => (
+              <td><InventoryPlantItem
+              value={item} /></td>))}
           </tr>
         </thead>
         <tbody>
           <tr>
             <th>Type</th>
-            <td>{inv1.plantType}</td>
-            <td>{inv2.plantType}</td>
-            <td>{inv3.plantType}</td>
-            <td>{inv4.plantType}</td>
-            <td>{inv5.plantType}</td>
+            {typeData.map(item => (
+              <td><InventoryPlantItem
+              value={item} /></td>))}
           </tr>
           <tr>
             <th>Quantity</th>
-            <td>{inv1.quantity}</td>
-            <td>{inv2.quantity}</td>
-            <td>{inv3.quantity}</td>
-            <td>{inv4.quantity}</td>
-            <td>{inv5.quantity}</td>
+            {quantityData.map(item => (
+              <td><InventoryPlantItem
+              value={item} /></td>))}
           </tr>
           <tr>
             <th>Date planted</th>
-            <td>Oct. 10 2025</td>
-            <td>Oct. 12 2025</td>
-            <td>Oct. 12 2025</td>
-            <td>Oct. 12 2025</td>
-            <td>Oct. 14 2025</td>
+            {dateData.map(item => (
+              <td><InventoryPlantItem
+              value={item} /></td>))}
           </tr>
         </tbody>
       </Table>

@@ -4,6 +4,7 @@ import "../stylesheets/ConnectivityStatus.css";
 import axios from "axios";
 import { AuthContext } from '../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
+import moment from 'moment-timezone';
 
 
 // creating the class for the instances of the table we're expecting from our JSON response
@@ -21,13 +22,24 @@ class DeviceDTO {
   // this is a work around where you are basically "hard-coding" the object that you're expecting
   public constructor(dataInstance: {  id: string, createdAt: string, location: string, email: string, firstName: string, lastName: string, raspiMac: string}) {
 
-    this.id = dataInstance.id;
-    this.createdAt = dataInstance.createdAt;
-    this.location = dataInstance.location;
-    this.email = dataInstance.email;
-    this.firstName = dataInstance.firstName;
-    this.lastName = dataInstance.lastName;
-    this.raspiMac = dataInstance.raspiMac;
+    if(dataInstance != null) {
+      this.id = dataInstance.id;
+      this.createdAt = dataInstance.createdAt;
+      this.location = dataInstance.location;
+      this.email = dataInstance.email;
+      this.firstName = dataInstance.firstName;
+      this.lastName = dataInstance.lastName;
+      this.raspiMac = dataInstance.raspiMac;
+    } else {
+        this.id = "null";
+        this.createdAt = "null";
+        this.location = "null";
+        this.email = "null";
+        this.firstName = "null";
+        this.lastName = "null";
+        this.raspiMac = "null"; 
+    }
+
 
   }
 
@@ -61,7 +73,7 @@ function ConnectivityStatus() {
         }
 
         const token = await user.getIdToken();
-        console.log(token);
+        // console.log(token);
       
         const response = await axios.get("https://backend.agrogodev.workers.dev/api/user/user", {
               headers: {
@@ -89,19 +101,12 @@ function ConnectivityStatus() {
     const last_connection = new DeviceDTO(data ? data[0] : {id: "00", createdAt: "00", location: "00", email: "00", firstName: "00", lastName: "00", raspiMac: "00"});
     console.log("Final data: ", last_connection);
 
-    function getTimeChecked() {
-      const time_milli = new Date();
-      const time_raw = time_milli.toISOString();
-      const full_time = time_raw.split("T")[1];
-      const short_time = full_time.split(":");
-      const hour = short_time[0];
-      const minute = short_time[1];
-      const final_time = hour + ":" + minute;
+    // get the time with moment.js formatting
+    const timezone = new Date();
+    const string_date = timezone.toISOString();
+    const time_checked_moment = moment(string_date);
+    const time_checked = time_checked_moment.tz('America/New_York').format('h:mm A');
 
-      return final_time;
-    }
-
-    const time_checked = getTimeChecked();
     let status = "offline.";
     if((last_connection.id != "00") && (last_connection.id != null)) {
       status = "online.";
