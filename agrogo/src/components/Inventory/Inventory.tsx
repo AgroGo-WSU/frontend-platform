@@ -5,7 +5,7 @@ import axios from "axios";
 import { AuthContext } from '../../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
 import InventoryPlantItem from './InventoryPlantItem';
-import InventoryAddPlantItem from './InventoryAddPlantItem';
+// import InventoryAddPlantItem from './InventoryAddPlantItem';
 
 // type for new columns
 class InputTypes {
@@ -125,6 +125,11 @@ function Inventory() {
         console.log("*********************************numberOfNewColumns: ", numberOfNewColumns);    
     }
 
+    // function for saving the input to the 
+    function saveState() {
+        console.log("*********************************numberOfNewColumns: ", numberOfNewColumns);    
+    }
+
     console.log("INVENTORY RESPONSE", data);
 
     // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
@@ -150,17 +155,9 @@ function Inventory() {
     // to do: 
     // add flex styling so the row of plants wraps
     // make the first row sticky so you can always see category names
-    // check what the table looks like when there are 0 plants (new users)
     // add the "add/remove/edit" feature
 
-    // when newTablesNum < 1, do nothing
-    // when it's > 1, render each new input field that many times
-
     const newInputLabels: InputTypes[] = [];
-
-    // Need to set the numberOfNewColumns with state, but if you do that outside of a useEffect function, it will cause the loop to run infinitely
-    // so, when user clicks "add new plant" you need to do: setNumberOfNewColumns(numberOfNewColumns+1);
-    // right now this is hardcoded below as 6 so we can see the array being created
 
     if(numberOfNewColumns > 0) {
       for(let i = 0; i < numberOfNewColumns; i++) {
@@ -173,7 +170,8 @@ function Inventory() {
         <>
         <div>
         <button onClick={updateState}>Add plants</button>
-        <button onClick={resetState}>Clear</button>
+        {numberOfNewColumns > 0 ? <button onClick={resetState}>Clear</button> : <></>}
+        {numberOfNewColumns > 0 ? <button onClick={saveState}>Save</button> : <></>}
         <Table responsive="sm">
         <thead>
           <tr>
@@ -183,8 +181,10 @@ function Inventory() {
               value={item} /></td>))}
             
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
-              <td><InventoryAddPlantItem
-              add_value_type={item.plantName} /></td>)) : <></>}
+              <td>
+                <label htmlFor="add_value">{ item.plantName }</label><br />
+                <input type="text" id="add_value" name="add_value"></input>
+              </td>)) : <></>}
 
           </tr>
         </thead>
@@ -192,32 +192,35 @@ function Inventory() {
           <tr>
             <th>Type</th>
             {typeData.map(item => (
-              <td><InventoryPlantItem
-              value={item} /></td>))}
+              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
-              <td><InventoryAddPlantItem
-              add_value_type={item.plantType} /></td>)) : <></>}
+              <td>
+                <label htmlFor="add_value">{ item.plantType }</label><br />
+                <input type="text" id="add_value" name="add_value"></input>
+              </td>)) : <></>}
           </tr>
           <tr>
             <th>Quantity</th>
             {quantityData.map(item => (
-              <td><InventoryPlantItem
-              value={item} /></td>))}
+              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
-              <td><InventoryAddPlantItem
-              add_value_type={item.plantQuantity} /></td>)) : <></>}
+              <td>
+                <label htmlFor="add_value">{ item.plantQuantity }</label><br />
+                <input type="text" id="add_value" name="add_value"></input>
+              </td>)) : <></>}
           </tr>
           <tr>
             <th>Date planted</th>
             {dateData.map(item => (
-              <td><InventoryPlantItem
-              value={item} /></td>))}
+              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
-              <td><InventoryAddPlantItem
-              add_value_type={item.plantDate} /></td>)): <></>}
+              <td>
+                <label htmlFor="add_value">{ item.plantDate }</label><br />
+                <input type="text" id="add_value" name="add_value"></input>
+              </td>)) : <></>}
           </tr>
         </tbody>
       </Table>
