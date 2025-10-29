@@ -111,6 +111,20 @@ function Inventory() {
 
     },[]);
 
+    const [numberOfNewColumns, setNumberOfNewColumns] = useState(0);
+
+    // this is for setting state for how many new plants the user wants to add
+    function updateState() {
+        setNumberOfNewColumns(numberOfNewColumns + 1);
+        console.log("*********************************numberOfNewColumns: ", numberOfNewColumns);
+    }
+
+    // clear unused columns
+    function resetState() {
+        setNumberOfNewColumns(0);
+        console.log("*********************************numberOfNewColumns: ", numberOfNewColumns);    
+    }
+
     console.log("INVENTORY RESPONSE", data);
 
     // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
@@ -142,18 +156,14 @@ function Inventory() {
     // when newTablesNum < 1, do nothing
     // when it's > 1, render each new input field that many times
 
-    const [numberOfNewColumns, setNumberOfNewColumns] = useState(0);
-
     const newInputLabels: InputTypes[] = [];
 
     // Need to set the numberOfNewColumns with state, but if you do that outside of a useEffect function, it will cause the loop to run infinitely
     // so, when user clicks "add new plant" you need to do: setNumberOfNewColumns(numberOfNewColumns+1);
     // right now this is hardcoded below as 6 so we can see the array being created
 
-    const newColumns = 4;
-
-    if(newColumns > 0) {
-      for(let i = 0; i < newColumns; i++) {
+    if(numberOfNewColumns > 0) {
+      for(let i = 0; i < numberOfNewColumns; i++) {
         const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted"});
         newInputLabels.push(newPlantLabels);
       }
@@ -162,6 +172,8 @@ function Inventory() {
     return(
         <>
         <div>
+        <button onClick={updateState}>Add plants</button>
+        <button onClick={resetState}>Clear</button>
         <Table responsive="sm">
         <thead>
           <tr>
@@ -170,7 +182,7 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
             
-            {newColumns > 0 ? newInputLabels.map(item => (
+            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td><InventoryAddPlantItem
               add_value_type={item.plantName} /></td>)) : <></>}
 
@@ -183,7 +195,7 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
 
-            {newColumns > 0 ? newInputLabels.map(item => (
+            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td><InventoryAddPlantItem
               add_value_type={item.plantType} /></td>)) : <></>}
           </tr>
@@ -193,7 +205,7 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
 
-            {newColumns > 0 ? newInputLabels.map(item => (
+            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td><InventoryAddPlantItem
               add_value_type={item.plantQuantity} /></td>)) : <></>}
           </tr>
@@ -203,7 +215,7 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
 
-            {newColumns > 0 ? newInputLabels.map(item => (
+            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td><InventoryAddPlantItem
               add_value_type={item.plantDate} /></td>)): <></>}
           </tr>
