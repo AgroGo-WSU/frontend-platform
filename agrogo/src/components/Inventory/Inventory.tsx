@@ -168,17 +168,16 @@ function Inventory() {
 
     return(
         <>
-        <div>
+        <div><form>
         <button onClick={updateState}>Add plants</button>
         {numberOfNewColumns > 0 ? <button onClick={resetState}>Clear</button> : <></>}
-        {numberOfNewColumns > 0 ? <button onClick={saveState}>Save</button> : <></>}
+        {numberOfNewColumns > 0 ? <button type="submit" onClick={saveState}>Save</button> : <></>}
         <Table responsive="sm">
         <thead>
           <tr>
             <th>Plant</th>
             {nameData.map(item => (
-              <td><InventoryPlantItem
-              value={item} /></td>))}
+              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
             
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
@@ -224,6 +223,7 @@ function Inventory() {
           </tr>
         </tbody>
       </Table>
+      </form>
     </div>
         </>
     )
