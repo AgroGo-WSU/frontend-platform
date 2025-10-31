@@ -197,14 +197,14 @@ function Inventory() {
     // make the first row sticky so you can always see category names
     // add the "add/remove/edit" feature
 
-    const newInputLabels: InputTypes[] = [];
+    // const newInputLabels: InputTypes[] = [];
 
-    if(newEntry > 0) {
-      for(let i = 0; i < newEntry; i++) {
-        const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted", fieldID: i});
-        newInputLabels.push(newPlantLabels);
-      }
-    }
+    // if(newEntry === 0) {
+    //   for(let i = 0; i < newEntry; i++) {
+    //     const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted", fieldID: i});
+    //     newInputLabels.push(newPlantLabels);
+    //   }
+    // }
 
     return(
         <>
