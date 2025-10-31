@@ -9,12 +9,14 @@ import InventoryPlantItem from './InventoryPlantItem';
 
 // type for new columns
 class InputTypes {
+  public fieldID: number;
   public plantName: string;
   public plantType: string;
   public plantQuantity: string;
   public plantDate: string;
 
-  public constructor(plantInstance: {plantName: string, plantType: string, plantQuantity: string, plantDate: string}) {
+  public constructor(plantInstance: { fieldID: number, plantName: string, plantType: string, plantQuantity: string, plantDate: string }) {
+      this.fieldID = plantInstance.fieldID;
       this.plantName = "Plant name";
       this.plantType = "Plant type";
       this.plantQuantity = "Quantity";
@@ -127,8 +129,28 @@ function Inventory() {
 
     // function for saving the input to the 
     function saveState() {
-        console.log("*********************************numberOfNewColumns: ", numberOfNewColumns);    
+        console.log("*********************************EVENT: ");
     }
+
+    // state for changing inputs - they must be arrays of answers
+    const [nameInput, setNameInput] = useState<string[]>([]);
+    const nameInputArray = [];
+    const [typeInput, setTypeInput] = useState([]);
+    const [quantityInput, setQuantityInput] = useState([]);
+    const [dataInput, setDataInput] = useState([]);
+    const [index, setIndex] = useState(0);
+
+    // function to save the input to state
+    function handleChange(event) {
+      setNameInput(event.target.value);
+      setIndex(event.target.id);
+      console.log("!*!!**!*!*!**!*!*!*!*!*!*!*!*!***********: ", nameInput);
+      console.log("THIS IS THE ID I HOPE!!!!!: ", event.target.id);
+    }
+
+    nameInputArray[index] = nameInput;
+
+    console.log("!*!!**!*!*!**!*!*!*!*!*!*!*!*!REAL: ", nameInputArray);
 
     console.log("INVENTORY RESPONSE", data);
 
@@ -161,7 +183,7 @@ function Inventory() {
 
     if(numberOfNewColumns > 0) {
       for(let i = 0; i < numberOfNewColumns; i++) {
-        const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted"});
+        const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted", fieldID: i});
         newInputLabels.push(newPlantLabels);
       }
     }
@@ -171,7 +193,6 @@ function Inventory() {
         <div><form>
         <button onClick={updateState}>Add plants</button>
         {numberOfNewColumns > 0 ? <button onClick={resetState}>Clear</button> : <></>}
-        {numberOfNewColumns > 0 ? <button type="submit" onClick={saveState}>Save</button> : <></>}
         <Table responsive="sm">
         <thead>
           <tr>
@@ -182,8 +203,9 @@ function Inventory() {
             
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
-                <label htmlFor="add_value">{ item.plantName }</label><br />
-                <input type="text" id="add_value" name="add_value"></input>
+                <label htmlFor="input_name">{ item.plantName }</label>{numberOfNewColumns > 0 ? <button onClick={saveState}>Save entry</button> : <></>}<br />
+                <input type="text" id={item.fieldID} name="input_name" onChange={handleChange}></input>
+
               </td>)) : <></>}
 
           </tr>
@@ -197,8 +219,9 @@ function Inventory() {
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
-                <label htmlFor="add_value">{ item.plantType }</label><br />
-                <input type="text" id="add_value" name="add_value"></input>
+                <label htmlFor="input_type">{ item.plantType }</label><br />
+                <input type="text" id={item.fieldID} name="input_type"></input>
+
               </td>)) : <></>}
           </tr>
           <tr>
@@ -209,8 +232,8 @@ function Inventory() {
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
-                <label htmlFor="add_value">{ item.plantQuantity }</label><br />
-                <input type="text" id="add_value" name="add_value"></input>
+                <label htmlFor="input_quantity">{ item.plantQuantity }</label><br />
+                <input type="text" id={item.fieldID} name="input_quantity"></input>
               </td>)) : <></>}
           </tr>
           <tr>
@@ -221,8 +244,8 @@ function Inventory() {
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
-                <label htmlFor="add_value">{ item.plantDate }</label><br />
-                <input type="text" id="add_value" name="add_value"></input>
+                <label htmlFor="input_date">{ item.plantDate }</label><br />
+                <input type="text" id={item.fieldID} name="input_date"></input>
               </td>)) : <></>}
           </tr>
         </tbody>
