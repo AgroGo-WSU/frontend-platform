@@ -177,7 +177,8 @@ function Inventory() {
           <tr>
             <th>Plant</th>
             {nameData.map(item => (
-              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
+              <td><InventoryPlantItem
+              value={item} /></td>))}
             
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
@@ -191,7 +192,8 @@ function Inventory() {
           <tr>
             <th>Type</th>
             {typeData.map(item => (
-              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
+              <td><InventoryPlantItem
+              value={item} /></td>))}
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
@@ -202,7 +204,8 @@ function Inventory() {
           <tr>
             <th>Quantity</th>
             {quantityData.map(item => (
-              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
+              <td><InventoryPlantItem
+              value={item} /></td>))}
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
@@ -213,7 +216,8 @@ function Inventory() {
           <tr>
             <th>Date planted</th>
             {dateData.map(item => (
-              <td><input type="text" id="add_value" name="add_value">{ item }</input></td>))}
+              <td><InventoryPlantItem
+              value={item} /></td>))}
 
             {numberOfNewColumns > 0 ? newInputLabels.map(item => (
               <td>
