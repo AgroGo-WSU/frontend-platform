@@ -4,8 +4,8 @@
 }
 
 .add-disabled {
-    color: #102617;
-    background-color: #dcdbdb;
+    color: #F2EEE3;
+    background-color: #173D23;
     cursor: text;
     text-decoration: none;
     pointer-events: none;

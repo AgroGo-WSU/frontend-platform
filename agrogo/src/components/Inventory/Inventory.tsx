@@ -61,8 +61,8 @@ class PlantInventoryDTO {
   }
 
   // will go back later to add the other getters - I only want the name for the received time right now
-  public getPlantName(): string {
-    return this.plantName;
+  public getUserId(): string {
+    return this.userId;
   }
 }
 
@@ -76,6 +76,9 @@ function Inventory() {
   const [data, setData] = useState(null);
   const [error, setMessage] = useState<string | null>(null);
   const [token, setToken] = useState(null);
+
+  // this is to update what shows up on the page after a user adds a new plant
+  const [postRequest, setPostRequest] = useState(false);
 
 
     // you MUST use the useEffect and useState hooks for this- useEffect is crucial in how the DOM renders data on screen and when you can pull data from where, and useState is how the data gets saved once useEffect is called - ask Madeline if you would like clarification on why this happens
@@ -110,8 +113,19 @@ function Inventory() {
     };
 
     getConnection();
+    setPostRequest(false);
 
-    },[]);
+    },[postRequest]);
+
+    console.log("INVENTORY RESPONSE", data);
+
+    // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
+    const inv1 = new PlantInventoryDTO(data ? data[0] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00", datePlanted: "00"});
+    console.log("First entry for inventory final data: ", inv1);
+
+    // useEffect(() => {
+
+    // }, [])
 
     const [newEntry, setNewEntry] = useState(false);
 
@@ -133,15 +147,58 @@ function Inventory() {
 
     // function for saving the input - right now it's just printing to console but it will eventually be a useEffect POST request
     // also clears the previous state
-    function saveState() {
+    const saveState = async() => {
       setNewEntry(false);
       console.log("Setting state to false: ", newEntry);
       console.log("Here is the data: ", nameInput, " ", typeInput, " ", quantityInput, " ", dateInput);
+
+      // try to get the user token and make the post request
+        try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+
+        if (!user) {
+          throw new Error('User not authenticated!');
+        }
+
+        const userIdFB = user.uid;
+        const token = await user.getIdToken();
+        console.log("UserId from FIREBASE: ", userIdFB);
+
+        const sendPOSTData = {
+          userId: userIdFB,
+          plantType: typeInput,
+          plantName: nameInput,
+          zoneId: "1",
+          quantity: quantityInput,
+          datePlanted: dateInput
+        }
+      
+        const postResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendPOSTData, {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                }
+            });
+          
+          setPostRequest(true);
+          console.log("Sending post request for new data - here's the response ", postResponse);
+          // setData(response.data.data); // this sets the state - response is of type <AxiosResponse> and calling response.data gives us the actual array of arrays that make up the individual instances of our db table
+          } catch(error){
+            console.error('Error sending data:', error);
+          } finally {
+            console.log("Looks like the inventory POST request worked!");
+      }
+    
+       
       setNameInput(null);
       setTypeInput(null);
       setQuantityInput(null);
       setDateInput(null);
-    }
+      }
+    
+      
 
     // state for changing inputs
     const [nameInput, setNameInput] = useState(null);
@@ -170,11 +227,6 @@ function Inventory() {
       console.log("*********************************DATE FUNCTION: ", dateInput);
     }
 
-    console.log("INVENTORY RESPONSE", data);
-
-    // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
-    const inv1 = new PlantInventoryDTO(data ? data[0] : {id: "00", userId: "00", plantType: "00", plantName: "00", zoneId: "00", quantity: "00", datePlanted: "00"});
-    console.log("Inventory final data: ", inv1);
 
     // arrays which will be mapped to table values
     let nameData = [];
@@ -242,7 +294,7 @@ function Inventory() {
             {newEntry === true ? (
               <td>
                 <label htmlFor="input_name">Quantity</label><br />
-                <input type="text" name="input_name" onChange={handleChangeQuantity}></input>
+                <input type="number" min="0" max="999999" name="input_name" onChange={handleChangeQuantity}></input>
               </td>
             ) : <></>}
           </tr>
@@ -255,7 +307,7 @@ function Inventory() {
             {newEntry === true ? (
               <td>
                 <label htmlFor="input_name">Date planted</label><br />
-                <input type="text" name="input_name" onChange={handleChangeDate}></input>
+                <input type="date" name="input_name" onChange={handleChangeDate}></input>
               </td>
             ) : <></>}
           </tr>
