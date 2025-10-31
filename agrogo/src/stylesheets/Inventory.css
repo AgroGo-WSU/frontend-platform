@@ -1,4 +1,12 @@
-#0 {
-    color: red;
-    width: 500px;
+.add-enabled {    
+    color: #173D23;
+    background-color: #F2EEE3;
+}
+
+.add-disabled {
+    color: #102617;
+    background-color: #dcdbdb;
+    cursor: text;
+    text-decoration: none;
+    pointer-events: none;
 }

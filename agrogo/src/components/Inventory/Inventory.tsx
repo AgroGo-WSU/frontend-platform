@@ -197,19 +197,11 @@ function Inventory() {
     // make the first row sticky so you can always see category names
     // add the "add/remove/edit" feature
 
-    // const newInputLabels: InputTypes[] = [];
-
-    // if(newEntry === 0) {
-    //   for(let i = 0; i < newEntry; i++) {
-    //     const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted", fieldID: i});
-    //     newInputLabels.push(newPlantLabels);
-    //   }
-    // }
 
     return(
         <>
         <div><form>
-        <button onClick={updateState}>Add a plant</button>
+        {newEntry === false ? <button className="add-enabled" onClick={updateState}>Add a plant</button> : <button className="add-disabled">Save entry to add another plant</button>}
         <Table responsive="sm">
         <thead>
           <tr>
