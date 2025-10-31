@@ -113,44 +113,62 @@ function Inventory() {
 
     },[]);
 
-    const [numberOfNewColumns, setNumberOfNewColumns] = useState(0);
+    const [newEntry, setNewEntry] = useState(false);
 
-    // this is for setting state for how many new plants the user wants to add
+    // this is for setting whether to add the new plant input field
     function updateState() {
-        setNumberOfNewColumns(numberOfNewColumns + 1);
-        console.log("*********************************numberOfNewColumns: ", numberOfNewColumns);
+      setNewEntry(true);
+      console.log("*********************************newEntry: ", newEntry);
     }
 
-    // clear unused columns
-    function resetState() {
-        setNumberOfNewColumns(0);
-        console.log("*********************************numberOfNewColumns: ", numberOfNewColumns);    
+    // clear column and state
+    function clearState() {
+      setNewEntry(false);
+      setNameInput(null);
+      setTypeInput(null);
+      setQuantityInput(null);
+      setDateInput(null);
+      console.log("*********************************newEntry: ", newEntry);    
     }
 
-    // function for saving the input to the 
+    // function for saving the input - right now it's just printing to console but it will eventually be a useEffect POST request
+    // also clears the previous state
     function saveState() {
-        console.log("*********************************EVENT: ");
+      setNewEntry(false);
+      console.log("Setting state to false: ", newEntry);
+      console.log("Here is the data: ", nameInput, " ", typeInput, " ", quantityInput, " ", dateInput);
+      setNameInput(null);
+      setTypeInput(null);
+      setQuantityInput(null);
+      setDateInput(null);
     }
 
-    // state for changing inputs - they must be arrays of answers
-    const [nameInput, setNameInput] = useState<string[]>([]);
-    const nameInputArray = [];
-    const [typeInput, setTypeInput] = useState([]);
-    const [quantityInput, setQuantityInput] = useState([]);
-    const [dataInput, setDataInput] = useState([]);
-    const [index, setIndex] = useState(0);
+    // state for changing inputs
+    const [nameInput, setNameInput] = useState(null);
+    const [typeInput, setTypeInput] = useState(null);
+    const [quantityInput, setQuantityInput] = useState(null);
+    const [dateInput, setDateInput] = useState(null);
 
-    // function to save the input to state
-    function handleChange(event) {
+    // functions to save the varioys inputs to state
+    function handleChangeName(event) {
       setNameInput(event.target.value);
-      setIndex(event.target.id);
-      console.log("!*!!**!*!*!**!*!*!*!*!*!*!*!*!***********: ", nameInput);
-      console.log("THIS IS THE ID I HOPE!!!!!: ", event.target.id);
+      console.log("*********************************NAMEINPUT FUNCTION: ", nameInput);
     }
 
-    nameInputArray[index] = nameInput;
+    function handleChangeType(event) {
+      setTypeInput(event.target.value);
+      console.log("*********************************TYPE FUNCTION: ", typeInput);
+    }
 
-    console.log("!*!!**!*!*!**!*!*!*!*!*!*!*!*!REAL: ", nameInputArray);
+    function handleChangeQuantity(event) {
+      setQuantityInput(event.target.value);
+      console.log("*********************************QUANTITY FUNCTION: ", quantityInput);
+    }
+
+    function handleChangeDate(event) {
+      setDateInput(event.target.value);
+      console.log("*********************************DATE FUNCTION: ", dateInput);
+    }
 
     console.log("INVENTORY RESPONSE", data);
 
@@ -181,8 +199,8 @@ function Inventory() {
 
     const newInputLabels: InputTypes[] = [];
 
-    if(numberOfNewColumns > 0) {
-      for(let i = 0; i < numberOfNewColumns; i++) {
+    if(newEntry > 0) {
+      for(let i = 0; i < newEntry; i++) {
         const newPlantLabels = new InputTypes({plantName: "Plant name", plantType: "Plant type", plantQuantity: "Quantity", plantDate: "Date planted", fieldID: i});
         newInputLabels.push(newPlantLabels);
       }
@@ -191,8 +209,7 @@ function Inventory() {
     return(
         <>
         <div><form>
-        <button onClick={updateState}>Add plants</button>
-        {numberOfNewColumns > 0 ? <button onClick={resetState}>Clear</button> : <></>}
+        <button onClick={updateState}>Add a plant</button>
         <Table responsive="sm">
         <thead>
           <tr>
@@ -201,12 +218,12 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
             
-            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
+            {newEntry === true ? (
               <td>
-                <label htmlFor="input_name">{ item.plantName }</label>{numberOfNewColumns > 0 ? <button onClick={saveState}>Save entry</button> : <></>}<br />
-                <input type="text" id={item.fieldID} name="input_name" onChange={handleChange}></input>
-
-              </td>)) : <></>}
+                <label htmlFor="input_name">Plant name</label>{newEntry === true ? <button onClick={saveState}>Save entry</button> : <></>}{newEntry === true ? <button onClick={clearState}>Clear</button> : <></>}<br />
+                <input type="text" name="input_name" onChange={handleChangeName}></input>
+              </td>
+            ) : <></>}
 
           </tr>
         </thead>
@@ -217,12 +234,12 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
 
-            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
+            {newEntry === true ? (
               <td>
-                <label htmlFor="input_type">{ item.plantType }</label><br />
-                <input type="text" id={item.fieldID} name="input_type"></input>
-
-              </td>)) : <></>}
+                <label htmlFor="input_name">Plant type</label><br />
+                <input type="text" name="input_name" onChange={handleChangeType}></input>
+              </td>
+            ) : <></>}
           </tr>
           <tr>
             <th>Quantity</th>
@@ -230,11 +247,12 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
 
-            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
+            {newEntry === true ? (
               <td>
-                <label htmlFor="input_quantity">{ item.plantQuantity }</label><br />
-                <input type="text" id={item.fieldID} name="input_quantity"></input>
-              </td>)) : <></>}
+                <label htmlFor="input_name">Quantity</label><br />
+                <input type="text" name="input_name" onChange={handleChangeQuantity}></input>
+              </td>
+            ) : <></>}
           </tr>
           <tr>
             <th>Date planted</th>
@@ -242,11 +260,12 @@ function Inventory() {
               <td><InventoryPlantItem
               value={item} /></td>))}
 
-            {numberOfNewColumns > 0 ? newInputLabels.map(item => (
+            {newEntry === true ? (
               <td>
-                <label htmlFor="input_date">{ item.plantDate }</label><br />
-                <input type="text" id={item.fieldID} name="input_date"></input>
-              </td>)) : <></>}
+                <label htmlFor="input_name">Date planted</label><br />
+                <input type="text" name="input_name" onChange={handleChangeDate}></input>
+              </td>
+            ) : <></>}
           </tr>
         </tbody>
       </Table>
