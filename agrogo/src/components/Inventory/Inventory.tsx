@@ -80,6 +80,9 @@ function Inventory() {
   // this is to update what shows up on the page after a user adds a new plant
   const [postRequest, setPostRequest] = useState(false);
 
+  // adding an editing function
+  const [editing, setEditing] = useState(null); 
+
 
     // you MUST use the useEffect and useState hooks for this- useEffect is crucial in how the DOM renders data on screen and when you can pull data from where, and useState is how the data gets saved once useEffect is called - ask Madeline if you would like clarification on why this happens
     useEffect(() => {
@@ -227,6 +230,10 @@ function Inventory() {
       console.log("*********************************DATE FUNCTION: ", dateInput);
     }
 
+    function updateEntry() {
+      console.log("***********************************************************Updating");
+    }
+
 
     // arrays which will be mapped to table values
     let nameData = [];
@@ -254,6 +261,7 @@ function Inventory() {
         <>
         <div><form>
         {newEntry === false ? <button className="add-enabled" onClick={updateState}>Add a plant</button> : <button className="add-disabled">Save entry to add another plant</button>}
+        {newEntry === false ? <button className="edit-enabled" onClick={updateEntry}>Edit and entry</button> : <button className="edit-disabled">Click save to update entry</button>}
         <Table responsive="sm">
         <thead>
           <tr>
