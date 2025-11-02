@@ -81,7 +81,7 @@ function Inventory() {
   const [postRequest, setPostRequest] = useState(false);
 
   // adding an editing function
-  const [editing, setEditing] = useState(null); 
+  const [editing, setEditing] = useState(false); 
 
 
     // you MUST use the useEffect and useState hooks for this- useEffect is crucial in how the DOM renders data on screen and when you can pull data from where, and useState is how the data gets saved once useEffect is called - ask Madeline if you would like clarification on why this happens
@@ -231,6 +231,7 @@ function Inventory() {
     }
 
     function updateEntry() {
+      setEditing(true);
       console.log("***********************************************************Updating");
     }
 
@@ -251,24 +252,20 @@ function Inventory() {
       }
     }
 
-    // to do: 
-    // add flex styling so the row of plants wraps
-    // make the first row sticky so you can always see category names
-    // add the "add/remove/edit" feature
-
 
     return(
         <>
         <div><form>
         {newEntry === false ? <button className="add-enabled" onClick={updateState}>Add a plant</button> : <button className="add-disabled">Save entry to add another plant</button>}
-        {newEntry === false ? <button className="edit-enabled" onClick={updateEntry}>Edit and entry</button> : <button className="edit-disabled">Click save to update entry</button>}
+        {editing === false ? <button className="edit-enabled" onClick={updateEntry}>Edit an entry</button> : <button className="edit-disabled">Click save to update entry</button>}
         <Table responsive="sm">
         <thead>
           <tr>
             <th>Plant</th>
-            {nameData.map(item => (
+            {editing === false ? nameData.map(item => (
               <td><InventoryPlantItem
-              value={item} /></td>))}
+              value={item} /></td>)) : nameData.map(item => (
+              <td><input type="text" name="edit_change" value = {item}></input></td>))}
             
             {newEntry === true ? (
               <td>
@@ -282,9 +279,10 @@ function Inventory() {
         <tbody>
           <tr>
             <th>Type</th>
-            {typeData.map(item => (
+            {editing === false ? typeData.map(item => (
               <td><InventoryPlantItem
-              value={item} /></td>))}
+              value={item} /></td>)) : typeData.map(item => (
+              <td><input type="text" name="edit_change" value = {item}></input></td>))}
 
             {newEntry === true ? (
               <td>
@@ -295,9 +293,10 @@ function Inventory() {
           </tr>
           <tr>
             <th>Quantity</th>
-            {quantityData.map(item => (
+            {editing === false ? quantityData.map(item => (
               <td><InventoryPlantItem
-              value={item} /></td>))}
+              value={item} /></td>)) : quantityData.map(item => (
+              <td><input type="text" name="edit_change" value = {item}></input></td>))}
 
             {newEntry === true ? (
               <td>
@@ -308,9 +307,10 @@ function Inventory() {
           </tr>
           <tr>
             <th>Date planted</th>
-            {dateData.map(item => (
+            {editing === false ? dateData.map(item => (
               <td><InventoryPlantItem
-              value={item} /></td>))}
+              value={item} /></td>)) : dateData.map(item => (
+              <td><input type="text" name="edit_change" value = {item}></input></td>))}
 
             {newEntry === true ? (
               <td>
