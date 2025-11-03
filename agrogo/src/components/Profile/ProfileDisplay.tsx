@@ -19,7 +19,7 @@ function ProfileDisplay() {
   
     let userName = "friend";
     if(currentUser) {
-      userName = currentUser.displayName;
+      userName = currentUser.displayName!;
     }
 
   return (

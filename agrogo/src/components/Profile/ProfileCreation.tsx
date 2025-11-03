@@ -15,8 +15,18 @@ function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
         firstName: '',
         lastName: '',
         location: 'Detroit',
-        photo: null as File | null,
+        photoBase64: "",
     });
+
+    // The backend expects a text object, this converts
+    // files to the expected format
+    const fileToBase64 = async (file: File): Promise<string> =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+        });
 
     async function syncUserToBackend() {
         try {
@@ -33,12 +43,13 @@ function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
             
             // Call the backend API route this syncs the Firebase
             // data to our D1 database
-            const res = axios.post(
+            const res = await axios.post(
                 "https://backend.agrogodev.workers.dev/api/auth/login",
                 {
                     firstName: formData.firstName,
                     lastName: formData.lastName,
-                    location: formData.location
+                    location: formData.location,
+                    profileImage: formData.photoBase64
                 },
                 {
                     headers: {
@@ -48,7 +59,7 @@ function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
                 }
             );
 
-            console.log("Sent user to backend", (await res).data);
+            console.log("Sent user to backend", res.data);
 
             // Trigger to re-check in the parent
             onProfileCreated();
@@ -57,16 +68,17 @@ function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         // this will sort the form data by the field name, extract the value (user input) and the file (only for photo upload)
         const { name, value, files } = e.target;
 
         // handling file input separately since it cant use the "value" attribute
-        if (name === 'photo' && files) {
+        if (name === 'photo' && files && files[0]) {
+            const base64String = await fileToBase64(files[0]);
             setFormData(prev => ({
-                // thi sis the "Rest Operator" in js if you want to look up what this means - here, it's allowing us to just submit aany amount of params we want
+                // this is the "Rest Operator" in js if you want to look up what this means - here, it's allowing us to just submit aany amount of params we want
                 ...prev,
-                photo: files[0],
+                photoBase64: base64String,
             }));
         } else {
             setFormData(prev => ({
@@ -85,8 +97,8 @@ function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
         submissionData.append('firstName', formData.firstName);
         submissionData.append('lastName', formData.lastName);
         submissionData.append('location', formData.location);
-        if (formData.photo) {
-            submissionData.append('photo', formData.photo);
+        if (formData.photoBase64) {
+            submissionData.append('photo', formData.photoBase64);
         }
 
         syncUserToBackend();
