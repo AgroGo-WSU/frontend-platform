@@ -77,8 +77,8 @@ function Inventory() {
   const [error, setMessage] = useState<string | null>(null);
   const [token, setToken] = useState(null);
 
-  // this is to update what shows up on the page after a user adds a new plant
-  const [postRequest, setPostRequest] = useState(false);
+  // this is to update what shows up on the page after a user adds or edits a new plant, and to tell the database to do POST or PATCH request
+  const [sendingRequest, setPostRequest] = useState(false);
 
   // adding an editing function
   const [editing, setEditing] = useState(false); 
@@ -121,7 +121,7 @@ function Inventory() {
     getConnection();
     setPostRequest(false);
 
-    },[postRequest]);
+    },[sendingRequest]);
 
     console.log("INVENTORY RESPONSE", data);
 
@@ -152,8 +152,10 @@ function Inventory() {
     }
 
     // also clears the previous state
-    const saveState = async() => {
+    const saveChanges = async(event) => {
+      const eventID = event.target.id;
       setNewEntry(false);
+      setEditing(false);
       console.log("Setting state to false: ", newEntry);
       console.log("Here is the data: ", nameInput, " ", typeInput, " ", quantityInput, " ", dateInput);
 
@@ -171,7 +173,8 @@ function Inventory() {
         const token = await user.getIdToken();
         console.log("UserId from FIREBASE: ", userIdFB);
 
-        const sendPOSTData = {
+
+        const sendData = {
           userId: userIdFB,
           plantType: typeInput,
           plantName: nameInput,
@@ -180,7 +183,8 @@ function Inventory() {
           datePlanted: dateInput
         }
       
-        const postResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendPOSTData, {
+        if (eventID === "new_entry") {
+        const sentResponsesponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -188,8 +192,18 @@ function Inventory() {
             });
           
           setPostRequest(true);
-          console.log("Sending post request for new data - here's the response ", postResponse);
-          // setData(response.data.data); // this sets the state - response is of type <AxiosResponse> and calling response.data gives us the actual array of arrays that make up the individual instances of our db table
+          console.log("Sending post request for new data - here's the response ", sentResponsesponse);
+          } else {
+        const sentResponsesponse = await axios.put("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                }
+            });
+          
+          setPostRequest(true);
+          console.log("Sending post request for new data - here's the response ", sentResponsesponse);           
+          }
           } catch(error){
             console.error('Error sending data:', error);
           } finally {
@@ -242,10 +256,10 @@ function Inventory() {
       setDateInput(data[columnID].datePlanted);
     }
 
-    function saveUpdateEntry() {
-      setEditing(false);
-      console.log("********************************************************************Saved update entry");
-    }
+    // function saveUpdateEntry() {
+    //   setEditing(false);
+    //   console.log("********************************************************************Saved update entry");
+    // }
 
 
     // arrays which will be mapped to table values
@@ -285,13 +299,13 @@ function Inventory() {
               value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>)) :
               
               nameData.map(item => ( item[1].toString() === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value={nameInput} onChange={handleChangeName}></input></div><button className="edit-disabled" id={item[1]} onClick={saveUpdateEntry}>Save entry</button></td> : 
+              <td><div id={item[1]}><input type="text" name="edit_change" value={nameInput} onChange={handleChangeName}></input></div><button className="edit-disabled" id={item[1]} onClick={saveChanges}>Save entry</button></td> : 
               <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>
             ))}
             
             {newEntry === true ? (
               <td>
-                <label htmlFor="input_name">Plant name</label>{newEntry === true ? <button onClick={saveState}>Save entry</button> : <></>}{newEntry === true ? <button onClick={clearState}>Clear</button> : <></>}<br />
+                <label htmlFor="input_name">Plant name</label>{newEntry === true ? <button id="new_entry" onClick={saveChanges}>Save entry</button> : <></>}{newEntry === true ? <button onClick={clearState}>Clear</button> : <></>}<br />
                 <input type="text" name="input_name" onChange={handleChangeName}></input>
               </td>
             ) : <></>}
