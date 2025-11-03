@@ -46,7 +46,14 @@ function Temp() {
 
   
     // this is where state gets initialized and managed. Even in TS, you can let these hooks infer the type (and here, you should let useState infer the type of data) but I've set the type for the message state
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<{
+      // Added typing to prevent errors when using this variable downstream - Drew
+      rowid: string;
+      userID: string;
+      type: string;
+      received_at: string;
+      value: string;
+    }[] | null>(null);
     const [error, setMessage] = useState<string | null>(null);
     const [token, setToken] = useState(null);
 
@@ -89,7 +96,7 @@ function Temp() {
     console.log("TEMP RESPONSE", data);
 
     // so now we can create a new instance of our DeviceDTO object, and feed it whichever line we're looking for - in this case, we want the most recent connection, which looks like it will always be at index 0 of the JSON response. If that changes, you MUST define the length in the useEffect hook and save it in a new state variable, or you may run into issues
-    const temp = new TempDTO(data ? data[3] : {rowid: "00", userID: "00", type: "00", received_at: "00", value: "00"});
+    const temp = new TempDTO(data && data.length > 0 ? data[0] : {rowid: "00", userID: "00", type: "00", received_at: "00", value: "00"});
     console.log("Temp final data: ", temp);
 
     // get the time with moment.js formatting
