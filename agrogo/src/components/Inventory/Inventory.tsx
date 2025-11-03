@@ -151,7 +151,6 @@ function Inventory() {
       console.log("*********************************newEntry: ", newEntry);    
     }
 
-    // function for saving the input - right now it's just printing to console but it will eventually be a useEffect POST request
     // also clears the previous state
     const saveState = async() => {
       setNewEntry(false);
@@ -235,8 +234,12 @@ function Inventory() {
 
     function updateEntry(event) {
       setEditing(true);
-      setColumnBeingEdited(event.target.id);
-      console.log("***********************************************************THE ID", event.target.getElementById());
+      const columnID = event.target.id;
+      setColumnBeingEdited(columnID);
+      setNameInput(data[columnID].plantName);
+      setTypeInput(data[columnID].plantType);
+      setQuantityInput(data[columnID].quantity);
+      setDateInput(data[columnID].datePlanted);
     }
 
     function saveUpdateEntry() {
@@ -255,16 +258,16 @@ function Inventory() {
     // build out the arrays for mapping
     if(data != null) {
       for(let i = 0; i < data.length; i++) {
-        const nameID = [data[i].plantName, "id_"+i];
+        const nameID = [data[i].plantName, i];
         nameData.push(nameID);
 
-        const typeID = [data[i].plantType, "id_"+i];
+        const typeID = [data[i].plantType, i];
         typeData.push(typeID);
 
-        const quantityID = [data[i].quantity, "id_"+i];
+        const quantityID = [data[i].quantity, i];
         quantityData.push(quantityID);
 
-        const dateID = [data[i].datePlanted, "id_"+i];
+        const dateID = [data[i].datePlanted, i];
         dateData.push(dateID);
       }
     }
@@ -281,8 +284,8 @@ function Inventory() {
               <td><div id={item[1]}><InventoryPlantItem
               value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>)) :
               
-              nameData.map(item => ( item[1] === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value = {item[0]}></input></div><button className="edit-disabled" id={item[1]} onClick={saveUpdateEntry}>Save entry</button></td> : 
+              nameData.map(item => ( item[1].toString() === columnBeingEdited ? 
+              <td><div id={item[1]}><input type="text" name="edit_change" value={nameInput} onChange={handleChangeName}></input></div><button className="edit-disabled" id={item[1]} onClick={saveUpdateEntry}>Save entry</button></td> : 
               <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>
             ))}
             
@@ -302,8 +305,8 @@ function Inventory() {
               <td><div id={item[1]}><InventoryPlantItem
               value={item[0]} /></div></td>)) :
               
-              typeData.map(item => ( item[1] === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value = {item[0]}></input></div></td> : 
+              typeData.map(item => ( item[1].toString() === columnBeingEdited ? 
+              <td><div id={item[1]}><input type="text" name="edit_change" value={typeInput} onChange={handleChangeType}></input></div></td> : 
               <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></td>
             ))}
 
@@ -320,8 +323,8 @@ function Inventory() {
               <td><div id={item[1]}><InventoryPlantItem
               value={item[0]} /></div></td>)) :
               
-              quantityData.map(item => ( item[1] === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value = {item[0]}></input></div></td> : 
+              quantityData.map(item => ( item[1].toString() === columnBeingEdited ? 
+              <td><div id={item[1]}><input type="number" min="0" max="999999" name="edit_change" value={quantityInput} onChange={handleChangeQuantity}></input></div></td> : 
               <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></td>
             ))}
 
@@ -338,8 +341,8 @@ function Inventory() {
               <td><div id={item[1]}><InventoryPlantItem
               value={item[0]} /></div></td>)) :
               
-              dateData.map(item => ( item[1] === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value = {item[0]}></input></div></td> : 
+              dateData.map(item => ( item[1].toString() === columnBeingEdited ? 
+              <td><div id={item[1]}><input type="date" name="edit_change" value={dateInput} onChange={handleChangeDate}></input></div></td> : 
               <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></td>
             ))}
 
