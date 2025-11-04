@@ -16,13 +16,15 @@ function InventoryPopUp() {
 
     return(
         <>
-        <div className="show-inventory-button" onClick={() => handleShow()}>
+        
+        <div onClick={() => handleShow()}>
           Inventory
         </div>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="secret-sauce">
             <Modal.Title>Plant inventory</Modal.Title>
             </Modal.Header>
+            <div>Plant inventory</div><button type="button" btn-close aria-label="Close">CLOSE</button>
             <Modal.Body><Inventory /></Modal.Body>
         </Modal>
         </>

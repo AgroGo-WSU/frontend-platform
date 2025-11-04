@@ -184,6 +184,12 @@ function Inventory() {
           quantity: quantityInput,
           datePlanted: dateInput
         }
+
+        const deleteData = {
+          id: data[eventID].id
+        }
+
+        console.log(deleteData);
       
         if (eventTYPE === "Save entry") {
         const sentResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
@@ -206,12 +212,15 @@ function Inventory() {
           setPostRequest(true);
           console.log("Sending PUT request for new data - here's the response ", sentResponse);           
           } else if(eventTYPE === "Delete entry") {
-            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@DELETE");
+            console.log("!!! MAKING DELETE REQUEST");
         const sentResponse = await axios.delete("https://backend.agrogodev.workers.dev/api/data/plantInventory", {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
-                }
+                },
+              data: {
+                id: data[eventID].id
+              }
             });
           
           setPostRequest(true);
@@ -274,11 +283,6 @@ function Inventory() {
       setDateInput(data[columnID].datePlanted);
     }
 
-    // function saveUpdateEntry() {
-    //   setEditing(false);
-    //   console.log("********************************************************************Saved update entry");
-    // }
-
 
     // arrays which will be mapped to table values
     let nameData = [];
@@ -306,7 +310,8 @@ function Inventory() {
 
     return(
         <>
-        <div><form>
+        <div className="background-container">
+        <div className="form-container"><form>
         {newEntry === false ? <button className="add-enabled" onClick={updateState}>Add a plant</button> : <button className="add-disabled">Save entry to add another plant</button>}
         <Table responsive="sm">
         <thead>
@@ -389,7 +394,8 @@ function Inventory() {
       </Table>
       </form>
     </div>
-        </>
+    </div>
+    </>
     )
 }
 
