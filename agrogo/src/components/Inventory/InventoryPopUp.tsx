@@ -24,7 +24,6 @@ function InventoryPopUp() {
             <Modal.Header closeButton className="secret-sauce">
             <Modal.Title>Plant inventory</Modal.Title>
             </Modal.Header>
-            <div>Plant inventory</div><button type="button" btn-close aria-label="Close">CLOSE</button>
             <Modal.Body><Inventory /></Modal.Body>
         </Modal>
         </>

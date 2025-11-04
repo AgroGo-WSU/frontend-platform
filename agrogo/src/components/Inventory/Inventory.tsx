@@ -174,25 +174,19 @@ function Inventory() {
         const userIdFB = user.uid;
         const token = await user.getIdToken();
         console.log("UserId from FIREBASE: ", userIdFB);
+      
+        if (eventTYPE === "Save entry") {
 
-        const sendData = {
-          id: data[eventID].id,
+        const postData = {
           userId: userIdFB,
           plantType: typeInput,
           plantName: nameInput,
           zoneId: "1",
           quantity: quantityInput,
-          datePlanted: dateInput
+          datePlanted: dateInput 
         }
 
-        const deleteData = {
-          id: data[eventID].id
-        }
-
-        console.log(deleteData);
-      
-        if (eventTYPE === "Save entry") {
-        const sentResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
+        const sentResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", postData, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -202,7 +196,17 @@ function Inventory() {
           setPostRequest(true);
           console.log("Sending POST request for new data - here's the response ", sentResponse);
           } else if(eventTYPE === "Update entry") {
-        const sentResponse = await axios.put("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
+
+        const putData = {
+          id: data[eventID].id,
+          userId: userIdFB,
+          plantType: typeInput,
+          plantName: nameInput,
+          zoneId: "1",
+          quantity: quantityInput,
+          datePlanted: dateInput
+        }
+        const sentResponse = await axios.put("https://backend.agrogodev.workers.dev/api/data/plantInventory", putData, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -212,6 +216,7 @@ function Inventory() {
           setPostRequest(true);
           console.log("Sending PUT request for new data - here's the response ", sentResponse);           
           } else if(eventTYPE === "Delete entry") {
+
             console.log("!!! MAKING DELETE REQUEST");
         const sentResponse = await axios.delete("https://backend.agrogodev.workers.dev/api/data/plantInventory", {
               headers: {
@@ -314,7 +319,7 @@ function Inventory() {
         <div className="form-container"><form>
         {newEntry === false ? <button className="add-enabled" onClick={updateState}>Add a plant</button> : <button className="add-disabled">Save entry to add another plant</button>}
         <Table responsive="sm">
-        <thead>
+        <div className="inventory-head">
           <tr>
             <th>Plant name</th>
             {editing === false ? nameData.map(item => (
@@ -334,8 +339,8 @@ function Inventory() {
             ) : <></>}
 
           </tr>
-        </thead>
-        <tbody>
+        </div>
+        <div className="inventory-body">
           <tr>
             <th>Type</th>
             {editing === false ? typeData.map(item => (
@@ -390,7 +395,7 @@ function Inventory() {
               </td>
             ) : <></>}
           </tr>
-        </tbody>
+        </div>
       </Table>
       </form>
     </div>
