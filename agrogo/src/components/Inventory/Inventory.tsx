@@ -318,8 +318,8 @@ function Inventory() {
         <div className="background-container">
         <div className="form-container"><form>
         {newEntry === false ? <button className="add-enabled" onClick={updateState}>Add a plant</button> : <button className="add-disabled">Save entry to add another plant</button>}
-        <Table responsive="sm">
-        <div className="inventory-head">
+        <div className="table-container">
+        {/* <div className="inventory-head"> */}
           <div className="table-row">
             <div className="table-heading">Plant name</div>
             {editing === false ? nameData.map(item => (
@@ -339,8 +339,8 @@ function Inventory() {
             ) : <></>}
 
           </div>
-        </div>
-        <div className="inventory-body">
+        {/* </div> */}
+        {/* <div className="inventory-body"> */}
           <div className="table-row">
             <div className="table-heading">Type</div>
             {editing === false ? typeData.map(item => (
@@ -395,8 +395,8 @@ function Inventory() {
               </div>
             ) : <></>}
           </div>
-        </div>
-      </Table>
+        {/* </div> */}
+      </div>
       </form>
     </div>
     </div>

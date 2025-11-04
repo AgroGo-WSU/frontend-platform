@@ -6,6 +6,45 @@
     background-color: white;
 }
 
+.table-container {
+    background-color: red;
+    display: flex;
+    flex-direction: row;
+}
+
+.inventory-head {
+    background-color: blue;
+}
+
+/** this is the class that includes the row of plant names, types, quantities, or dates*/
+.table-row {
+    background-color: purple;
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+}
+
+/** this is specifically for the headings that "Plant name", "Type", "Quantity", and "Date planted" */
+.table-heading {
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+}
+
+.inventory-body {
+    background-color: lightpink;
+}
+
+/** This is the div that holds the actual data entered by the user for each entry of all types */
+.table-data {
+    background-color: lightseagreen;
+    display: flex;
+    align-items: center;
+    width: 260px;
+}
+
 .add-enabled {    
     color: #173D23;
     background-color: #F2EEE3;
