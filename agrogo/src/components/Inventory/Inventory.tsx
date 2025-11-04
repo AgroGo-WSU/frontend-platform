@@ -153,6 +153,8 @@ function Inventory() {
 
     // also clears the previous state
     const saveChanges = async(event) => {
+      console.log("EVENT TARGET FIRSTCHILD DATA ", event.target.firstChild.data);
+      const eventTYPE = event.target.firstChild.data;
       const eventID = event.target.id;
       setNewEntry(false);
       setEditing(false);
@@ -173,8 +175,8 @@ function Inventory() {
         const token = await user.getIdToken();
         console.log("UserId from FIREBASE: ", userIdFB);
 
-
         const sendData = {
+          id: data[eventID].id,
           userId: userIdFB,
           plantType: typeInput,
           plantName: nameInput,
@@ -183,8 +185,8 @@ function Inventory() {
           datePlanted: dateInput
         }
       
-        if (eventID === "new_entry") {
-        const sentResponsesponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
+        if (eventTYPE === "Save entry") {
+        const sentResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -192,9 +194,9 @@ function Inventory() {
             });
           
           setPostRequest(true);
-          console.log("Sending post request for new data - here's the response ", sentResponsesponse);
-          } else {
-        const sentResponsesponse = await axios.put("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
+          console.log("Sending POST request for new data - here's the response ", sentResponse);
+          } else if(eventTYPE === "Update entry") {
+        const sentResponse = await axios.put("https://backend.agrogodev.workers.dev/api/data/plantInventory", sendData, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -202,8 +204,20 @@ function Inventory() {
             });
           
           setPostRequest(true);
-          console.log("Sending post request for new data - here's the response ", sentResponsesponse);           
-          }
+          console.log("Sending PUT request for new data - here's the response ", sentResponse);           
+          } else if(eventTYPE === "Delete entry") {
+            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@DELETE");
+        const sentResponse = await axios.delete("https://backend.agrogodev.workers.dev/api/data/plantInventory", {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                }
+            });
+          
+          setPostRequest(true);
+          console.log("Sending DELETE request for new data - here's the response ", sentResponse);           
+          } 
+
           } catch(error){
             console.error('Error sending data:', error);
           } finally {
@@ -244,6 +258,10 @@ function Inventory() {
     function handleChangeDate(event) {
       setDateInput(event.target.value);
       console.log("*********************************DATE FUNCTION: ", dateInput);
+    }
+
+    function deleteChanges(event) {
+      console.log(event.target);
     }
 
     function updateEntry(event) {
@@ -299,7 +317,7 @@ function Inventory() {
               value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>)) :
               
               nameData.map(item => ( item[1].toString() === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value={nameInput} onChange={handleChangeName}></input></div><button className="edit-disabled" id={item[1]} onClick={saveChanges}>Save entry</button></td> : 
+              <td><div id={item[1]}><input type="text" name="edit_change" value={nameInput} onChange={handleChangeName}></input></div><button className="edit-disabled" id={item[1]} onClick={saveChanges}>Update entry</button><button className="edit-delete" id={item[1]} onClick={saveChanges}>Delete entry</button></td> : 
               <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>
             ))}
             
