@@ -320,81 +320,81 @@ function Inventory() {
         {newEntry === false ? <button className="add-enabled" onClick={updateState}>Add a plant</button> : <button className="add-disabled">Save entry to add another plant</button>}
         <Table responsive="sm">
         <div className="inventory-head">
-          <tr>
-            <th>Plant name</th>
+          <div className="table-row">
+            <div className="table-heading">Plant name</div>
             {editing === false ? nameData.map(item => (
-              <td><div id={item[1]}><InventoryPlantItem
-              value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>)) :
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem
+              value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></div>)) :
               
               nameData.map(item => ( item[1].toString() === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value={nameInput} onChange={handleChangeName}></input></div><button className="edit-disabled" id={item[1]} onClick={saveChanges}>Update entry</button><button className="edit-delete" id={item[1]} onClick={saveChanges}>Delete entry</button></td> : 
-              <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></td>
+              <div className ="table-data"><div id={item[1]}><input type="text" name="edit_change" value={nameInput} onChange={handleChangeName}></input></div><button className="edit-disabled" id={item[1]} onClick={saveChanges}>Update entry</button><button className="edit-delete" id={item[1]} onClick={saveChanges}>Delete entry</button></div> : 
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem value={item[0]} /></div><button id={item[1]} className="edit-enabled" onClick={updateEntry}>Edit this entry</button></div>
             ))}
             
             {newEntry === true ? (
-              <td>
+              <div className="table-data">
                 <label htmlFor="input_name">Plant name</label>{newEntry === true ? <button id="new_entry" onClick={saveChanges}>Save entry</button> : <></>}{newEntry === true ? <button onClick={clearState}>Clear</button> : <></>}<br />
                 <input type="text" name="input_name" onChange={handleChangeName}></input>
-              </td>
+              </div>
             ) : <></>}
 
-          </tr>
+          </div>
         </div>
         <div className="inventory-body">
-          <tr>
-            <th>Type</th>
+          <div className="table-row">
+            <div className="table-heading">Type</div>
             {editing === false ? typeData.map(item => (
-              <td><div id={item[1]}><InventoryPlantItem
-              value={item[0]} /></div></td>)) :
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem
+              value={item[0]} /></div></div>)) :
               
               typeData.map(item => ( item[1].toString() === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="text" name="edit_change" value={typeInput} onChange={handleChangeType}></input></div></td> : 
-              <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></td>
+              <div className="table-data"><div id={item[1]}><input type="text" name="edit_change" value={typeInput} onChange={handleChangeType}></input></div></div> : 
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></div>
             ))}
 
             {newEntry === true ? (
-              <td>
+              <div className="table-data">
                 <label htmlFor="input_name">Plant type</label><br />
                 <input type="text" name="input_name" onChange={handleChangeType}></input>
-              </td>
+              </div>
             ) : <></>}
-          </tr>
-          <tr>
-            <th>Quantity</th>
+          </div>
+          <div className="table-row">
+            <div className="table-heading">Quantity</div>
             {editing === false ? quantityData.map(item => (
-              <td><div id={item[1]}><InventoryPlantItem
-              value={item[0]} /></div></td>)) :
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem
+              value={item[0]} /></div></div>)) :
               
               quantityData.map(item => ( item[1].toString() === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="number" min="0" max="999999" name="edit_change" value={quantityInput} onChange={handleChangeQuantity}></input></div></td> : 
-              <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></td>
+              <div className="table-data"><div id={item[1]}><input type="number" min="0" max="999999" name="edit_change" value={quantityInput} onChange={handleChangeQuantity}></input></div></div> : 
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></div>
             ))}
 
             {newEntry === true ? (
-              <td>
+              <div className="table-data">
                 <label htmlFor="input_name">Quantity</label><br />
                 <input type="number" min="0" max="999999" name="input_name" onChange={handleChangeQuantity}></input>
-              </td>
+              </div>
             ) : <></>}
-          </tr>
-          <tr>
-            <th>Date planted</th>
+          </div>
+          <div className="table-row">
+            <div className="table-heading">Date planted</div>
             {editing === false ? dateData.map(item => (
-              <td><div id={item[1]}><InventoryPlantItem
-              value={item[0]} /></div></td>)) :
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem
+              value={item[0]} /></div></div>)) :
               
               dateData.map(item => ( item[1].toString() === columnBeingEdited ? 
-              <td><div id={item[1]}><input type="date" name="edit_change" value={dateInput} onChange={handleChangeDate}></input></div></td> : 
-              <td><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></td>
+              <div className="table-data"><div id={item[1]}><input type="date" name="edit_change" value={dateInput} onChange={handleChangeDate}></input></div></div> : 
+              <div className="table-data"><div id={item[1]}><InventoryPlantItem value={item[0]} /></div></div>
             ))}
 
             {newEntry === true ? (
-              <td>
+              <div className="table-data">
                 <label htmlFor="input_name">Date planted</label><br />
                 <input type="date" name="input_name" onChange={handleChangeDate}></input>
-              </td>
+              </div>
             ) : <></>}
-          </tr>
+          </div>
         </div>
       </Table>
       </form>
