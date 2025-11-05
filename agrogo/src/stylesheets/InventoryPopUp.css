@@ -1,0 +1,15 @@
+.inventory-title-container {
+    background-color: #F2EEE3;
+}
+
+.secret-sauce {
+    background-color: #F2EEE3;
+    
+    .modal-title {
+        font-weight: bold;
+    }
+
+    .btn-close {
+        background-color: #800020;
+    }
+}

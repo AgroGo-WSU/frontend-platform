@@ -2,6 +2,7 @@ import "../../../src/stylesheets/InventoryPopUp.css"
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Inventory from "./Inventory";
+import TopNav from "../TopNav";
 
 
 function InventoryPopUp() {
@@ -16,11 +17,13 @@ function InventoryPopUp() {
 
     return(
         <>
-        <div className="show-inventory-button" onClick={() => handleShow()}>
+        
+        <div onClick={() => handleShow()}>
           Inventory
         </div>
         <Modal show={show} fullscreen={true} onHide={() => setShow(false)}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton className="secret-sauce">
+            <TopNav />
             <Modal.Title>Plant inventory</Modal.Title>
             </Modal.Header>
             <Modal.Body><Inventory /></Modal.Body>

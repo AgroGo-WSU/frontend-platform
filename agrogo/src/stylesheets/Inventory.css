@@ -1,0 +1,82 @@
+.background-container {
+    background-color: #f2eee3;
+    display: flex;
+    justify-content: space-around;
+    width: 98.8vw;
+    height: 92vh;
+}
+
+.form-container {
+    background-color: white;
+    display: flex;
+    height: 90vh;
+    margin: 8px;
+    padding: 20px;
+    border-radius: 28px;
+    overflow: scroll;
+    border: solid 2px #800020;
+}
+
+.table-container {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
+}
+
+/* .inventory-head {
+    background-color: blue;
+} */
+
+/** this is the class that includes the row of plant names, types, quantities, or dates*/
+.table-row {
+    /* background-color: purple; */
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+}
+
+/** this is specifically for the headings that "Plant name", "Type", "Quantity", and "Date planted" */
+.table-heading {
+    /* background-color: green; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    font-style: bold;
+    font-size: max(1.2vw, 18px);
+}
+
+/* .inventory-body {
+    background-color: lightpink;
+} */
+
+/** This is the div that holds the actual data entered by the user for each entry of all types */
+.table-data {
+    /* background-color: lightseagreen; */
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
+    max-height: 200px;
+    font-size: max(1vw, 15px);
+    border: solid 1px #173D23;
+    padding: 6px;
+}
+
+button {
+    font-size: 10px;
+}
+
+.add-enabled {    
+    color: #173D23;
+    background-color: #F2EEE3;
+}
+
+.add-disabled {
+    color: #F2EEE3;
+    background-color: #173D23;
+    cursor: text;
+    text-decoration: none;
+    pointer-events: none;
+}
