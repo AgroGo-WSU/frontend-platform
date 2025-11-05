@@ -1,0 +1,119 @@
+:root {
+    --nav-h: 64px;           /* adjust to your TopNav height */
+    --canvas: #F2EEE3;
+    --burgundy: #800020;
+    --green: #0A3600;
+    --ring: #1e4a22;         /* avatar ring */
+  }
+  
+  /* Page canvas under the nav */
+  .profile-page {
+    min-height: calc(100dvh - var(--nav-h));
+    width: 200%;
+    background: var(--canvas);
+    padding: clamp(16px, 2.5vw, 32px);
+    box-sizing: border-box;
+  }
+  
+  /* Two-column responsive grid */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 38%) 1fr;
+    gap: clamp(16px, 2.5vw, 32px);
+    width: 100%;
+  }
+  
+  .profile-left {
+    display: grid;
+    gap: clamp(16px, 2vw, 24px);
+  }
+  
+  .profile-card {
+    background: #fff;
+    border: 3px solid var(--burgundy);
+    border-radius: 18px;
+    padding: clamp(16px, 2vw, 24px);
+  }
+  
+  .profile-card h2 {
+    margin: 0 0 12px 0;
+    font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.8rem);
+    color: var(--green);
+  }
+  
+  /* ---- clean action list (no bullets) ---- */
+  .action-list {
+    display: grid;
+    gap: 10px;
+  }
+  .action-list ul,
+  .action-list li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* button look (link-like but accessible) */
+  .agro-btn.linky {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: var(--green);
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+  }
+  .agro-btn.linky:hover,
+  .agro-btn.linky:focus-visible {
+    text-decoration: underline;
+  }
+  
+  /* notification checkboxes */
+  .notif-section {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #c2c2c2;
+  }
+  .notif-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    user-select: none;
+  }
+  .check-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+  
+  /* avatar placeholder / image */
+  .profile-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .avatar-circle {
+    width: clamp(240px, 50vmin, 640px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: #ffffff;               /* blank center by default */
+    background-size: cover;
+    background-position: center;
+    border: clamp(6px, 1.2vmin, 12px) solid var(--ring);
+    box-shadow: 0 0 0 3px rgba(30, 74, 34, 0.15) inset;
+  }
+  
+  /* stack on small screens */
+  @media (max-width: 900px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+    .profile-avatar {
+      padding-top: 8px;
+    }
+  }
+  

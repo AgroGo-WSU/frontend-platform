@@ -91,3 +91,11 @@
     margin-top: 10px;
 }
 
+.agro-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--agro-cream, #F2EEE3);
+  }
+  
+

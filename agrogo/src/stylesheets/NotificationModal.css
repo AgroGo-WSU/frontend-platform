@@ -1,0 +1,57 @@
+.agro-notifs-modal {
+    width: clamp(320px, 38vw, 520px);
+    border-left: 4px solid #800020;
+  }
+  
+  .agro-notifs-title {
+    color: #173D23;
+    font-weight: 800;
+  }
+  
+  .agro-notifs-empty {
+    text-align: left;
+    color: #173D23;
+  }
+  .agro-notifs-empty .muted { color: #6b7a70; }
+  
+  .agro-notifs-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+  
+  .agro-notif {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 10px;
+    padding: 10px 8px;
+    border: 1px solid #e3d6cf;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+  
+  .agro-notif-dot {
+    width: 10px;
+    height: 10px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: #1c7ed6;
+  }
+  
+  .agro-notif-title {
+    color: #173D23;
+    font-weight: 700;
+  }
+  .agro-notif-body {
+    color: #173D23;
+    font-size: 0.95rem;
+  }
+  .agro-notif-time {
+    color: #6b7a70;
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+  

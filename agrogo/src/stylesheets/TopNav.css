@@ -1,57 +1,70 @@
+/* Full-width navbar */
 .navbar.agro-navbar {
-    /* Text colors (vegetable green) */
-    --bs-navbar-color: #173D23;
-    --bs-navbar-hover-color: #0f2917;
-    --bs-navbar-disabled-color: #597160;
-    --bs-navbar-active-color: #0f2917;
-  
-    /* Brand color (logo/title) */
-    --bs-navbar-brand-color: #173D23;
-    --bs-navbar-brand-hover-color: #0f2917;
-  
-    /* Optional dropdown colors */
-    --bs-dropdown-link-color: #173D23;
-    --bs-dropdown-link-hover-color: #0f2917;
-  
-    /* Keep burgundy bottom border */
-    border-bottom: 4px solid #800020 !important;
-    box-shadow: none !important;
-  }
-  
-  /* Ensure Brand uses our green even if variables are bypassed somewhere */
-  #nav-bar-title {
-    color: #173D23 !important;
-    font-family: "Nunito", sans-serif !important;
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  /* Nav links fallback (in case of older Bootstrap rules) */
-  .navbar .nav-link,
-  .navbar .dropdown-toggle {
-    color: #173D23 !important;
-  }
-  .navbar .nav-link:hover,
-  .navbar .dropdown-toggle:hover {
-    color: #0f2917 !important;
-  }
-  
-  /* Dropdown items */
-  .navbar .dropdown-menu .dropdown-item {
-    color: #173D23 !important;
-  }
-  .navbar .dropdown-menu .dropdown-item:hover,
-  .navbar .dropdown-menu .dropdown-item:focus {
-    color: #0f2917 !important;
-  }
-  
-  /* Icon sizing (unchanged) */
-  .icon-img {
-    width: max(1.5vw, 15px);
-    margin-left: 10px;
-  }
+  width: 100%;
+  max-width: none !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 
-  .green-icons {
-    flex-wrap: wrap;
-  }
-  
+
+  background-color: #ffffff !important;     /* cream background like before */
+  border-bottom: 4px solid #800020 !important; /* burgundy underline */
+  box-shadow: none !important;
+
+  /* text color vars */
+  --bs-navbar-color: #173D23;
+  --bs-navbar-hover-color: #0f2917;
+  --bs-navbar-disabled-color: #597160;
+  --bs-navbar-active-color: #0f2917;
+
+  --bs-navbar-brand-color: #173D23;
+  --bs-navbar-brand-hover-color: #0f2917;
+
+  --bs-dropdown-link-color: #173D23;
+  --bs-dropdown-link-hover-color: #0f2917;
+}
+
+/* Make inner Bootstrap wrapper span the viewport */
+.navbar.agro-navbar > .container,
+.navbar.agro-navbar > .container-fluid {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: clamp(12px, 2vw, 24px);
+  padding-right: clamp(12px, 2vw, 24px);
+}
+
+/* Brand */
+#nav-bar-title {
+  color: #173D23 !important;
+  font-family: "Nunito", sans-serif !important;
+  font-weight: 600;
+}
+
+/* Links + dropdown */
+.navbar .nav-link,
+.navbar .dropdown-toggle { color: #173D23 !important; }
+.navbar .nav-link:hover,
+.navbar .dropdown-toggle:hover { color: #0f2917 !important; }
+
+.navbar .dropdown-menu .dropdown-item { color: #173D23 !important; }
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus { color: #0f2917 !important; }
+
+/* Icons / right rail */
+.icon-img { width: max(1.5vw, 20px); margin-left: 10px; }
+.green-icons { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* ✅ Sign Out button (white text, green bg, burgundy border) */
+.navbar .nav-link.signout-btn {
+  background-color: #173D23 !important; /* AgroGo green */
+  color: #ffffff !important;            /* force white text */
+  border: 2px solid #800020 !important; /* burgundy */
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+}
+.navbar .nav-link.signout-btn:hover {
+  background-color: #0f2917 !important; /* darker green */
+  color: #ffffff !important;
+}
