@@ -1,5 +1,5 @@
 import "../../stylesheets/AppContainer.css";
-import Dashboard from "../Dashboard/Dashboard";
+import Dashboard from "../Dashboard/Dashboard.tsx";
 import AuthenticationPopup from "../Auth/AuthenticationPopup";
 import { useAuth } from "../../hooks/UseAuth.tsx";
 import ProfileCreation from "../Profile/ProfileCreation.tsx";

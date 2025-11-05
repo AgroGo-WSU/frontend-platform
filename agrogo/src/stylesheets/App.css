@@ -1,93 +1,46 @@
-.dashboard {
+.main-container {
     background-color: #f2eee3;
     width: 100vw;
-    /* overflow-x: hidden; */
-    display: grid;
-    grid-template-areas: 
-        "top-nav top-nav top-nav top-nav"
-        "profile-display welcome-title welcome-title right-blank"
-        "profile-display zones weather right-blank"
-        "profile-display zones weather right-blank"
-        "footer footer footer footer"
-        "bottom-blank bottom-blank bottom-blank bottom-blank";
-    grid-template-columns: max(22vw, 50px) max(30vw, 120px) max(42vw, 120px) auto;
-    grid-template-rows: auto 130px 300px 400px 40px 30px;
     font-family: "Nunito", sans-serif;
     font-weight: 400;
-    font-style: normal;
+    font-style: normal; 
 }
 
-/* Main grid pieces styled here */
-
-.bottom-blank {
-    background-color: #F2EEE3;
-    grid-area: bottom-blank;
-}
-
-.right-blank {
-    background-color: #F2EEE3;
-    grid-area: right-blank;
-}
-
-.footer {
-    background-color: #F2EEE3;
-    grid-area: footer;
-    text-align: center;
-    padding: 50px;
-}
-
-.welcome-title {
-    grid-area: welcome-title;
-    background-color: white;
-    padding-left: 15px;
-    margin-top: 10px;
-    border: 4px solid #800020; /* burgundy */
-    border-bottom: none;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    margin-bottom: 0; 
-    padding-bottom: 0;
-}
-
-.zones {
-    background-color: white;
-    grid-area: zones;
-    width: max(30vw, 120px);
-    border-left: 4px solid #800020;
-    border-bottom-left-radius: 28px;
-    border-bottom: 4px solid #800020;
-    border-top: none;
-    margin-top: 0;  
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-
-.weather {
-    background-color: white;
-    grid-area: weather;
-    align-items: center;
-    width: max(42vw, 120px);
-    border-right: 4px solid #800020;
-    border-bottom-right-radius: 28px;
-    border-bottom: 4px solid #800020;
-    border-top: none;
-    margin-top: 0;
-}
-
-.top-nav {
-    grid-area: top-nav;
-    background-color: transparent;
-    border-bottom: 4px solid #800020;
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: max(2vh, 10px);
 }
 
 .profile-display {
-    background-color: #F2EEE3;
-    grid-area: profile-display;
+    background-color: lightseagreen;
+}
+
+.dashboard {
+    background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
+    padding: max(5vh, 20px);
+    border-radius: 28px;
 }
+
+.weather-zone-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.weather-zone-container {
+    /* background-color: purple; */
+}
+
+.footer {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+
 
