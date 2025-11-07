@@ -98,7 +98,7 @@ useEffect(() => {
     }
   }
 
-  console.log(zone1Data[0]);
+  console.log(zone1Data[1]);
 
   return (
     <Modal
@@ -120,17 +120,17 @@ useEffect(() => {
         <div>{zone1Data.length > 0 ?
             <div className="zones">
                 <div id="1">Zone 1</div>
-                <div id="1">{/** This will be where we display the lists of currently set watering times, or ask the user to set/update a time */}
+                <div id="1">
                   {entryBeingEdited != "1" ? 
                   <div className="watering-data">
-                    {zone1Data.map(item => (
+                    {zone1Data.map((item, index: number) => (
                       <div className="display-water-data">
-                        {item.time}<button id="1" onClick={updateWateringTime}>Update watering time</button>
+                        {item.time}<button id={"1_" + index} onClick={updateWateringTime}>Update watering time</button>
                       </div>
                     ))}
                   </div> : 
-                    zone1Data.map(item => (
-                      <div className="current-water-schedule"><div id="1"><input type="text" name="edit_change" value={updatedWaterInput} onChange={handleChangeWaterTime}></input></div></div>
+                    zone1Data.map((item, index: number) => (
+                      <div className="current-water-schedule"><div id={"1_" + index}><input type="text" name="edit_change" id={"1_" + index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input></div></div>
                       ))}
                 </div>
             </div> : <></>
@@ -139,7 +139,7 @@ useEffect(() => {
         <div>{zone2Data.length > 0 ?
             <div className="zones">
                 <div id="2">Zone 2</div>
-                <div id="2">{/** This will be where we display the lists of currently set watering times, or ask the user to set/update a time */}
+                <div id="2">
                   {entryBeingEdited != "2" ? 
                   <div className="watering-data">
                     {zone2Data.map(item => (
