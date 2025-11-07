@@ -1,0 +1,5 @@
+.max-zones-reached {
+    background-color: grey;
+    color: black;
+    pointer-events: none;
+}
