@@ -288,7 +288,7 @@ useEffect(() => {
         {/** Have the user set times and make the post request run every time they click send
          * This means, make the get request from the water schedule, set the waterSchedule data, if it's there, map it
          */}
-        <div className="add-zone-button">{numberOfZones === 0 ? <button onClick={addZone} className="add-a-zone">Add a zone</button> : numberOfZones >= 3 ? <div><button onClick={addZone} className="max-zones-reached">Max zones reached</button><button onClick={removeZone} className="remove-zone">Remove a zone</button></div> : <button onClick={addZone} className="add-a-zone">Max zones</button>}</div>
+        <div className="add-zone-button">{numberOfZones === 0 ? <button onClick={addZone} className="add-a-zone">Add a zone</button> : numberOfZones === 3 ? <div><button onClick={addZone} className="max-zones-reached">Max zones reached</button><button onClick={removeZone} className="remove-zone">Remove a zone</button></div> : <div><button onClick={addZone} className="add-a-zone">Add a zone</button><button onClick={removeZone} className="remove-zone">Remove a zone</button></div>}</div>
         <div>{zone1Data.length > 0 ?
             <div className="zones">
                 <div id="1">Zone 1</div>
