@@ -34,6 +34,7 @@ function ZoneEdit(props) {
   const [waterSchedZone3, setWaterSchedZone3] = useState();
   const [numberOfZones, setNumberOfZones] = useState(0);
   const [zoneData, setZoneData] = useState([]);
+  const [newZoneNum, setNewZoneNum] = useState();
 
   console.log("Example of the props thing - this is the id: ", props.data[0].id);
 
@@ -78,31 +79,28 @@ useEffect(() => {
 
       console.log("Water schedule event target firstchild ", event.target.firstChild.data);
       const eventTYPE = event.target.firstChild.data;
-      // const eventID = event.target.id;
-      const bothIDs = event.target.id.split("_");
-      const zoneArrayID = bothIDs[0];
-      const zoneArrayIndex = Number(bothIDs[1]);
 
-      let findData = [];
+        const bothIDs = event.target.id.split("_");
+        const zoneArrayID = bothIDs[0];
+        const zoneArrayIndex = Number(bothIDs[1]);
 
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", waterSchedZone1);
+        let findData = [];
 
-      // find which array of data to take form:
-      if(zoneArrayID === "1") {
-        findData = waterSchedZone1;
-      } else if(zoneArrayID === "2") {
-        findData = waterSchedZone2;
-      } else if(zoneArrayID === "3") {
-        findData = waterSchedZone3;
-      }
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", waterSchedZone1);
 
-      setNewEntry(false);
-      // setEditing(false);
+        // find which array of data to take form:
+        if(zoneArrayID === "1") {
+          findData = waterSchedZone1;
+        } else if(zoneArrayID === "2") {
+          findData = waterSchedZone2;
+        } else if(zoneArrayID === "3") {
+          findData = waterSchedZone3;
+        }
 
-      console.log("******************************************************************", zoneArrayIndex, findData[zoneArrayIndex]);
-
-      const persistentItemID = findData[zoneArrayIndex].id;
-
+        console.log("******************************************************************", zoneArrayIndex, findData[zoneArrayIndex]);
+        const persistentItemID = findData[zoneArrayIndex].id;
+      
+        
 
       // try to get the user token and make the post request
         try {
@@ -120,7 +118,7 @@ useEffect(() => {
         if (eventTYPE === "Save entry") {
 
         const postData = {
-          id: findData[zoneArrayIndex].id,
+          id: Math.random().toString(),
           type: findData[zoneArrayIndex].type,
           userId: findData[zoneArrayIndex].userId,
           scheduledTime: findData[zoneArrayIndex].scheduledTime,
@@ -218,6 +216,7 @@ useEffect(() => {
     },[numberOfZones]);
 
   function addZone() {
+    setNewEntry(true);
     setNumberOfZones(numberOfZones+1);
     console.log(numberOfZones);
   }
@@ -235,6 +234,10 @@ useEffect(() => {
   function handleChangeWaterTime(event) {
     setUpdatedWaterInput(event.target.value);
     console.log("Changing water time!");
+  }
+
+  function handleNewZoneNumChange(event) {
+    setNewZoneNum(event.target.value);
   }
 
 
@@ -289,6 +292,15 @@ useEffect(() => {
          * This means, make the get request from the water schedule, set the waterSchedule data, if it's there, map it
          */}
         <div className="add-zone-button">{numberOfZones === 0 ? <button onClick={addZone} className="add-a-zone">Add a zone</button> : numberOfZones === 3 ? <div><button onClick={addZone} className="max-zones-reached">Max zones reached</button><button onClick={removeZone} className="remove-zone">Remove a zone</button></div> : <div><button onClick={addZone} className="add-a-zone">Add a zone</button><button onClick={removeZone} className="remove-zone">Remove a zone</button></div>}</div>
+        <div className="add-new-zone">{newEntry === true ? 
+          <div className="new-zone-entry">
+            {/** Ask for zone number and description and make a POST request to the zone table*/}
+            <input type="text" name="new_entry" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+            <input type="text" name="new_num_entry" id={"new-zone"} value={newZoneNum} onChange={handleNewZoneNumChange}></input>
+            <button id="new_entry" className="save-changes" onClick={saveChanges}>Save entry</button>
+          </div> :
+          <></>}
+        </div>
         <div>{zone1Data.length > 0 ?
             <div className="zones">
                 <div id="1">Zone 1</div>
