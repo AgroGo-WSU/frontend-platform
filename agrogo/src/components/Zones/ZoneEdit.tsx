@@ -5,6 +5,7 @@ import axios from "axios";
 import { AuthContext } from '../../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
 import { useState, useEffect, useContext } from "react";
+import moment from 'moment-timezone';
 
 class WaterSchedule {
   public id: string;
@@ -28,13 +29,16 @@ function ZoneEdit(props) {
   const [data, setData] = useState(null);
   const [sendingWaterSchedule, setSendingWaterSchedule] = useState(false);
   const [updatedWaterInput, setUpdatedWaterInput] = useState(null);
-  const [newEntry, setNewEntry] = useState(false);
+  const [newEntry1, setNewEntry1] = useState(false);
+  const [newEntry2, setNewEntry2] = useState(false);
+  const [newEntry3, setNewEntry3] = useState(false);
   const [waterSchedZone1, setWaterSchedZone1] = useState();
   const [waterSchedZone2, setWaterSchedZone2] = useState();
   const [waterSchedZone3, setWaterSchedZone3] = useState();
   const [numberOfZones, setNumberOfZones] = useState(0);
   const [zoneData, setZoneData] = useState([]);
-  const [newZoneNum, setNewZoneNum] = useState();
+  const [newZoneDescription, setNewZoneDescription] = useState(null);
+  const [firstWater, setFirstWater] = useState(false);
 
   console.log("Example of the props thing - this is the id: ", props.data[0].id);
 
@@ -98,7 +102,7 @@ useEffect(() => {
         }
 
         console.log("******************************************************************", zoneArrayIndex, findData[zoneArrayIndex]);
-        const persistentItemID = findData[zoneArrayIndex].id;
+        // const persistentItemID = findData[zoneArrayIndex].id;
       
         
 
@@ -112,17 +116,17 @@ useEffect(() => {
           throw new Error('User not authenticated!');
         }
 
-        // const userIdFB = user.uid;
+        const userIdFB = user.uid;
         const token = await user.getIdToken();
       
         if (eventTYPE === "Save entry") {
 
         const postData = {
-          id: Math.random().toString(),
-          type: findData[zoneArrayIndex].type,
-          userId: findData[zoneArrayIndex].userId,
-          scheduledTime: findData[zoneArrayIndex].scheduledTime,
-          duration: findData[zoneArrayIndex].duration,
+          id: Math.round(Math.random()*100),
+          type: zoneArrayID,
+          userId: userIdFB,
+          scheduledTime: updatedWaterInput,
+          duration: "1",
         }
 
         const sentResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/waterSchedule", postData, {
@@ -177,11 +181,14 @@ useEffect(() => {
             console.log("Looks like the water schedule DELETE request worked!");
       }
 
-      setSendingWaterSchedule(true);
+      setSendingWaterSchedule(false);
       setEntryBeingEdited("0");
+      setNewEntry1(false);
+      setNewEntry2(false);
+      setNewEntry3(false);
     }
 
-    // for users to add or remove zones
+    // get user zone data
     useEffect(() => {
       const getZoneData = async () => {
 
@@ -213,10 +220,71 @@ useEffect(() => {
 
     getZoneData();
 
-    },[numberOfZones]);
+    },[sendingWaterSchedule]);
 
-  function addZone() {
-    setNewEntry(true);
+    
+  const saveNewEntry = async(event) => {
+  
+        const bothIDs = event.target.id.split("_");
+        const zoneArrayID = bothIDs[0];
+
+        try {
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          if (!user) {
+            throw new Error('User not authenticated!');
+          }
+
+          const userIdFB = user.uid;
+          const token = await user.getIdToken();
+      
+          const postData = {
+            createdAt: moment().format("MM/DD/yyyy"),
+            description: newZoneDescription,
+            id: Math.round(Math.random()*100),
+            userId: userIdFB,
+            zoneName: zoneArrayID,
+            zoneNumber: zoneArrayID,
+          }
+
+          const sentResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/zone", postData, {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                  }
+              });
+            
+            setSendingWaterSchedule(true);
+            console.log("Sending POST request for watering schedule new data - here's the response ", sentResponse);
+            } catch(error){
+            console.error('Error sending data:', error);
+          } finally {
+            console.log("Looks like the water schedule save new zone request worked!");
+      }
+
+      setUpdatedWaterInput(null);
+      setNewZoneDescription(null);
+      saveChanges(event);
+      setSendingWaterSchedule(false);
+      setEntryBeingEdited("0");
+
+  }
+
+  function addZone1() {
+    setNewEntry1(true);
+    setNumberOfZones(numberOfZones+1);
+    console.log(numberOfZones);
+  }
+
+  function addZone2() {
+    setNewEntry2(true);
+    setNumberOfZones(numberOfZones+1);
+    console.log(numberOfZones);
+  }
+
+    function addZone3() {
+    setNewEntry3(true);
     setNumberOfZones(numberOfZones+1);
     console.log(numberOfZones);
   }
@@ -236,8 +304,14 @@ useEffect(() => {
     console.log("Changing water time!");
   }
 
-  function handleNewZoneNumChange(event) {
-    setNewZoneNum(event.target.value);
+  function handleNewZoneDescriptionChange(event) {
+    setNewZoneDescription(event.target.value);
+  }
+
+  function cancelChanges() {
+    setNewEntry1(false);
+    setNewEntry2(false);
+    setNewEntry3(false);
   }
 
 
@@ -273,8 +347,6 @@ useEffect(() => {
     }, [entryBeingEdited])
 
 
-
-
   return (
     <Modal
       {...props}
@@ -291,13 +363,17 @@ useEffect(() => {
         {/** Have the user set times and make the post request run every time they click send
          * This means, make the get request from the water schedule, set the waterSchedule data, if it's there, map it
          */}
-        <div className="add-zone-button">{numberOfZones === 0 ? <button onClick={addZone} className="add-a-zone">Add a zone</button> : numberOfZones === 3 ? <div><button onClick={addZone} className="max-zones-reached">Max zones reached</button><button onClick={removeZone} className="remove-zone">Remove a zone</button></div> : <div><button onClick={addZone} className="add-a-zone">Add a zone</button><button onClick={removeZone} className="remove-zone">Remove a zone</button></div>}</div>
-        <div className="add-new-zone">{newEntry === true ? 
+        <div className="all-zone-one">
+        <div className="add-zone-button">{zone1Data.length === 0 ? <button onClick={addZone1} className="add-a-zone">Add zone 1</button> : <></>}</div>
+        <div className="add-new-zone">{newEntry1 === true ? 
           <div className="new-zone-entry">
             {/** Ask for zone number and description and make a POST request to the zone table*/}
-            <input type="text" name="new_entry" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
-            <input type="text" name="new_num_entry" id={"new-zone"} value={newZoneNum} onChange={handleNewZoneNumChange}></input>
-            <button id="new_entry" className="save-changes" onClick={saveChanges}>Save entry</button>
+            <label htmlFor="zone_description">Zone description</label>
+            <input type="text" name="new_entry" id={"new"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+            <label htmlFor="zone_first_watering">Set first watering time</label>
+            <input type="text" name="zone_first_watering" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+            <button id="1_+" className="save-changes" onClick={saveNewEntry}>Save entry</button>
+            <button id="1_+" className="save-changes" onClick={cancelChanges}>Cancel</button>
           </div> :
           <></>}
         </div>
@@ -324,37 +400,84 @@ useEffect(() => {
                 </div>
             </div> : <></>}
         </div>
+        </div>
 
+        <div className="all-zone-two">
+        <div className="add-zone-button">{zone2Data.length === 0 ? <button onClick={addZone2} className="add-a-zone">Add zone 2</button> : <></>}</div>
+        <div className="add-new-zone">{newEntry2 === true ? 
+          <div className="new-zone-entry">
+            {/** Ask for zone number and description and make a POST request to the zone table*/}
+            <label htmlFor="zone_description">Zone description</label>
+            <input type="text" name="new_entry" id={"new"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+            <label htmlFor="first_zone_time">Set your first watering time for this zone</label>
+            <input type="text" name="new_entry" id={"new"} value={updatedWaterInput === null ? " " : updatedWaterInput} onChange={handleChangeWaterTime}></input>
+            <button id="2_+" className="save-changes" onClick={saveChanges}>Save entry</button>
+            <button id="2_+" className="save-changes" onClick={cancelChanges}>Cancel</button>
+          </div> :
+          <></>}
+        </div>
         <div>{zone2Data.length > 0 ?
             <div className="zones">
                 <div id="2">Zone 2</div>
                 <div id="2">
                   <div className="watering-data">
                     {zone2Data.map((item, index: number) => (  
-                        entryBeingEdited != "2_"+index ? <div className="display-water-data">
-                        {item.time}<button id={"2_" + index} onClick={updateWateringTime}>Update watering time</button></div>
+                      entryBeingEdited != "2_"+index ? 
+                      <div className="display-water-data">
+                        {item.time}<button id={"2_" + index} onClick={updateWateringTime}>Update watering time</button>
+                      </div>
                        : 
-                      <div className="current-water-schedule"><div id={"2_" + index}><input type="text" name="edit_change" id={"2_" + index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input><button id={"2_" + index} className="save-changes" onClick={saveChanges}>Update entry</button></div></div>
-                        ))}
+                      <div className="current-water-schedule">
+                        <div id={"2_" + index}>
+                          <input type="text" name="edit_change" id={"1_" + index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                          <button id={"2_" + index} className="save-changes" onClick={saveChanges}>Update entry</button>
+                          <button id={"2_" + index} className="delete-changes" onClick={saveChanges}>Delete entry</button>
+                        </div>
+                      </div>
+                    ))}
                   </div> 
                 </div>
             </div> : <></>}
         </div>
+        </div>
 
+        <div className="all-zone-three">
+        <div className="add-zone-button">{zone3Data.length === 0 ? <button onClick={addZone3} className="add-a-zone">Add zone 3</button> : <></>}</div>
+        <div className="add-new-zone">{newEntry3 === true ? 
+          <div className="new-zone-entry">
+            {/** Ask for zone number and description and make a POST request to the zone table*/}
+            <label htmlFor="zone_description">Zone description</label>
+            <input type="text" name="new_entry" id={"new"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+            <label htmlFor="first_zone_time">Set your first watering time for this zone</label>
+            <input type="text" name="new_entry" id={"new"} value={updatedWaterInput === null ? " " : updatedWaterInput} onChange={handleChangeWaterTime}></input>
+            <button id="3_+" className="save-changes" onClick={saveChanges}>Save entry</button>
+            <button id="3_+" className="save-changes" onClick={cancelChanges}>Cancel</button>
+          </div> :
+          <></>}
+        </div>
         <div>{zone3Data.length > 0 ?
             <div className="zones">
                 <div id="3">Zone 3</div>
                 <div id="3">
                   <div className="watering-data">
-                    {zone3Data.map((item, index: number) => (  
-                        entryBeingEdited != "3_"+index ? <div className="display-water-data">
-                        {item.time}<button id={"3_" + index} onClick={updateWateringTime}>Update watering time</button></div>
+                    {zone1Data.map((item, index: number) => (  
+                      entryBeingEdited != "3_"+index ? 
+                      <div className="display-water-data">
+                        {item.time}<button id={"3_" + index} onClick={updateWateringTime}>Update watering time</button>
+                      </div>
                        : 
-                      <div className="current-water-schedule"><div id={"3_" + index}><input type="text" name="edit_change" id={"3_" + index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input><button id={"3_" + index} className="save-changes" onClick={saveChanges}>Update entry</button></div></div>
-                        ))}
+                      <div className="current-water-schedule">
+                        <div id={"3_" + index}>
+                          <input type="text" name="edit_change" id={"3_" + index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                          <button id={"3_" + index} className="save-changes" onClick={saveChanges}>Update entry</button>
+                          <button id={"3_" + index} className="delete-changes" onClick={saveChanges}>Delete entry</button>
+                        </div>
+                      </div>
+                    ))}
                   </div> 
                 </div>
             </div> : <></>}
+        </div>
         </div>
 
       </Modal.Body>
