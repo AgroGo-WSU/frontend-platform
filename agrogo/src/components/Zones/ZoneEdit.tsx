@@ -48,6 +48,9 @@ function ZoneEdit(props) {
   const [addWater1, setAddWater1] = useState(false);
   const [addWater2, setAddWater2] = useState(false);
   const [addWater3, setAddWater3] = useState(false);
+  const [updateZoneDescription1, setUpdateZoneDescription1] = useState(false);
+  const [updateZoneDescription2, setUpdateZoneDescription2] = useState(false);
+  const [updateZoneDescription3, setUpdateZoneDescription3] = useState(false);
 
   console.log("Example of the props thing - this is the id: ", props.data[0].id);
 
@@ -236,7 +239,7 @@ useEffect(() => {
 
     getZoneData();
 
-    },[sendingWaterSchedule]);
+    },[sendingWaterSchedule, updateZoneDescription1, updateZoneDescription2, updateZoneDescription3]);
 
     
   const saveNewEntry = async(event) => {
@@ -287,6 +290,61 @@ useEffect(() => {
 
   }
 
+    const saveNewDescription = async(event) => {
+  
+        const bothIDs = event.target.id.split("_");
+        const zoneArrayID = bothIDs[0];
+
+        try {
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          if (!user) {
+            throw new Error('User not authenticated!');
+          }
+
+          const userIdFB = user.uid;
+          const token = await user.getIdToken();
+
+          console.log("-------->>>>>>>>---->>>>>>--->>>>>-->>>>-->>>->", zoneArrayID);
+      
+          const putData = {
+            createdAt: zoneData[zoneArrayID-1].createdAt,
+            description: newZoneDescription,
+            id: zoneData[zoneArrayID-1].id,
+            userId: userIdFB,
+            zoneName: zoneData[zoneArrayID-1].zoneName,
+            zoneData: [zoneArrayID-1].zoneData,
+          }
+
+          const sentResponse = await axios.put("https://backend.agrogodev.workers.dev/api/data/zone", putData, {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                  }
+              });
+            
+            setSendingWaterSchedule(true);
+            console.log("Sending POST request for watering schedule new data - here's the response ", sentResponse);
+            } catch(error){
+            console.error('Error sending data:', error);
+          } finally {
+            console.log("Looks like the water schedule save new zone request worked!");
+      }
+
+      setUpdatedWaterInput(null);
+      setNewZoneDescription(null);
+      saveChanges(event);
+      setSendingWaterSchedule(false);
+      setEntryBeingEdited("0");
+      setNewZoneDescription(null);
+      setUpdateZoneDescription1(false);
+      setUpdateZoneDescription2(false);
+      setUpdateZoneDescription3(false);
+  }
+
+
+
   function addZone1() {
     setNewEntry1(true);
     setNumberOfZones(numberOfZones+1);
@@ -336,15 +394,30 @@ useEffect(() => {
     setNewZoneDescription(event.target.value);
   }
 
+  function updateDescription1(event) {
+    setUpdateZoneDescription1(true);
+  }
+
+  function updateDescription2(event) {
+    setUpdateZoneDescription2(true);
+  }
+
+  function updateDescription3(event) {
+    setUpdateZoneDescription3(true);
+  }
+
   function cancelChanges() {
     setEntryBeingEdited("0");
     setAddWater1(false);
     setAddWater2(false);
     setAddWater2(false);
-        setNewZoneDescription(null);
+    setNewZoneDescription(null);
     setNewEntry1(false);
     setNewEntry2(false);
     setNewEntry3(false);
+    setUpdateZoneDescription1(false);
+    setUpdateZoneDescription2(false);
+    setUpdateZoneDescription3(false);
   }
 
   function chooseZoneType(event) {
@@ -404,8 +477,8 @@ useEffect(() => {
         <div className="add-zone-button">{zone1Data.length === 0 ? <button onClick={addZone1} className="add-a-zone">Add zone 1</button> : <></>}</div>
         <div className="add-new-zone">{newEntry1 === true ? 
           <div className="new-zone-entry">
-            <label htmlFor="zone_description">Zone description</label>
-            <input type="text" name="new_entry" id={"new"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+            <label htmlFor="zone_description">Enter new zone description</label>
+            <input type="text" name="new_entry" id={"1_+"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
             <label htmlFor="zone_first_watering">Set first watering time</label>
             <input type="text" name="zone_first_watering" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
             <div className="drop-down-zone-choice">
@@ -427,6 +500,15 @@ useEffect(() => {
         <div>{zone1Data.length > 0 ?
             <div className="zones">
                 <div className="zone-title" id="1">Zone 1</div>
+                { zoneData != null && updateZoneDescription1 === true ? 
+                  <div className="updating-new-description" ><label htmlFor="zone_description">Zone description</label>
+                  <input type="text" name="new_entry" id={"1_+"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+                    <button id={"1_+"} className="save-changes" onClick={saveNewDescription}>Update description</button>
+                    <button id={"1_+"} className="save-changes" onClick={cancelChanges}>Cancel</button>           
+                  </div> :            
+                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[0].description}<button onClick={updateDescription1}>Update description</button></div> : 
+                  <></>}</div>
+                }
                 <div id="1">
                   <div className="watering-data">
                     {zone1Data.map((item, index: number) => (  
@@ -461,7 +543,7 @@ useEffect(() => {
                 {addWater1 === false ? <button id={"1_+"} className="add-new-water" onClick={addNewWater1}>Add water time</button> : 
                 <>
                   <label htmlFor="zone_first_watering">Set watering time</label>
-                  <input type="text" name="zone_first_watering" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                  <input type="text" name="zone_first_watering" id={"1_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                     <div className="drop-down-zone-choice">
                       <Dropdown>
                       <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType1}
@@ -484,8 +566,8 @@ useEffect(() => {
         <div className="add-zone-button">{zone2Data.length === 0 ? <button onClick={addZone2} className="add-a-zone">Add zone 2</button> : <></>}</div>
         <div className="add-new-zone">{newEntry2 === true ? 
           <div className="new-zone-entry">
-            <label htmlFor="zone_description">zone description</label>
-            <input type="text" name="new_entry" id={"new"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+            <label htmlFor="zone_description">Enter new zone description</label>
+            <input type="text" name="new_entry" id={"2_+"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
             <label htmlFor="zone_first_watering">Set first watering time</label>
             <input type="text" name="zone_first_watering" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
             <div className="drop-down-zone-choice">
@@ -507,6 +589,15 @@ useEffect(() => {
         <div>{zone2Data.length > 0 ?
             <div className="zones">
                 <div className="zone-title" id="2">Zone 2</div>
+                { zoneData != null && updateZoneDescription2 === true ? 
+                  <div className="updating-new-description" ><label htmlFor="zone_description">Zone description</label>
+                  <input type="text" name="new_entry" id={"2_+"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+                    <button id={"2_+"} className="save-changes" onClick={saveNewDescription}>Update description</button>
+                    <button id={"2_+"} className="save-changes" onClick={cancelChanges}>Cancel</button>           
+                  </div> :            
+                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[1].description}<button onClick={updateDescription2}>Update description</button></div> : 
+                  <></>}</div>
+                }
                 <div id="2">
                   <div className="watering-data">
                     {zone2Data.map((item, index: number) => (  
@@ -518,21 +609,21 @@ useEffect(() => {
                       <div className="current-water-schedule">
                         <div id={"2_" + index}>
                           <label htmlFor="update_watering_time">Set watering time</label>
-                          <input type="text" name="edit_change" id={"2_" + index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                          <input type="text" name="edit_change" id={"2_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                             <div className="drop-down-zone-choice">
                               <Dropdown>
                               <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType2}
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                  <Dropdown.Item><button className="vegetable-button" id={"2_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="flower-button" id={"2_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="general-button" id={"2_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="vegetable-button" id={"2_"+index} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="flower-button" id={"2_"+index} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="general-button" id={"2_"+index} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
                               </Dropdown.Menu>
                               </Dropdown>
                           </div>
                           <button id={"2_" + index} className="save-changes" onClick={saveChanges}>Update entry</button>
                           <button id={"2_" + index} className="delete-changes" onClick={saveChanges}>Delete entry</button>
-                          <button id="2_+" className="save-changes" onClick={cancelChanges}>Cancel</button>
+                          <button id={"2_"+index} className="save-changes" onClick={cancelChanges}>Cancel</button>
                         </div>
                       </div>
                     ))}
@@ -541,7 +632,7 @@ useEffect(() => {
                 {addWater2 === false ? <button id={"2_+"} className="add-new-water" onClick={addNewWater2}>Add water time</button> : 
                 <>
                   <label htmlFor="zone_first_watering">Set watering time</label>
-                  <input type="text" name="zone_first_watering" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                  <input type="text" name="zone_first_watering" id={"2_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                     <div className="drop-down-zone-choice">
                       <Dropdown>
                       <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType2}
@@ -564,8 +655,8 @@ useEffect(() => {
         <div className="add-zone-button">{zone3Data.length === 0 ? <button onClick={addZone3} className="add-a-zone">Add zone 3</button> : <></>}</div>
         <div className="add-new-zone">{newEntry3 === true ? 
           <div className="new-zone-entry">
-            <label htmlFor="zone_description">zone description</label>
-            <input type="text" name="new_entry" id={"new"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+            <label htmlFor="zone_description">Enter new zone description</label>
+            <input type="text" name="new_entry" id={"3_+"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
             <label htmlFor="zone_first_watering">Set first watering time</label>
             <input type="text" name="zone_first_watering" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
             <div className="drop-down-zone-choice">
@@ -587,6 +678,15 @@ useEffect(() => {
         <div>{zone3Data.length > 0 ?
             <div className="zones">
                 <div className="zone-title" id="3">Zone 3</div>
+                { zoneData != null && updateZoneDescription3 === true ? 
+                  <div className="updating-new-description" ><label htmlFor="zone_description">Zone description</label>
+                  <input type="text" name="new_entry" id={"3_+"} value={newZoneDescription} onChange={handleNewZoneDescriptionChange}></input>
+                    <button id={"3_+"} className="save-changes" onClick={saveNewDescription}>Update description</button>
+                    <button id={"3_+"} className="save-changes" onClick={cancelChanges}>Cancel</button>           
+                  </div> :            
+                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[2].description}<button onClick={updateDescription3}>Update description</button></div> : 
+                  <></>}</div>
+                }
                 <div id="3">
                   <div className="watering-data">
                     {zone3Data.map((item, index: number) => (  
@@ -598,30 +698,30 @@ useEffect(() => {
                       <div className="current-water-schedule">
                         <div id={"3_" + index}>
                           <label htmlFor="update_watering_time">Set watering time</label>
-                          <input type="text" name="edit_change" id={"3_" + index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                          <input type="text" name="edit_change" id={"3_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                             <div className="drop-down-zone-choice">
                               <Dropdown>
                               <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType3}
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                  <Dropdown.Item><button className="vegetable-button" id={"3_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="flower-button" id={"3_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="general-button" id={"3_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="vegetable-button" id={"3_"+index} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="flower-button" id={"3_"+index} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="general-button" id={"3_"+index} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
                               </Dropdown.Menu>
                               </Dropdown>
                           </div>
                           <button id={"3_" + index} className="save-changes" onClick={saveChanges}>Update entry</button>
                           <button id={"3_" + index} className="delete-changes" onClick={saveChanges}>Delete entry</button>
-                          <button id="3_+" className="save-changes" onClick={cancelChanges}>Cancel</button>
+                          <button id={"3_"+index} className="save-changes" onClick={cancelChanges}>Cancel</button>
                         </div>
                       </div>
                     ))}
                   </div> 
                 </div>
-                {addWater3 === false? <button id={"3_+"} className="add-new-water" onClick={addNewWater3}>Add water time</button> : 
+                {addWater3 === false ? <button id={"3_+"} className="add-new-water" onClick={addNewWater3}>Add water time</button> : 
                 <>
                   <label htmlFor="zone_first_watering">Set watering time</label>
-                  <input type="text" name="zone_first_watering" id={"new"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                  <input type="text" name="zone_first_watering" id={"3_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                     <div className="drop-down-zone-choice">
                       <Dropdown>
                       <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType3}
