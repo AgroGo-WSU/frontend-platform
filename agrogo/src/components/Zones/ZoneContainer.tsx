@@ -37,7 +37,7 @@ function ZoneContainer() {
                 }
             });
 
-          console.log("Setting zone data: ", response.data.data);
+          console.log("Setting zone data in ZoneContainer: ", response.data.data);
           setZoneData(response.data.data);
           } catch(error){
             console.error('Error fetching zone data:', error);
@@ -50,25 +50,23 @@ function ZoneContainer() {
 
     },[modalShow]);
 
-  function addZone() {
-    setNumberOfZones(numberOfZones+1);
-  }
-
   function editZone() {
     setModalShow(true);
     console.log("**************************modal should be showing");
   }
 
-  console.log("Number of zones: ", numberOfZones);
-  console.log("showModal: ", modalShow);
 
     return (
         <div>
         {modalShow === true ? <div className="edit-modal"><ZoneEdit show={modalShow} onHide={() => setModalShow(false)} data={zoneData}/></div> : <></>}
         <div className="zone-flex-container d-flex flex-column flex-xl-row justify-content-between">
-          <ZoneCard plants="Carrots and cucumbers"        image="../src/assets/zone-images/vegetable.png"/>
+          {/* <ZoneCard plants="Carrots and cucumbers"        image="../src/assets/zone-images/vegetable.png"/>
           <ZoneCard plants="Cosmos and petunias"          image="../src/assets/zone-images/flower.png"/>
-          <ZoneCard plants="Peppers, lavender, kale"      image="../src/assets/zone-images/plant.png"/>
+          <ZoneCard plants="Peppers, lavender, kale"      image="../src/assets/zone-images/plant.png"/> */}
+          {zoneData != null ? zoneData.map(item =>(
+            <ZoneCard plants={item.description} image={item.zoneType} />
+          )) : <></>
+          }
         </div>
         <div className="add-zone-button">{<button className="eit-zones" onClick={editZone}>Edit zones</button>}</div>
         </div>
