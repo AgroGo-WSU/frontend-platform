@@ -36,7 +36,7 @@ function Dashboard() {
         </div>
       </div>  
     </div> 
-      <footer className="footer"><div className="what">copyright AgroGo 2025 THIS IS THE ALTERNATE DASHBOARD1 COMPONENT</div></footer>
+      <footer className="footer"><div className="what">copyright AgroGo 2025</div></footer>
     </div> 
     </>
   )

@@ -3,3 +3,7 @@
     color: black;
     pointer-events: none;
 }
+
+.zone-title {
+    font-size: max(1.2vw, 18px);
+}
