@@ -9,7 +9,7 @@ import { getAuth } from "firebase/auth";
 import { Collapse } from "react-bootstrap";
 
 function ProfileDisplay() {
-  // grabbing our current user from the Authentication context we created
+  // grabbing our current Firebase user from the Authentication context we created
   const { currentUser } = useContext(AuthContext);
 
   // Little confusing, but this is the user's data in D1, the currentUser
@@ -251,7 +251,8 @@ function ProfileDisplay() {
       </div>
       <hr />
 
-      <div>
+      <div className="stats">
+        <h4>Quick Stats</h4>
         <p>Plants: {userPlantCount}</p>
         <p>Daily Watering: {userWaterCount}</p>
         <p>Daily Fan Cycles: {userFanCount}</p>
@@ -260,9 +261,6 @@ function ProfileDisplay() {
       <div className="profile-mini d-xl-none">
 			  <ProfileMini />
 		  </div>
-        
-        {/* Notifications */}
-        {/* <NotificationsPanel items={items} onClearAll={clear} /> */}
     
       </div>
       </aside>
