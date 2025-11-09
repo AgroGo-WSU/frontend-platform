@@ -6,6 +6,7 @@ import TopNav from '../TopNav'
 import ZoneContainer from '../Zones/ZoneContainer';
 import WeatherContainer from '../Weather/WeatherContainer';
 import SmallTitle from '../SmallTitle';
+import StatsContainer from '../StatsContainer';
 import { useContext } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
 
@@ -34,7 +35,7 @@ function Dashboard() {
             <div className="weather mx-auto p-4"><SmallTitle title="Weather"/><WeatherContainer /></div>
           </div>
           <div className="stats-container">
-            <div className="stats"><SmallTitle title="Stats"></SmallTitle></div>
+            <div className="stats"><SmallTitle title="Stats" /><StatsContainer /></div>
           </div>
         </div>
       </div>  

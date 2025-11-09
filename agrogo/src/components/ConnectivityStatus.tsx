@@ -107,15 +107,15 @@ function ConnectivityStatus() {
     const time_checked_moment = moment(string_date);
     const time_checked = time_checked_moment.tz('America/New_York').format('h:mm A');
 
-    let status = "offline.";
+    let status = "offline ";
     if((last_connection.id != "00") && (last_connection.id != null)) {
-      status = "online.";
+      status = "online ";
     }
 
 
   return (
     <div className="connect-container">
-    <div className="device-line"><div className="your-device">Your device is</div> <div>{status === "online" ? <div className="status-online">{status}</div> : <div className="status-onffline">{status}</div>}</div></div>
+    <div className="device-line"><div className="your-device">Your device is</div> <div>{status === "online " ? <div className="status-online">{status}<img src={"../../src/assets/connected.svg"} width="10px"></img></div> : <div className="status-onffline">{status}<img src={"../../src/assets/disconnected.svg"} width="10px"></img></div>}</div></div>
     <div className="checked-line"><div> last checked at {time_checked}</div></div>
     </div>
   );
