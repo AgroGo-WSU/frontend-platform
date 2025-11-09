@@ -32,7 +32,6 @@
     /* background-color: purple; */
     display: flex;
     flex-direction: column;
-    height: 60px;
 }
 
 /** this is specifically for the headings that "Plant name", "Type", "Quantity", and "Date planted" */
@@ -58,19 +57,19 @@
     display: flex;
     align-items: center;
     min-width: fit-content;
+    height: 60px;
     max-height: 200px;
     font-size: max(1vw, 15px);
     border: solid 1px #173D23;
     padding: 6px;
 }
 
-button {
-    font-size: 10px;
-}
 
 .add-enabled {    
     color: #173D23;
     background-color: #F2EEE3;
+    font-size: 10px;
+    margin: 2px;
 }
 
 .add-disabled {
@@ -79,4 +78,30 @@ button {
     cursor: text;
     text-decoration: none;
     pointer-events: none;
+    font-size: 10px;
+    margin: 2px;
+}
+
+.edit-enabled {
+    font-size: 10px;
+    background-color: #F2EEE3;
+    margin: 2px;
+}
+
+.edit-disabled {
+    font-size: 10px;
+    background-color: #F2EEE3;
+    margin: 2px;
+}
+
+.small-button {
+    font-size: 10px;
+    background-color: #F2EEE3;
+    margin: 2px;
+}
+
+.edit-delete {
+    font-size: 10px;
+    background-color: #F2EEE3;
+    margin: 2px;
 }

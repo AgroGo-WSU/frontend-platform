@@ -333,7 +333,7 @@ function Inventory() {
             
             {newEntry === true ? (
               <div className="table-data">
-                <label htmlFor="input_name">Plant name</label>{newEntry === true ? <button id="new_entry" onClick={saveChanges}>Save entry</button> : <></>}{newEntry === true ? <button onClick={clearState}>Clear</button> : <></>}<br />
+                <label htmlFor="input_name">Plant name</label>{newEntry === true ? <button id="new_entry" className="small-button" onClick={saveChanges}>Save entry</button> : <></>}{newEntry === true ? <button className= "small-button" onClick={clearState}>Clear</button> : <></>}<br />
                 <input type="text" name="input_name" onChange={handleChangeName}></input>
               </div>
             ) : <></>}
