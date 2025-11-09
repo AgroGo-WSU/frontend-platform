@@ -121,11 +121,12 @@ useEffect(() => {
       
         if (eventTYPE === "Save entry") {
 
+        console.log("----->>>>>>>---------------------------->>>>>>>>>> ", zoneArrayID);
         const postData = {
           id: Math.round(Math.random()*100),
           type: zoneArrayID,
           userId: userIdFB,
-          scheduledTime: updatedWaterInput,
+          time: updatedWaterInput,
           duration: "1",
         }
 
