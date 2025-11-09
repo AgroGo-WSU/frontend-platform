@@ -52,7 +52,7 @@ function ZoneEdit(props) {
   const [updateZoneDescription2, setUpdateZoneDescription2] = useState(false);
   const [updateZoneDescription3, setUpdateZoneDescription3] = useState(false);
 
-  console.log("Example of the props thing - this is the id: ", props.data[0].id);
+  // console.log("Example of the props thing - this is the id: ", props.data[0].id);
 
 useEffect(() => {
       const getWateringTimes = async () => {
@@ -102,7 +102,7 @@ useEffect(() => {
 
         let findData = [];
 
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", waterSchedZone1);
+        // console.log("Water", waterSchedZone1);
 
         // find which array of data to take form:
         if(zoneArrayID === "1") {
@@ -246,6 +246,16 @@ useEffect(() => {
   
         const bothIDs = event.target.id.split("_");
         const zoneArrayID = bothIDs[0];
+
+        let zoneTypeFinal;
+
+        if(zoneArrayID === "1") {
+          zoneTypeFinal = zoneType1;
+        } else if(zoneArrayID === "2") {
+          zoneTypeFinal = zoneType2;
+        } else if(zoneArrayID === "3") {
+          zoneTypeFinal = zoneType3;
+        }
 
         try {
           const auth = getAuth();
@@ -411,6 +421,7 @@ useEffect(() => {
     setAddWater1(false);
     setAddWater2(false);
     setAddWater2(false);
+    setUpdatedWaterInput(null);
     setNewZoneDescription(null);
     setNewEntry1(false);
     setNewEntry2(false);
@@ -418,10 +429,21 @@ useEffect(() => {
     setUpdateZoneDescription1(false);
     setUpdateZoneDescription2(false);
     setUpdateZoneDescription3(false);
+    setZoneType1("Zone type");
+    setZoneType2("Zone type");
+    setZoneType3("Zone type");
   }
 
-  function chooseZoneType(event) {
+  function chooseZoneType1(event) {
     setZoneType1(event.target.firstChild.data);
+  }
+
+  function chooseZoneType2(event) {
+    setZoneType2(event.target.firstChild.data);
+  }
+
+  function chooseZoneType3(event) {
+    setZoneType3(event.target.firstChild.data);
   }
 
 
@@ -474,7 +496,7 @@ useEffect(() => {
          * This means, make the get request from the water schedule, set the waterSchedule data, if it's there, map it
          */}
         <div className="all-zone-one">
-        <div className="add-zone-button">{zone1Data.length === 0 ? <button onClick={addZone1} className="add-a-zone">Add zone 1</button> : <></>}</div>
+        <div className="add-zone-button">{zone1Data.length === 0 && newEntry1 === false ? <button onClick={addZone1} className="add-a-zone">Add zone 1</button> : <></>}</div>
         <div className="add-new-zone">{newEntry1 === true ? 
           <div className="new-zone-entry">
             <label htmlFor="zone_description">Enter new zone description</label>
@@ -486,9 +508,9 @@ useEffect(() => {
                 <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType1}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                    <Dropdown.Item><button className="vegetable-button" id={"1_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                    <Dropdown.Item><button className="flower-button" id={"1_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                    <Dropdown.Item><button className="general-button" id={"1_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                    <Dropdown.Item><button className="vegetable-button" id={"1_+"} onClick={chooseZoneType1}>Vegetables</button></Dropdown.Item>
+                    <Dropdown.Item><button className="flower-button" id={"1_+"} onClick={chooseZoneType1}>Flowers</button></Dropdown.Item>
+                    <Dropdown.Item><button className="general-button" id={"1_+"} onClick={chooseZoneType1}>Mixed/other</button></Dropdown.Item>
                 </Dropdown.Menu>
                 </Dropdown>
             </div>
@@ -506,7 +528,7 @@ useEffect(() => {
                     <button id={"1_+"} className="save-changes" onClick={saveNewDescription}>Update description</button>
                     <button id={"1_+"} className="save-changes" onClick={cancelChanges}>Cancel</button>           
                   </div> :            
-                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[0].description}<button onClick={updateDescription1}>Update description</button></div> : 
+                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[0] != null ? zoneData[0].description : " "}<button onClick={updateDescription1}>Update description</button></div> : 
                   <></>}</div>
                 }
                 <div id="1">
@@ -526,9 +548,9 @@ useEffect(() => {
                               <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType1}
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                  <Dropdown.Item><button className="vegetable-button" id={"1_"+index} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="flower-button" id={"1_"+index} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="general-button" id={"1_"+index} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="vegetable-button" id={"1_"+index} onClick={chooseZoneType1}>Vegetables</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="flower-button" id={"1_"+index} onClick={chooseZoneType1}>Flowers</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="general-button" id={"1_"+index} onClick={chooseZoneType1}>Mixed/other</button></Dropdown.Item>
                               </Dropdown.Menu>
                               </Dropdown>
                           </div>
@@ -549,9 +571,9 @@ useEffect(() => {
                       <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType1}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                          <Dropdown.Item><button className="vegetable-button" id={"1_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                          <Dropdown.Item><button className="flower-button" id={"1_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                          <Dropdown.Item><button className="general-button" id={"1_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                          <Dropdown.Item><button className="vegetable-button" id={"1_+"} onClick={chooseZoneType1}>Vegetables</button></Dropdown.Item>
+                          <Dropdown.Item><button className="flower-button" id={"1_+"} onClick={chooseZoneType1}>Flowers</button></Dropdown.Item>
+                          <Dropdown.Item><button className="general-button" id={"1_+"} onClick={chooseZoneType1}>Mixed/other</button></Dropdown.Item>
                       </Dropdown.Menu>
                       </Dropdown>
                   </div>
@@ -563,7 +585,7 @@ useEffect(() => {
         </div>
 
         <div className="all-zone-two">
-        <div className="add-zone-button">{zone2Data.length === 0 ? <button onClick={addZone2} className="add-a-zone">Add zone 2</button> : <></>}</div>
+        <div className="add-zone-button">{zone2Data.length === 0 && newEntry2 === false ? <button onClick={addZone2} className="add-a-zone">Add zone 2</button> : <></>}</div>
         <div className="add-new-zone">{newEntry2 === true ? 
           <div className="new-zone-entry">
             <label htmlFor="zone_description">Enter new zone description</label>
@@ -575,9 +597,9 @@ useEffect(() => {
                 <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType2}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                    <Dropdown.Item><button className="vegetable-button" id={"2_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                    <Dropdown.Item><button className="flower-button" id={"2_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                    <Dropdown.Item><button className="general-button" id={"2_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                    <Dropdown.Item><button className="vegetable-button" id={"2_+"} onClick={chooseZoneType2}>Vegetables</button></Dropdown.Item>
+                    <Dropdown.Item><button className="flower-button" id={"2_+"} onClick={chooseZoneType2}>Flowers</button></Dropdown.Item>
+                    <Dropdown.Item><button className="general-button" id={"2_+"} onClick={chooseZoneType2}>Mixed/other</button></Dropdown.Item>
                 </Dropdown.Menu>
                 </Dropdown>
             </div>
@@ -595,7 +617,7 @@ useEffect(() => {
                     <button id={"2_+"} className="save-changes" onClick={saveNewDescription}>Update description</button>
                     <button id={"2_+"} className="save-changes" onClick={cancelChanges}>Cancel</button>           
                   </div> :            
-                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[1].description}<button onClick={updateDescription2}>Update description</button></div> : 
+                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[1] != null ? zoneData[1].description  :  " "}<button onClick={updateDescription2}>Update description</button></div> : 
                   <></>}</div>
                 }
                 <div id="2">
@@ -615,9 +637,9 @@ useEffect(() => {
                               <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType2}
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                  <Dropdown.Item><button className="vegetable-button" id={"2_"+index} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="flower-button" id={"2_"+index} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="general-button" id={"2_"+index} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="vegetable-button" id={"2_"+index} onClick={chooseZoneType2}>Vegetables</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="flower-button" id={"2_"+index} onClick={chooseZoneType2}>Flowers</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="general-button" id={"2_"+index} onClick={chooseZoneType2}>Mixed/other</button></Dropdown.Item>
                               </Dropdown.Menu>
                               </Dropdown>
                           </div>
@@ -638,9 +660,9 @@ useEffect(() => {
                       <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType2}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                          <Dropdown.Item><button className="vegetable-button" id={"2_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                          <Dropdown.Item><button className="flower-button" id={"2_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                          <Dropdown.Item><button className="general-button" id={"2_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                          <Dropdown.Item><button className="vegetable-button" id={"2_+"} onClick={chooseZoneType2}>Vegetables</button></Dropdown.Item>
+                          <Dropdown.Item><button className="flower-button" id={"2_+"} onClick={chooseZoneType2}>Flowers</button></Dropdown.Item>
+                          <Dropdown.Item><button className="general-button" id={"2_+"} onClick={chooseZoneType2}>Mixed/other</button></Dropdown.Item>
                       </Dropdown.Menu>
                       </Dropdown>
                   </div>
@@ -652,7 +674,7 @@ useEffect(() => {
         </div>
 
         <div className="all-zone-three">
-        <div className="add-zone-button">{zone3Data.length === 0 ? <button onClick={addZone3} className="add-a-zone">Add zone 3</button> : <></>}</div>
+        <div className="add-zone-button">{zone3Data.length === 0 && newEntry3 === false ? <button onClick={addZone3} className="add-a-zone">Add zone 3</button> : <></>}</div>
         <div className="add-new-zone">{newEntry3 === true ? 
           <div className="new-zone-entry">
             <label htmlFor="zone_description">Enter new zone description</label>
@@ -664,9 +686,9 @@ useEffect(() => {
                 <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType3}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                    <Dropdown.Item><button className="vegetable-button" id={"3_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                    <Dropdown.Item><button className="flower-button" id={"3_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                    <Dropdown.Item><button className="general-button" id={"3_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                    <Dropdown.Item><button className="vegetable-button" id={"3_+"} onClick={chooseZoneType3}>Vegetables</button></Dropdown.Item>
+                    <Dropdown.Item><button className="flower-button" id={"3_+"} onClick={chooseZoneType3}>Flowers</button></Dropdown.Item>
+                    <Dropdown.Item><button className="general-button" id={"3_+"} onClick={chooseZoneType3}>Mixed/other</button></Dropdown.Item>
                 </Dropdown.Menu>
                 </Dropdown>
             </div>
@@ -684,7 +706,7 @@ useEffect(() => {
                     <button id={"3_+"} className="save-changes" onClick={saveNewDescription}>Update description</button>
                     <button id={"3_+"} className="save-changes" onClick={cancelChanges}>Cancel</button>           
                   </div> :            
-                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[2].description}<button onClick={updateDescription3}>Update description</button></div> : 
+                  <div className="display-new-description">{zoneData != null ? <div className="update-description">{zoneData[2] != null ? zoneData[2].description  :  " "}<button onClick={updateDescription3}>Update description</button></div> : 
                   <></>}</div>
                 }
                 <div id="3">
@@ -704,9 +726,9 @@ useEffect(() => {
                               <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType3}
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                  <Dropdown.Item><button className="vegetable-button" id={"3_"+index} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="flower-button" id={"3_"+index} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                                  <Dropdown.Item><button className="general-button" id={"3_"+index} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="vegetable-button" id={"3_"+index} onClick={chooseZoneType3}>Vegetables</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="flower-button" id={"3_"+index} onClick={chooseZoneType3}>Flowers</button></Dropdown.Item>
+                                  <Dropdown.Item><button className="general-button" id={"3_"+index} onClick={chooseZoneType3}>Mixed/other</button></Dropdown.Item>
                               </Dropdown.Menu>
                               </Dropdown>
                           </div>
@@ -727,9 +749,9 @@ useEffect(() => {
                       <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType3}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                          <Dropdown.Item><button className="vegetable-button" id={"3_+"} onClick={chooseZoneType}>Vegetables</button></Dropdown.Item>
-                          <Dropdown.Item><button className="flower-button" id={"3_+"} onClick={chooseZoneType}>Flowers</button></Dropdown.Item>
-                          <Dropdown.Item><button className="general-button" id={"3_+"} onClick={chooseZoneType}>Mixed/other</button></Dropdown.Item>
+                          <Dropdown.Item><button className="vegetable-button" id={"3_+"} onClick={chooseZoneType3}>Vegetables</button></Dropdown.Item>
+                          <Dropdown.Item><button className="flower-button" id={"3_+"} onClick={chooseZoneType3}>Flowers</button></Dropdown.Item>
+                          <Dropdown.Item><button className="general-button" id={"3_+"} onClick={chooseZoneType3}>Mixed/other</button></Dropdown.Item>
                       </Dropdown.Menu>
                       </Dropdown>
                   </div>
