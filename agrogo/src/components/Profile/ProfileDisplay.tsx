@@ -31,26 +31,20 @@ function ProfileDisplay() {
 
       <div className="name">{userName}</div>
 
-      {/* Today’s Plan */}
-      <PlanBubble />
+
 
       {/* connection, humidity, temp */}
       <div className="d-none d-xl-block"><ConnectivityStatus /></div>
       <div className="d-none d-xl-block"><Humidity /></div>
       <div className="d-none d-xl-block"><Temp /></div>
 
-      {/* Today’s Plan bubble
-      <div className="d-none d-xl-block">
-      <PlanBubble />
-      </div> */}
+
 
       <div className="profile-mini d-xl-none">
 			  <ProfileMini />
 		  </div>
         
-           {/* Notifications */}
-      {/* <NotificationsPanel items={items} onClearAll={clear} /> */}
-        {/* Example placeholders of the info that will go here */}
+
     
       </div>
       </aside>

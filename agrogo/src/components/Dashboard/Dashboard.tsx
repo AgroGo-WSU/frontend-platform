@@ -33,6 +33,9 @@ function Dashboard() {
             <div className="zones mx-auto p-4"><SmallTitle title="Zones"/><ZoneContainer /></div>
             <div className="weather mx-auto p-4"><SmallTitle title="Weather"/><WeatherContainer /></div>
           </div>
+          <div className="stats-container">
+            <div className="stats"><SmallTitle title="Stats"></SmallTitle></div>
+          </div>
         </div>
       </div>  
     </div> 

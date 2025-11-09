@@ -41,6 +41,11 @@
     justify-content: center;
 }
 
+.stats-container {
+    position: absolute;
+    bottom: 120px;
+}
+
 
 
 

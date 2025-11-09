@@ -57,7 +57,7 @@ function ZoneContainer() {
 
 
     return (
-        <div>
+        <div className="zone-container-top">
         {modalShow === true ? <div className="edit-modal"><ZoneEdit show={modalShow} onHide={() => setModalShow(false)} data={zoneData}/></div> : <></>}
         <div className="zone-flex-container d-flex flex-column flex-xl-row justify-content-between">
           {/* <ZoneCard plants="Carrots and cucumbers"        image="../src/assets/zone-images/vegetable.png"/>
