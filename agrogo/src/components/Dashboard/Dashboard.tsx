@@ -8,11 +8,50 @@ import WeatherContainer from '../Weather/WeatherContainer';
 import SmallTitle from '../SmallTitle';
 import { useContext } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
+import { useEffect, useState } from 'react';
 import StatsContainer from '../StatsContainer';
+import axios from 'axios';
+import { getAuth } from 'firebase/auth';
 
 function Dashboard() {
   // grabbing our current user from the Authentication context we created
   const { currentUser } = useContext(AuthContext);
+  const [hasPi, setHasPi] = useState(false);
+
+  useEffect(() => {
+    const getConnection = async () => {
+
+      try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        throw new Error('User not authenticated!');
+      }
+
+      const token = await user.getIdToken();
+      // console.log(token);
+    
+      const response = await axios.get("https://backend.agrogodev.workers.dev/api/user/user", {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+              }
+          });
+
+        console.log("SETTING DATA: ", response.data.data);
+
+        if(response.data.data[0].raspiMac) {
+          setHasPi(true)
+        }
+        } catch(error){
+          console.error('Error fetching data:', error);
+        }
+  };
+
+  getConnection();
+
+  },[hasPi]);
 
   let userName = 'friend';
   if (currentUser) {
@@ -42,7 +81,7 @@ function Dashboard() {
                   <SmallTitle title="Zones" />
                   <ZoneContainer />
 
-                  <StatsContainer />
+                  {hasPi === true ? (<StatsContainer />) : <></>}
                 </div>
 
                 <div className="weather mx-auto p-4">
