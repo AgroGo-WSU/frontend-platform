@@ -3,7 +3,6 @@ import "../../stylesheets/SidebarColumn.css"; // NEW
 import ProfileImage from "./ProfileImage";
 import ProfileMini from "./ProfileMini";
 import { useContext, useEffect, useState } from 'react';
-import { useContext } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
