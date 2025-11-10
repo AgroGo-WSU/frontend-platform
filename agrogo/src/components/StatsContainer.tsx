@@ -1,20 +1,19 @@
-import '../stylesheets/StatsContainer.css'
-import Humidity from './Humidity';
-import Temp from './Temp';
+import '../stylesheets/StatsContainer.css';
+import AnalogStats from './Stats/AnalogStats';
 
-// dynamically render zone images using state to hold the image name suffix
-// use the map function to render the zone images on screen along with the descriptions
-
+// StatsContainer now renders the large analog-style humidity + temperature display
+// that matches the AgroGo dashboard aesthetic.
 
 function StatsContainer() {
+  // In the future, you can replace these values with live sensor data.
+  const humidity = 50.0;
+  const temperature = 73.0;
 
-
-    return (
-        <div className="stats-container-top">
-            <div className="hum"><Humidity /></div>
-            <div className="temp"><Temp /></div>
-        </div>
-    )
+  return (
+    <div className="stats-container-top">
+      <AnalogStats humidity={humidity} temperature={temperature} />
+    </div>
+  );
 }
 
 export default StatsContainer;

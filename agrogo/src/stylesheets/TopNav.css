@@ -1,62 +1,81 @@
 .navbar.agro-navbar {
-    /* Text colors (vegetable green) */
-    --bs-navbar-color: #173D23;
-    --bs-navbar-hover-color: #0f2917;
-    --bs-navbar-disabled-color: #597160;
-    --bs-navbar-active-color: #0f2917;
-  
-    /* Brand color (logo/title) */
-    --bs-navbar-brand-color: #173D23;
-    --bs-navbar-brand-hover-color: #0f2917;
-  
-    /* Optional dropdown colors */
-    --bs-dropdown-link-color: #173D23;
-    --bs-dropdown-link-hover-color: #0f2917;
-  
-    /* Keep burgundy bottom border */
-    border-bottom: 4px solid #800020 !important;
-    box-shadow: none !important;
-  }
-  
-  /* Ensure Brand uses our green even if variables are bypassed somewhere */
-  #nav-bar-title {
-    color: #173D23 !important;
-    font-family: "Nunito", sans-serif !important;
-    font-weight: 400;
-    font-style: normal;
-    pointer-events: none;
-  }
-  
-  /* Nav links fallback (in case of older Bootstrap rules) */
-  .navbar .nav-link,
-  .navbar .dropdown-toggle {
-    color: #173D23 !important;
-  }
-  .navbar .nav-link:hover,
-  .navbar .dropdown-toggle:hover {
-    color: #0f2917 !important;
-  }
-  
-  /* Dropdown items */
-  .navbar .dropdown-menu .dropdown-item {
-    color: #173D23 !important;
-  }
-  .navbar .dropdown-menu .dropdown-item:hover,
-  .navbar .dropdown-menu .dropdown-item:focus {
-    color: #0f2917 !important;
-  }
-  
-  /* Icon sizing (unchanged) */
-  .icon-img {
-    width: max(1.5vw, 15px);
-    margin-left: 10px;
-  }
+  --bs-navbar-color: #173d23;
+  --bs-navbar-hover-color: #0f2917;
+  --bs-navbar-disabled-color: #597160;
+  --bs-navbar-active-color: #0f2917;
+  --bs-navbar-brand-color: #173d23;
+  --bs-navbar-brand-hover-color: #0f2917;
+  --bs-dropdown-link-color: #173d23;
+  --bs-dropdown-link-hover-color: #0f2917;
 
-  .green-icons {
-    flex-wrap: wrap;
-  }
-  
-  .signout-button {
-    background-color: #F2EEE3; 
-    margin-left: 10px;
-  }
+  border-bottom: 4px solid #173D23 !important;
+  box-shadow: none !important;
+  width: 100%;
+}
+
+/* Centered container holding logo + other nav items */
+.main-nav-container {
+  padding-left: 1.5rem;
+}
+
+/* Ensure Brand uses our green even if variables are bypassed somewhere */
+#nav-bar-title {
+  color: #173d23 !important;
+  font-family: "Nunito", sans-serif !important;
+  font-weight: 400;
+  font-style: normal;
+  pointer-events: none;
+}
+
+/* Nav links fallback (in case of older Bootstrap rules) */
+.navbar .nav-link,
+.navbar .dropdown-toggle {
+  color: #173d23 !important;
+}
+
+.navbar .nav-link:hover,
+.navbar .dropdown-toggle:hover {
+  color: #0f2917 !important;
+}
+
+/* Icon sizing (if you add them back later) */
+.icon-img {
+  width: max(1.5vw, 15px);
+  margin-left: 10px;
+}
+
+.green-icons {
+  flex-wrap: wrap;
+}
+
+/* --- Sign Out button on the far right --- */
+.nav-signout {
+  position: absolute;
+  top: 10px;          /* adjust vertical placement */
+  right: 20px;        /* smaller = closer to browser edge */
+  z-index: 10;/
+}
+
+.signout-button {
+  background-color: #f2eee3;
+  border: 1px solid #c9c0aa;
+  border-radius: 6px;
+  padding: 6px 18px;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.95rem;
+  color: #173d23;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    transform 0.05s ease;
+}
+
+.signout-button:hover:not(:disabled) {
+  background-color: #e6ddc7;
+  border-color: #b4a78a;
+  transform: translateY(-1px);
+}
+
+.signout-button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
