@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
-import { Collapse, Carousel, CarouselItem } from "react-bootstrap";
+import { Collapse } from "react-bootstrap";
 
 function ProfileDisplay() {
   // grabbing our current Firebase user from the Authentication context we created
@@ -37,6 +37,7 @@ function ProfileDisplay() {
   const [userPlantCount, setUserPlantCount] = useState(0);
   const [userFanCount, setUserFanCount] = useState(0);
   const [userWaterCount, setUserWaterCount] = useState(0);
+  const [userRecentNotifications, setUserRecentNotifications] = useState([]);
 
   async function getBearerToken() {
     const auth = getAuth();
@@ -126,6 +127,29 @@ function ProfileDisplay() {
     }
   };
 
+  async function fetchRecentUserNotifications() {
+    try {
+      const token = await getBearerToken();
+
+      const notifRes = await axios.get(
+        "https://backend.agrogodev.workers.dev/api/user/alert",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const responses = notifRes.data.data;
+
+      // Get the 3 most recent notifications
+      const mostRecentResponses = responses
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 3);
+
+      return mostRecentResponses;
+    } catch(err) {
+      console.log("Error fetching user notifications from the backend:", err);
+      return null;
+    }
+  }
+
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -165,6 +189,11 @@ function ProfileDisplay() {
         setUser(data);
         setEditingUser(data);
         await getSupplementalUserData();
+      }
+      
+      const notifications = await fetchRecentUserNotifications();
+      if(notifications) {
+        setUserRecentNotifications(notifications);
       }
     }
     fetchUser();
@@ -286,34 +315,49 @@ function ProfileDisplay() {
       <hr />
 
       <h4>Quick Stats</h4>
-      <Carousel className="stats">
-        <CarouselItem className="stat-item">
+      <div className="stats">
+        <div className="stat-item">
           <div>
             <img className="stat-icon" src="../src/assets/profile-images/potted-plant.png" />
             <p>Plants</p>
           </div>
           <p className="stat-qty">{userPlantCount}</p>
-        </CarouselItem>
-        <CarouselItem className="stat-item">
+        </div>
+        <div className="stat-item">
           <div>
             <img className="stat-icon" src="../src/assets/profile-images/water-tap.png" />
             <p>Daily<br />Waterings</p>
           </div>
           <p className="stat-qty">{userWaterCount}</p>
-        </CarouselItem>
-        <CarouselItem className="stat-item">
+        </div>
+        <div className="stat-item">
           <div>
             <img className="stat-icon" src="../src/assets/profile-images/fan.png" />
             <p>Daily<br />Fannings</p>
           </div>
           <p className="stat-qty">{userFanCount}</p>
-        </CarouselItem>
-      </Carousel>
+        </div>
+      </div>
+
+      <h4 className="mt-2">Recent Notifications</h4>
+      <div className="recent-notifications">
+        {userRecentNotifications.length > 0 ? (
+        userRecentNotifications.map((notif, index) => (
+          <div key={notif.id || index} className="notification-item">
+            <div className="notif-header">
+              <span className={`notif-severity ${notif.severity}`}>{notif.severity.toUpperCase()}</span>
+            </div>
+            <p className="notif-message">{notif.message}</p>
+          </div>
+        ))
+  ) : (
+    <p>No recent notifications</p>
+  )}    
+      </div>
 
       <div className="profile-mini d-xl-none">
 			  <ProfileMini />
 		  </div>
-    
       </div>
       </aside>
     </div>
