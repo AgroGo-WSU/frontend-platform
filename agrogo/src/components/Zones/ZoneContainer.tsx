@@ -6,7 +6,6 @@ import { getAuth } from 'firebase/auth';
 import ZoneEdit from './ZoneEdit';
 
 function ZoneContainer() {
-  const [numberOfZones, setNumberOfZones] = useState(0);
   const [modalShow, setModalShow] = useState(false);
   const [zoneData, setZoneData] = useState([]);
 
@@ -60,6 +59,7 @@ function ZoneContainer() {
   }
 
   return (
+    <>
     <div className="zone-flex-container d-flex flex-column flex-xl-row justify-content-between">
       {modalShow === true ? <div className="edit-modal"><ZoneEdit show={modalShow} onHide={() => setModalShow(false)} data={zoneData}/></div> : <></>}
       {zoneData.length > 0 ? (
@@ -78,10 +78,15 @@ function ZoneContainer() {
         <p>Loading zones...</p>
       )}
       
+
+      
       <div>
-        <div className="add-zone-button">{<button className="eit-zones" onClick={editZone}>Edit zones</button>}</div>
       </div>
     </div>
+    <div className="edit-zones mb-3">
+      {<button className="" onClick={editZone}>Edit zones</button>}
+    </div>
+    </>
   );
 }
 

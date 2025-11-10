@@ -356,16 +356,11 @@ function ProfileDisplay() {
     <p>No recent notifications</p>
   )}    
       </div>
-
-
       {/* connection, humidity, temp */}
 
       <div className="profile-mini d-xl-none">
         <ProfileMini />
       </div>
-        
-
-    
       </div>
       </aside>
     </div>

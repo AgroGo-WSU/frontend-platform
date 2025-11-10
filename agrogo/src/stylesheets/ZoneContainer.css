@@ -6,8 +6,8 @@
   row-gap: 12px;
 }
 
-.add-zone-button {
-
+.edit-zones {
+  display: block;
 }
 
 .zone-stats-inline {
