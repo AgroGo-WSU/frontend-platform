@@ -6,8 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
-import { Collapse } from "react-bootstrap";
-import { Fan } from "react-bootstrap-icons";
+import { Collapse, Carousel, CarouselItem } from "react-bootstrap";
 
 function ProfileDisplay() {
   // grabbing our current Firebase user from the Authentication context we created
@@ -287,21 +286,29 @@ function ProfileDisplay() {
       <hr />
 
       <h4>Quick Stats</h4>
-      <div className="stats">
-        <div className="stat-item">
+      <Carousel className="stats">
+        <CarouselItem className="stat-item">
           <div>
-            <img src="../" />
+            <img className="stat-icon" src="../src/assets/profile-images/potted-plant.png" />
+            <p>Plants</p>
           </div>
-          Plants: {userPlantCount}
-        </div>
-        <div className="stat-item">
-          Daily Watering: {userWaterCount}
-        </div>
-        <div className="stat-item">
-          <Fan />
-          Daily Fan Cycles: {userFanCount}
-        </div>
-      </div>
+          <p className="stat-qty">{userPlantCount}</p>
+        </CarouselItem>
+        <CarouselItem className="stat-item">
+          <div>
+            <img className="stat-icon" src="../src/assets/profile-images/water-tap.png" />
+            <p>Daily<br />Waterings</p>
+          </div>
+          <p className="stat-qty">{userWaterCount}</p>
+        </CarouselItem>
+        <CarouselItem className="stat-item">
+          <div>
+            <img className="stat-icon" src="../src/assets/profile-images/fan.png" />
+            <p>Daily<br />Fannings</p>
+          </div>
+          <p className="stat-qty">{userFanCount}</p>
+        </CarouselItem>
+      </Carousel>
 
       <div className="profile-mini d-xl-none">
 			  <ProfileMini />
