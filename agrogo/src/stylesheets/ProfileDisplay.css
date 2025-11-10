@@ -11,9 +11,18 @@
     text-align: left;
     align-items: center;
     width: max(18vw, 100px);
+    height: 82.9vh;
     padding: 10px;
     border-radius: 28px;
     border: 4px solid #800020;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* For Chrome, Safari, and Edge */
+.profile-display-container::-webkit-scrollbar {
+    width: 6px;  /* Controls scrollbar width (vertical scroll) */
+    height: 6px; /* Controls scrollbar height (horizontal scroll) */
 }
 
 .profile-mini {
@@ -22,3 +31,48 @@
     align-items: center;
 }
 
+.user-info {
+    align-items: center;
+    text-align: center;
+}
+
+.display-name {
+    font-weight: bold;
+    font-size: 1.75em;
+}
+
+.start-date {
+    font-style: italic;
+}
+button {
+    background-color: #ffffff00;
+    font-family: "Nunito";
+    color: #173D23;
+    border: 2px solid #173D23;
+    border-radius: 5px;
+    font-size: 1.5em;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.action-buttons button {
+    display: block;
+    font-size: 1em;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.stat-item {
+    background-color: #F2EEE3;
+    margin: .5em 2em;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}

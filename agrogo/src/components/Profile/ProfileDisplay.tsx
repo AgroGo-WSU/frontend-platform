@@ -7,6 +7,7 @@ import { AuthContext } from '../../hooks/UseAuth';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 import { Collapse } from "react-bootstrap";
+import { Fan } from "react-bootstrap-icons";
 
 function ProfileDisplay() {
   // grabbing our current Firebase user from the Authentication context we created
@@ -37,11 +38,6 @@ function ProfileDisplay() {
   const [userPlantCount, setUserPlantCount] = useState(0);
   const [userFanCount, setUserFanCount] = useState(0);
   const [userWaterCount, setUserWaterCount] = useState(0);
-
-  let userName = "friend";
-  if(currentUser) {
-    userName = currentUser.displayName!;
-  }
 
   async function getBearerToken() {
     const auth = getAuth();
@@ -181,10 +177,10 @@ function ProfileDisplay() {
       {/* Profile Card */}
       <div className="profile-display-container d-none d-xl-block">
         <ProfileImage profileImage={user.profileImage}/>
-
-      <h4 className="name">{user.firstName} {user.lastName}</h4>
-      <p className="start-date">Member since {user.createdAt}</p>
-
+      <div className="user-info">
+        <h4 className="display-name">{user.firstName} {user.lastName}</h4>
+        <p className="start-date">Member since {user.createdAt}</p>
+      </div>
       <input
         type="file"
         id="profileImageInput"
@@ -192,16 +188,20 @@ function ProfileDisplay() {
         style={{ display: "none" }}
         onChange={handleImageChange}
       />
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          document.getElementById("profileImageInput")!.click();
-        }}
-      >
-        Change Profile Image
-      </button>
-      {!isEditing && (<button onClick={() => setIsEditing(true)}>Edit Profile Settings</button>)}
+      <div className="action-buttons">
+        <button
+          className="2"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("profileImageInput")!.click();
+          }}
+        >
+          Upload Image
+        </button>
+        {!isEditing && (<button className="change-button" onClick={() => setIsEditing(true)}>Edit Profile</button>)}
+      </div>
+      
       <div className="profile-settings">
         <Collapse in={isEditing}>
           <form
@@ -232,6 +232,7 @@ function ProfileDisplay() {
             />
 
             <div className="alert-preferences">
+              <h5 className="mt-2">Notification Preferences</h5>
               <label>
                 <input
                   type="checkbox"
@@ -243,7 +244,7 @@ function ProfileDisplay() {
                     })
                   }
                 />
-                Blue Alerts
+                Informational
               </label>
 
               <label>
@@ -257,7 +258,7 @@ function ProfileDisplay() {
                     })
                   }
                 />
-                Green Alerts
+                Task Completion
               </label>
 
               <label>
@@ -271,7 +272,7 @@ function ProfileDisplay() {
                     })
                   }
                 />
-                Red Alerts
+                Alert
               </label>
             </div>
 
@@ -285,11 +286,21 @@ function ProfileDisplay() {
       </div>
       <hr />
 
+      <h4>Quick Stats</h4>
       <div className="stats">
-        <h4>Quick Stats</h4>
-        <p>Plants: {userPlantCount}</p>
-        <p>Daily Watering: {userWaterCount}</p>
-        <p>Daily Fan Cycles: {userFanCount}</p>
+        <div className="stat-item">
+          <div>
+            <img src="../" />
+          </div>
+          Plants: {userPlantCount}
+        </div>
+        <div className="stat-item">
+          Daily Watering: {userWaterCount}
+        </div>
+        <div className="stat-item">
+          <Fan />
+          Daily Fan Cycles: {userFanCount}
+        </div>
       </div>
 
       <div className="profile-mini d-xl-none">
