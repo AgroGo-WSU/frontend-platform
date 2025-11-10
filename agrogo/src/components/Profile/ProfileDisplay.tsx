@@ -18,6 +18,7 @@ function ProfileDisplay() {
     firstName: "", 
     lastName: "",
     createdAt: "",
+    profileImage: "",
     notificationsForBlueAlerts: "",
     notificationsForGreenAlerts: "",
     notificationsForRedAlerts: ""
@@ -27,6 +28,7 @@ function ProfileDisplay() {
     firstName: "", 
     lastName: "",
     createdAt: "",
+    profileImage: "",
     notificationsForBlueAlerts: "",
     notificationsForGreenAlerts: "",
     notificationsForRedAlerts: ""
@@ -60,6 +62,7 @@ function ProfileDisplay() {
         id: currentUser?.uid,
         firstName: user.firstName,
         lastName: user.lastName,
+        profileImage: user.profileImage,
         notificationsForGreenAlerts: user.notificationsForGreenAlerts,
         notificationsForBlueAlerts: user.notificationsForBlueAlerts,
         notificationsForRedAlerts: user.notificationsForRedAlerts
@@ -86,35 +89,19 @@ function ProfileDisplay() {
 
       const userWaterRes = await axios.get(
         "https://backend.agrogodev.workers.dev/api/user/waterSchedule",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        }
+        { headers: { Authorization: `Bearer ${token}`, } }
       );
       setUserWaterCount(userWaterRes.data.data.length);
 
       const userFanRes = await axios.get(
         "https://backend.agrogodev.workers.dev/api/user/fanSchedule",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setUserFanCount(userFanRes.data.data.length);
 
-
       const userPlantRes = await axios.get(
         "https://backend.agrogodev.workers.dev/api/user/plantInventory",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setUserPlantCount(userPlantRes.data.data.length);
 
@@ -142,7 +129,39 @@ function ProfileDisplay() {
     } catch(err) {
       console.log("Error fetching user data from the backend:", err);
     }
-  }
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const fileString = await fileToBase64(file);
+
+      // Update editingUser immediately with the new image
+      setEditingUser((prev) => ({
+        ...prev,
+        profileImage: fileString, // keep full Data URL
+      }));
+
+      // Optional: show it on-screen immediately
+      setUser((prev) => ({
+        ...prev,
+        profileImage: fileString,
+      }));
+
+    } catch (err) {
+      console.error("Error converting file to base64:", err);
+    }
+  };
+
+  const fileToBase64 = async (file: File): Promise<string> =>
+        new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+        });
 
   useEffect(() => {
     async function fetchUser() {
@@ -161,11 +180,27 @@ function ProfileDisplay() {
       <aside className="sidebar-column">
       {/* Profile Card */}
       <div className="profile-display-container d-none d-xl-block">
-        <ProfileImage />
+        <ProfileImage profileImage={user.profileImage}/>
 
       <h4 className="name">{user.firstName} {user.lastName}</h4>
       <p className="start-date">Member since {user.createdAt}</p>
 
+      <input
+        type="file"
+        id="profileImageInput"
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleImageChange}
+      />
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("profileImageInput")!.click();
+        }}
+      >
+        Change Profile Image
+      </button>
       {!isEditing && (<button onClick={() => setIsEditing(true)}>Edit Profile Settings</button>)}
       <div className="profile-settings">
         <Collapse in={isEditing}>
@@ -179,7 +214,6 @@ function ProfileDisplay() {
           >
             <hr />
             <h5>Profile Data</h5>
-            <button>Change Profile Image</button>
 
             <label htmlFor="firstName">First Name</label>
             <input 
