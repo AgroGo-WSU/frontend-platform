@@ -1,13 +1,15 @@
 import { useMemo, useState, useEffect } from "react";
 import TopNav from "../TopNav";
 import "../../stylesheets/AutomationPage.css";
+import { getAuth } from "firebase/auth";
+import axios from "axios";
 
 /* ---------- Helpers ---------- */
 type FanItem = { on: string; off: string };            // "HH:MM"
 type ZoneItem = { name: string; times: string[] };     // times as "HH:MM"
 
-const LS_FAN = "agro.auto.fan";
-const LS_ZONES = "agro.auto.zones";
+// const LS_FAN = "agro.auto.fan";
+// const LS_ZONES = "agro.auto.zones";
 
 function fmt12h(t: string) {
   // "08:30" -> "8:30 AM"
@@ -18,41 +20,41 @@ function fmt12h(t: string) {
   return `${h12}:${mStr} ${am ? "AM" : "PM"}`;
 }
 
-function loadFan(): FanItem[] {
-  try {
-    const raw = localStorage.getItem(LS_FAN);
-    if (raw) return JSON.parse(raw) as FanItem[];
-  } catch (err) {
-    console.warn("Failed to load fan schedule from localStorage:", err);
-  }
-  return [];
-}
-function saveFan(v: FanItem[]) {
-  try {
-    localStorage.setItem(LS_FAN, JSON.stringify(v));
-  } catch (err) {
-    console.warn("Failed to save fan schedule:", err);
-  }
-}
+// function loadFan(): FanItem[] {
+//   try {
+//     const raw = localStorage.getItem(LS_FAN);
+//     if (raw) return JSON.parse(raw) as FanItem[];
+//   } catch (err) {
+//     console.warn("Failed to load fan schedule from localStorage:", err);
+//   }
+//   return [];
+// }
+// function saveFan(v: FanItem[]) {
+//   try {
+//     localStorage.setItem(LS_FAN, JSON.stringify(v));
+//   } catch (err) {
+//     console.warn("Failed to save fan schedule:", err);
+//   }
+// }
 
-function loadZones(): ZoneItem[] {
-  try {
-    const raw = localStorage.getItem(LS_ZONES);
-    if (raw) return JSON.parse(raw) as ZoneItem[];
-  } catch (err) {
-    console.warn("Failed to load zones from localStorage:", err);
-  }
-  return [
-    { name: "Watering Zone 1", times: [] }
-  ];
-}
-function saveZones(v: ZoneItem[]) {
-  try {
-    localStorage.setItem(LS_ZONES, JSON.stringify(v));
-  } catch (err) {
-    console.warn("Failed to save zones:", err);
-  }
-}
+// function loadZones(): ZoneItem[] {
+//   try {
+//     const raw = localStorage.getItem(LS_ZONES);
+//     if (raw) return JSON.parse(raw) as ZoneItem[];
+//   } catch (err) {
+//     console.warn("Failed to load zones from localStorage:", err);
+//   }
+//   return [
+//     { name: "Watering Zone 1", times: [] }
+//   ];
+// }
+// function saveZones(v: ZoneItem[]) {
+//   try {
+//     localStorage.setItem(LS_ZONES, JSON.stringify(v));
+//   } catch (err) {
+//     console.warn("Failed to save zones:", err);
+//   }
+// }
 
 /* ---------- Inline modal  ---------- */
 function InlineModal(props: {
@@ -78,7 +80,7 @@ function InlineModal(props: {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
+      const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
@@ -118,12 +120,8 @@ type ActionKind = "Add" | "Edit" | "Delete";
 
 export default function AutomationPage() {
   // data 
-  const [fan, setFan] = useState<FanItem[]>(loadFan);
-  const [zones, setZones] = useState<ZoneItem[]>(loadZones);
-
-  
-  useEffect(() => saveFan(fan), [fan]);
-  useEffect(() => saveZones(zones), [zones]);
+  const [fan, setFan] = useState([]);
+  const [zones, setZones] = useState([]);
 
   // modal state
   const [open, setOpen] = useState(false);
@@ -140,6 +138,11 @@ export default function AutomationPage() {
   const [zoneName, setZoneName] = useState("");
 
   useEffect(() => {
+    async function syncUserData() {
+      syncUserZones();
+    }
+
+    syncUserData();
     if (zoneIdx < 0 || zoneIdx >= zones.length) setZoneIdx(0);
   }, [zones.length, zoneIdx]);
 
@@ -159,6 +162,40 @@ export default function AutomationPage() {
   };
 
   const closeModal = () => setOpen(false);
+
+  async function getBearerToken() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if(!user) {
+      console.error("No authenticated user found");
+      return;
+    }
+
+    // Get the firebase ID token (used for Bearer authentication)
+    return await user.getIdToken();
+  }
+
+  async function syncUserZones() {
+    try {
+      const token = await getBearerToken();
+
+      const res = await axios.get(
+        "https://backend.agrogodev.workers.dev/api/user/zone",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      const resZonesData = res.data.data;
+
+      setZones(resZonesData);
+    } catch(err) {
+      console.error("Error retrieving user's zones from backend:", err);
+    }
+  };
 
   /* ---------- Actions ---------- */
   const doPrimary = () => {
@@ -255,18 +292,39 @@ export default function AutomationPage() {
             </div>
 
             {/* Zones */}
-            {zones.map((z, zi) => (
+            {/* {zones.map((z, zi) => (
               <div className="auto-card zone-card" key={zi}>
                 <h2 className="card-title center">{z.name}</h2>
                 <ol className="numbered-list">
-                  {z.times.length === 0 ? (
+                  {z.length === 0 ? (
                     <li>
                       <span className="val" style={{ fontWeight: 600, opacity: 0.8 }}>
                         No times
                       </span>
                     </li>
                   ) : (
-                    z.times.map((t, ti) => (
+                    z.map((t, ti) => (
+                      <li key={ti}>
+                        <span className="num">{ti + 1}</span>
+                        <span className="val">{fmt12h(t)}</span>
+                      </li>
+                    ))
+                  )}
+                </ol>
+              </div>
+            ))} */}
+            {zones.map((z, i) => (
+              <div className="auto-card zone-card" key={i}>
+                <h2 className="card-title center">{z.name}</h2>
+                <ol className="numbered-list">
+                  {z.length === 0 ? (
+                    <li>
+                      <span className="val" style={{ fontWeight: 600, opacity: 0.8 }}>
+                        No times
+                      </span>
+                    </li>
+                  ) : (
+                    z.map((t, ti) => (
                       <li key={ti}>
                         <span className="num">{ti + 1}</span>
                         <span className="val">{fmt12h(t)}</span>
