@@ -8,6 +8,7 @@ import WeatherContainer from '../Weather/WeatherContainer';
 import SmallTitle from '../SmallTitle';
 import { useContext } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
+import StatsContainer from '../StatsContainer';
 
 function Dashboard() {
   // grabbing our current user from the Authentication context we created
@@ -40,6 +41,8 @@ function Dashboard() {
                 <div className="zones mx-auto p-4">
                   <SmallTitle title="Zones" />
                   <ZoneContainer />
+
+                  <StatsContainer />
                 </div>
 
                 <div className="weather mx-auto p-4">

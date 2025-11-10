@@ -8,6 +8,7 @@ interface AnalogStatsProps {
 function AnalogStats({ humidity, temperature }: AnalogStatsProps) {
   return (
     <div className="analog-display">
+      <h2>Last Readings</h2>
       <div className="analog-line">
         <span className="analog-temp">{temperature.toFixed(1)}°F</span>
       </div>

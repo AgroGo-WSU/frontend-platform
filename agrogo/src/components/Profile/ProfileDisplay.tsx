@@ -7,6 +7,7 @@ import { AuthContext } from '../../hooks/UseAuth';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 import { Collapse } from "react-bootstrap";
+import ConnectivityStatus from "../ConnectivityStatus";
 
 function ProfileDisplay() {
   // grabbing our current Firebase user from the Authentication context we created
@@ -209,6 +210,7 @@ function ProfileDisplay() {
         <h4 className="display-name">{user.firstName} {user.lastName}</h4>
         <p className="start-date">Member since {user.createdAt}</p>
       </div>
+      <div className="d-none d-xl-block"><ConnectivityStatus /></div>
       <input
         type="file"
         id="profileImageInput"
@@ -357,13 +359,10 @@ function ProfileDisplay() {
 
 
       {/* connection, humidity, temp */}
-      <div className="d-none d-xl-block"><ConnectivityStatus /></div>
-
-
 
       <div className="profile-mini d-xl-none">
-			  <ProfileMini />
-		  </div>
+        <ProfileMini />
+      </div>
         
 
     
@@ -375,3 +374,4 @@ function ProfileDisplay() {
 }
 
 export default ProfileDisplay;
+
