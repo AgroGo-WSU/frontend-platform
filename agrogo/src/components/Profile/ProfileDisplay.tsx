@@ -3,6 +3,7 @@ import "../../stylesheets/SidebarColumn.css"; // NEW
 import ProfileImage from "./ProfileImage";
 import ProfileMini from "./ProfileMini";
 import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../../hooks/UseAuth';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
@@ -355,9 +356,18 @@ function ProfileDisplay() {
   )}    
       </div>
 
+
+      {/* connection, humidity, temp */}
+      <div className="d-none d-xl-block"><ConnectivityStatus /></div>
+
+
+
       <div className="profile-mini d-xl-none">
 			  <ProfileMini />
 		  </div>
+        
+
+    
       </div>
       </aside>
     </div>

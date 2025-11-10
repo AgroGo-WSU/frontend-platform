@@ -37,10 +37,12 @@
 
 .status-online {
   color: #173D23;
+  margin-bottom: 4px;
 }
 
 .status-offline {
   color: #A11414;
+  margin-bottom: 4px;
 }
 
 .device-line {
@@ -53,9 +55,7 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   padding: 4px;
   font-size: 16px;
-  border-radius: 14px;
-  border: solid 4px #173D23;
 }

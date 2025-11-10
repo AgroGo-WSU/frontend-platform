@@ -9,12 +9,26 @@ interface ZoneCardProps {
   image: string;
 }
 
+// use state to decide whether this is a flower, vegetable or plant image
+// write if/else statement to decide which image they get
 
 function ZoneCard({ plants, image }: ZoneCardProps) {
 
+    let imageURL = " ";
+
+    if(image === "Vegetable") {
+        imageURL = "../src/assets/zone-images/vegetable.png";
+    } else if(image === "Flowers") {
+        imageURL = "../src/assets/zone-images/flower.png";
+    } else {
+        imageURL = "../src/assets/zone-images/plant.png"
+    }
+
+    console.log("555555555555555555555555555555", image);
+
     return (
         <div className="zone-card-container">
-            <img className="circle-img" src={ image }></img>
+            <img className="circle-img" src={ imageURL }></img>
             <div className="caption">{ plants }</div>
         </div>
     )
