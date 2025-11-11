@@ -139,9 +139,11 @@ useEffect(() => {
           type: zoneArrayID,
           userId: userIdFB,
           time: updatedWaterInput,
-          duration: "1",
+          duration: "30",
           zoneType: zoneType1
         }
+
+        // console.log("----------------->>>>>>>: ", postData.duration);
 
         const sentResponse = await axios.post("https://backend.agrogodev.workers.dev/api/data/waterSchedule", postData, {
               headers: {

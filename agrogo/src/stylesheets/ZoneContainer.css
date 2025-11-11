@@ -1,0 +1,16 @@
+.zone-actions {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 12px;
+}
+
+.edit-zones {
+  display: block;
+}
+
+.zone-stats-inline {
+  /* nudges the analog box slightly right if you want */
+  margin-top: 4px;
+}
