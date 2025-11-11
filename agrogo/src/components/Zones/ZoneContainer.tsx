@@ -51,7 +51,7 @@ function ZoneContainer() {
 
     fetchZones();
     console.log("Zones:", zoneData);
-  }, [zoneData, modalShow]);
+  }, [/*zoneData, */modalShow]);
 
   function editZone() {
     setModalShow(true);
