@@ -4,14 +4,15 @@ import ProfileImage from "./ProfileImage";
 import ProfileMini from "./ProfileMini";
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import { getAuth } from "firebase/auth";
 import ConnectivityStatus from "../ConnectivityStatus";
 import ProfileEdit from "./ProfileEdit";
+import { GetBearerToken } from "../../utils/GetBearerToken";
+import { type AgroGoUserProfile } from "../../types/UserProfile";
 
 function ProfileDisplay() {
   // Little confusing, but this is the user's data in D1, the currentUser
   // field is the data from Firebase
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<AgroGoUserProfile>({
     firstName: "", 
     lastName: "",
     createdAt: "",
@@ -27,20 +28,9 @@ function ProfileDisplay() {
   const [userWaterCount, setUserWaterCount] = useState(0);
   const [userRecentNotifications, setUserRecentNotifications] = useState([]);
 
-  async function getBearerToken() {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if(!user) {
-      throw new Error("No authenticated user found");
-    }
-
-    return await user.getIdToken();
-  }
-
   async function getSupplementalUserData() {
     try {
-      const token = await getBearerToken();
+      const token = await GetBearerToken();
 
       const userWaterRes = await axios.get(
         "https://backend.agrogodev.workers.dev/api/user/waterSchedule",
@@ -68,7 +58,7 @@ function ProfileDisplay() {
 
   async function getUserProfileData() {
     try {
-      const token = await getBearerToken();
+      const token = await GetBearerToken();
 
       // Call the backend API route that finds the user's info from D1
       const userRes = await axios.get(
@@ -88,7 +78,7 @@ function ProfileDisplay() {
 
   async function fetchRecentUserNotifications() {
     try {
-      const token = await getBearerToken();
+      const token = await GetBearerToken();
 
       const notifRes = await axios.get(
         "https://backend.agrogodev.workers.dev/api/user/alert",

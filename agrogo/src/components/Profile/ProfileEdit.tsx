@@ -2,12 +2,14 @@ import "../../stylesheets/ProfileEdit.css";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../hooks/UseAuth";
-import { getAuth } from "firebase/auth";
 import { Collapse } from "react-bootstrap";
+import type { AgroGoUserProfile } from "../../types/UserProfile";
+import { GetBearerToken } from "../../utils/GetBearerToken";
+import { FileToBase64 } from "../../utils/FileToBase64";
 
 interface ProfileEditProps {
-  user: any;
-  setUser: React.Dispatch<React.SetStateAction<any>>;
+  user: AgroGoUserProfile;
+  setUser: React.Dispatch<React.SetStateAction<AgroGoUserProfile>>;
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -35,7 +37,7 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
     if (!file) return;
 
     try {
-      const fileString = await fileToBase64(file);
+      const fileString = await FileToBase64(file);
 
       // Update editingUser immediately with the new image
       setEditingUser((prev) => ({
@@ -54,28 +56,9 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
     }
   };
 
-  const fileToBase64 = async (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-
-  async function getBearerToken() {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (!user) {
-      throw new Error("No authenticated user found");
-    }
-
-    return await user.getIdToken();
-  }
-
   async function syncUserDataToBackend() {
     try {
-      const token = await getBearerToken();
+      const token = await GetBearerToken();
 
       const payload = {
         id: currentUser?.uid,
