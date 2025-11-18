@@ -8,6 +8,7 @@ import ConnectivityStatus from "../ConnectivityStatus";
 import ProfileEdit from "./ProfileEdit";
 import { GetBearerToken } from "../../utils/GetBearerToken";
 import { type AgroGoUserProfile } from "../../types/UserProfile";
+import StatItem from "./StatItem";
 
 function ProfileDisplay() {
   // Little confusing, but this is the user's data in D1, the currentUser
@@ -120,15 +121,21 @@ function ProfileDisplay() {
       <aside className="sidebar-column">
       {/* Profile Card */}
       <div className="profile-display-container d-none d-xl-block">
+      
+      {!isEditing &&
+      <div>
         <ProfileImage profileImage={user.profileImage}/>
-      <div className="user-info">
-        <h4 className="display-name">{user.firstName} {user.lastName}</h4>
-        <p className="start-date">Member since {user.createdAt}</p>
+        <div className="user-info">
+          <h4 className="display-name">{user.firstName} {user.lastName}</h4>
+          <p className="start-date">Member since {user.createdAt}</p>
+        </div>
+        <div className="d-none d-xl-block"><ConnectivityStatus /></div>
+        <div className="action-buttons">
+          <button className="change-button" onClick={() => setIsEditing(true)}>Edit Profile</button>
+        </div>
+        <hr />
       </div>
-      <div className="d-none d-xl-block"><ConnectivityStatus /></div>
-      <div className="action-buttons">
-        {!isEditing && (<button className="change-button" onClick={() => setIsEditing(true)}>Edit Profile</button>)}
-      </div>
+      }
       
       <div className="profile-settings">
         <ProfileEdit 
@@ -138,50 +145,42 @@ function ProfileDisplay() {
           setIsEditing={setIsEditing} 
         />
       </div>
-      <hr />
 
       <h4>Quick Stats</h4>
       <div className="stats">
-        <div className="stat-item">
-          <div>
-            <img className="stat-icon" src="../src/assets/profile-images/potted-plant.png" />
-            <p>Plants</p>
-          </div>
-          <p className="stat-qty">{userPlantCount}</p>
-        </div>
-        <div className="stat-item">
-          <div>
-            <img className="stat-icon" src="../src/assets/profile-images/water-tap.png" />
-            <p>Daily<br />Waterings</p>
-          </div>
-          <p className="stat-qty">{userWaterCount}</p>
-        </div>
-        <div className="stat-item">
-          <div>
-            <img className="stat-icon" src="../src/assets/profile-images/fan.png" />
-            <p>Daily<br />Fannings</p>
-          </div>
-          <p className="stat-qty">{userFanCount}</p>
-        </div>
+        <StatItem 
+          icon="../src/assets/profile-images/potted-plant.png" 
+          label="Plants" 
+          qty={userPlantCount} 
+        />
+        <StatItem
+          icon="../src/assets/profile-images/water-tap.png"
+          label="Daily Water"
+          qty={userWaterCount}
+        />
+        <StatItem
+          icon="../src/assets/profile-images/fan.png"
+          label="Daily Fan"
+          qty={userFanCount}
+        /> 
       </div>
 
       <h4 className="mt-2">Recent Notifications</h4>
       <div className="recent-notifications">
         {userRecentNotifications.length > 0 ? (
-        userRecentNotifications.map((notif, index) => (
-          <div key={notif.id || index} className="notification-item">
-            <div className="notif-header">
-              <span className={`notif-severity ${notif.severity}`}>{notif.severity.toUpperCase()}</span>
+          userRecentNotifications.map((notif, index) => (
+            <div key={notif.id || index} className="notification-item">
+              <div className="notif-header">
+                <span className={`notif-severity ${notif.severity}`}>{notif.severity.toUpperCase()}</span>
+              </div>
+              <p className="notif-message">{notif.message}</p>
             </div>
-            <p className="notif-message">{notif.message}</p>
-          </div>
-        ))
-  ) : (
-    <p>No recent notifications</p>
-  )}    
+          ))
+        ) : (
+          <p>No recent notifications</p>
+        )}    
       </div>
       {/* connection, humidity, temp */}
-
       <div className="profile-mini d-xl-none">
         <ProfileMini />
       </div>

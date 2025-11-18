@@ -95,7 +95,6 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
           setIsEditing(false);
         }}
       >
-        <hr />
         <h5>Profile Data</h5>
         <button
           className="2"
