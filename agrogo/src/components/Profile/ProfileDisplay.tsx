@@ -9,6 +9,7 @@ import ProfileEdit from "./ProfileEdit";
 import { GetBearerToken } from "../../utils/GetBearerToken";
 import { type AgroGoUserProfile } from "../../types/UserProfile";
 import StatItem from "./StatItem";
+import NotificationItem from "./NotificationItem";
 
 function ProfileDisplay() {
   // Little confusing, but this is the user's data in D1, the currentUser
@@ -169,12 +170,17 @@ function ProfileDisplay() {
       <div className="recent-notifications">
         {userRecentNotifications.length > 0 ? (
           userRecentNotifications.map((notif, index) => (
-            <div key={notif.id || index} className="notification-item">
-              <div className="notif-header">
-                <span className={`notif-severity ${notif.severity}`}>{notif.severity.toUpperCase()}</span>
-              </div>
-              <p className="notif-message">{notif.message}</p>
-            </div>
+            <NotificationItem 
+              key={notif.id || index}
+              severity={notif.severity}
+              message={notif.message}
+            />
+            // <div key={notif.id || index} className="notification-item">
+            //   <div className="notif-header">
+            //     <span className={`notif-severity ${notif.severity}`}>{notif.severity.toUpperCase()}</span>
+            //   </div>
+            //   <p className="notif-message">{notif.message}</p>
+            // </div>
           ))
         ) : (
           <p>No recent notifications</p>
