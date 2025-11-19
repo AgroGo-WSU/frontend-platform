@@ -124,20 +124,60 @@ function ProfileDisplay() {
       <div className="profile-display-container d-none d-xl-block">
       
       {!isEditing &&
-      <div>
-        <ProfileImage profileImage={user.profileImage}/>
-        <div className="user-info">
-          <h4 className="display-name">{user.firstName} {user.lastName}</h4>
-          <p className="start-date">Member since {user.createdAt}</p>
+      <>
+        <div>
+          <ProfileImage profileImage={user.profileImage}/>
+          <div className="user-info">
+            <h4 className="display-name">{user.firstName} {user.lastName}</h4>
+            <p className="start-date">Member since {user.createdAt}</p>
+          </div>
+          <div className="d-none d-xl-block"><ConnectivityStatus /></div>
+          <div className="action-buttons">
+            <button className="change-button" onClick={() => setIsEditing(true)}>Edit Profile</button>
+          </div>
+          <hr />
         </div>
-        <div className="d-none d-xl-block"><ConnectivityStatus /></div>
-        <div className="action-buttons">
-          <button className="change-button" onClick={() => setIsEditing(true)}>Edit Profile</button>
+        
+
+        <h4>Quick Stats</h4>
+        <div className="stats">
+          <StatItem 
+            icon="../src/assets/profile-images/potted-plant.png" 
+            label="Plants" 
+            qty={userPlantCount} 
+          />
+          <StatItem
+            icon="../src/assets/profile-images/water-tap.png"
+            label="Daily Water"
+            qty={userWaterCount}
+          />
+          <StatItem
+            icon="../src/assets/profile-images/fan.png"
+            label="Daily Fan"
+            qty={userFanCount}
+          /> 
         </div>
-        <hr />
-      </div>
+
+        <h4 className="mt-2">Recent Notifications</h4>
+        <div className="recent-notifications">
+          {userRecentNotifications.length > 0 ? (
+            userRecentNotifications.map((notif, index) => (
+              <NotificationItem 
+                key={notif.id || index}
+                severity={notif.severity}
+                message={notif.message}
+              />
+            ))
+          ) : (
+            <p>No recent notifications</p>
+          )}    
+        </div>
+        {/* connection, humidity, temp */}
+        <div className="profile-mini d-xl-none">
+          <ProfileMini />
+        </div>
+      </>
       }
-      
       <div className="profile-settings">
         <ProfileEdit 
           user={user} 
@@ -145,50 +185,6 @@ function ProfileDisplay() {
           isEditing={isEditing}
           setIsEditing={setIsEditing} 
         />
-      </div>
-
-      <h4>Quick Stats</h4>
-      <div className="stats">
-        <StatItem 
-          icon="../src/assets/profile-images/potted-plant.png" 
-          label="Plants" 
-          qty={userPlantCount} 
-        />
-        <StatItem
-          icon="../src/assets/profile-images/water-tap.png"
-          label="Daily Water"
-          qty={userWaterCount}
-        />
-        <StatItem
-          icon="../src/assets/profile-images/fan.png"
-          label="Daily Fan"
-          qty={userFanCount}
-        /> 
-      </div>
-
-      <h4 className="mt-2">Recent Notifications</h4>
-      <div className="recent-notifications">
-        {userRecentNotifications.length > 0 ? (
-          userRecentNotifications.map((notif, index) => (
-            <NotificationItem 
-              key={notif.id || index}
-              severity={notif.severity}
-              message={notif.message}
-            />
-            // <div key={notif.id || index} className="notification-item">
-            //   <div className="notif-header">
-            //     <span className={`notif-severity ${notif.severity}`}>{notif.severity.toUpperCase()}</span>
-            //   </div>
-            //   <p className="notif-message">{notif.message}</p>
-            // </div>
-          ))
-        ) : (
-          <p>No recent notifications</p>
-        )}    
-      </div>
-      {/* connection, humidity, temp */}
-      <div className="profile-mini d-xl-none">
-        <ProfileMini />
       </div>
       </div>
       </aside>

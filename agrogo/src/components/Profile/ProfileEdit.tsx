@@ -6,6 +6,7 @@ import { Collapse } from "react-bootstrap";
 import type { AgroGoUserProfile } from "../../types/UserProfile";
 import { GetBearerToken } from "../../utils/GetBearerToken";
 import { FileToBase64 } from "../../utils/FileToBase64";
+import ProfileImage from "./ProfileImage";
 
 interface ProfileEditProps {
   user: AgroGoUserProfile;
@@ -29,8 +30,9 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
   });
 
   useEffect(() => {
+    console.log("user data:", user)
     setEditingUser(user);
-  }, []);
+  }, [user]);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -46,10 +48,10 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
       }));
 
       // Optional: show it on-screen immediately
-      setUser((prev) => ({
-        ...prev,
-        profileImage: fileString,
-      }));
+      // setUser((prev) => ({
+      //   ...prev,
+      //   profileImage: fileString,
+      // }));
 
     } catch (err) {
       console.error("Error converting file to base64:", err);
@@ -95,27 +97,35 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
           setIsEditing(false);
         }}
       >
-        <h5>Profile Data</h5>
-        <button
-          className="2"
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById("profileImageInput")!.click();
-          }}
-        >
-          Upload Image
-        </button>
-        <input
-          type="file"
-          id="profileImageInput"
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={handleImageChange}
-        />
+        <h4>Profile Data</h4>
 
-        <label htmlFor="firstName">First Name</label>
+        <div className="profile-image">
+          <div id="profile-image-sm"><ProfileImage profileImage={editingUser.profileImage} /></div>
+
+          <div>
+            <button
+              className="profile-image-upload"
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("profileImageInput")!.click();
+              }}
+            >
+              Upload Image
+            </button>
+            <input
+              type="file"
+              id="profileImageInput"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+          </div>
+        </div>
+
+        <label htmlFor="firstName" className="mt-5">First Name</label>
         <input
+          className="name-input"
           type="text"
           id="firstName"
           value={editingUser.firstName}
@@ -124,8 +134,9 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
           }
         />
 
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName" className="mt-2">Last Name</label>
         <input
+          className="name-input"
           type="text"
           id="lastName"
           value={editingUser.lastName}
@@ -134,9 +145,10 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
           }
         />
 
+        <h5 className="mt-5">Notification Preferences</h5>
         <div className="alert-preferences">
-          <h5 className="mt-2">Notification Preferences</h5>
-          <label>
+          <label className="alert-checkbox">
+            <span>Informational</span>
             <input
               type="checkbox"
               checked={editingUser.notificationsForBlueAlerts === "Y"}
@@ -147,10 +159,10 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
                 })
               }
             />
-            Informational
           </label>
 
-          <label>
+          <label className="alert-checkbox">
+            <span>Task Completion</span>
             <input
               type="checkbox"
               checked={editingUser.notificationsForGreenAlerts === "Y"}
@@ -161,10 +173,10 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
                 })
               }
             />
-            Task Completion
           </label>
 
-          <label>
+          <label className="alert-checkbox">
+            <span>Alert</span>
             <input
               type="checkbox"
               checked={editingUser.notificationsForRedAlerts === "Y"}
@@ -175,7 +187,6 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
                 })
               }
             />
-            Alert
           </label>
         </div>
 
