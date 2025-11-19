@@ -46,13 +46,6 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
         ...prev,
         profileImage: fileString, // keep full Data URL
       }));
-
-      // Optional: show it on-screen immediately
-      // setUser((prev) => ({
-      //   ...prev,
-      //   profileImage: fileString,
-      // }));
-
     } catch (err) {
       console.error("Error converting file to base64:", err);
     }
