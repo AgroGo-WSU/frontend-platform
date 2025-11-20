@@ -1,5 +1,4 @@
 .notification-item {
-    background-color: #2f763e60;
     border-radius: 1em;
     display: flex;
     flex-direction: row;
@@ -9,6 +8,31 @@
     padding-left: 1em;
 }
 
+.notif-header,
+.notif-severity,
+.notif-message {
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+}
+
+
 .notif-header {
     margin-right: 1em;
+}
+
+.notif-message {
+    margin: 0;
+}
+
+.blue-notif {
+    background-color: #8b8bdd;
+}
+
+.red-notif {
+    background-color: #e2b6a6;
+}
+
+.green-notif {
+    background-color: #78c678;
 }

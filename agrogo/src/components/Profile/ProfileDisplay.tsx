@@ -163,7 +163,7 @@ function ProfileDisplay() {
           {userRecentNotifications.length > 0 ? (
             userRecentNotifications.map((notif, index) => (
               <NotificationItem 
-                key={notif.id || index}
+                id={notif.id || index}
                 severity={notif.severity}
                 message={notif.message}
               />

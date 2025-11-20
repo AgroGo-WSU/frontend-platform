@@ -182,16 +182,19 @@ function ProfileEdit({ user, setUser, isEditing, setIsEditing }: ProfileEditProp
             />
           </label>
         </div>
-
-        <button type="submit">Submit</button>
-        <button
-          onClick={() => {
-            setEditingUser(user);
-            setIsEditing(false);
-          }}
-        >
-          Cancel
-        </button>
+        
+        <div className="exit-profile-edit">
+          <button className="submit-button" type="submit">Submit</button>
+          <button
+            className=""
+            onClick={() => {
+              setEditingUser(user);
+              setIsEditing(false);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </Collapse>
   );
