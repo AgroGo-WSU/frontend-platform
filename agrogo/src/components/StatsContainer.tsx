@@ -1,27 +1,16 @@
 import '../stylesheets/StatsContainer.css';
 import AnalogStats from './Stats/AnalogStats';
 import axios from 'axios';
-import { getAuth } from 'firebase/auth';
 import { useState, useEffect } from 'react';
+import { GetBearerToken } from '../utils/GetBearerToken';
 
 function StatsContainer() {
-  const [temperature, setTemperature] = useState(null);
-  const [humidity, setHumidity] = useState(null);
-
-  async function getBearerToken() {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (!user) {
-      throw new Error("No authenticated user found");
-    }
-
-    return await user.getIdToken();
-  }
+  const [temperature, setTemperature] = useState<number>();
+  const [humidity, setHumidity] = useState<number>();
 
   async function retrieveLastReadingsFromBackend() {
     try {
-      const token = await getBearerToken();
+      const token = await GetBearerToken();
 
       const res = await axios.get(
         "https://backend.agrogodev.workers.dev/api/data/tempAndHumidity",
@@ -71,7 +60,7 @@ function StatsContainer() {
     <div className="stats-container-top">
       <AnalogStats
         humidity={humidity ?? 0}
-        temperature={(temperature * (9/5) + 32)}
+        temperature={(temperature! * (9/5) + 32)}
       />
     </div>
   );

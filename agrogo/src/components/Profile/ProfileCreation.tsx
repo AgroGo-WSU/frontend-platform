@@ -3,6 +3,7 @@ import SmallTitle from "../SmallTitle";
 import { useState } from 'react';
 import axios from "axios";
 import { getAuth } from "firebase/auth";
+import { FileToBase64 } from "../../utils/FileToBase64";
 
 interface ProfileCreationProps {
     onProfileCreated: () => void;
@@ -17,16 +18,6 @@ function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
         location: 'Detroit',
         photoBase64: "",
     });
-
-    // The backend expects a text object, this converts
-    // files to the expected format
-    const fileToBase64 = async (file: File): Promise<string> =>
-        new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = (error) => reject(error);
-        });
 
     async function syncUserToBackend() {
         try {
@@ -74,7 +65,7 @@ function ProfileCreation({ onProfileCreated}: ProfileCreationProps) {
 
         // handling file input separately since it cant use the "value" attribute
         if (name === 'photo' && files && files[0]) {
-            const base64String = await fileToBase64(files[0]);
+            const base64String = await FileToBase64(files[0]);
             setFormData(prev => ({
                 // this is the "Rest Operator" in js if you want to look up what this means - here, it's allowing us to just submit aany amount of params we want
                 ...prev,
