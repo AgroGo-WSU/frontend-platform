@@ -450,6 +450,7 @@ useEffect(() => {
 
 
     // in the response, you will get everything in the database - you need x number of arrays of times, one fore each zone 
+    // this is where the water schedule live, NOT the zone DESCRIPTION data
     const zone1Data = [];
     const zone2Data = [];
     const zone3Data = [];
@@ -470,7 +471,7 @@ useEffect(() => {
       }
     }
 
-      // set zone data into state so it can be accessed above
+    // set zone data into state so it can be accessed above
     useEffect(() => {
     const setZoneArrays = async() => {
       setWaterSchedZone1(zone1Data);
@@ -568,17 +569,6 @@ useEffect(() => {
                 <>
                   <label htmlFor="zone_first_watering">Set watering time</label>
                   <input type="text" name="zone_first_watering" id={"1_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
-                    <div className="drop-down-zone-choice">
-                      <Dropdown>
-                      <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType1}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                          <Dropdown.Item><button className="vegetable-button" id={"1_+"} onClick={chooseZoneType1}>Vegetables</button></Dropdown.Item>
-                          <Dropdown.Item><button className="flower-button" id={"1_+"} onClick={chooseZoneType1}>Flowers</button></Dropdown.Item>
-                          <Dropdown.Item><button className="general-button" id={"1_+"} onClick={chooseZoneType1}>Mixed/other</button></Dropdown.Item>
-                      </Dropdown.Menu>
-                      </Dropdown>
-                  </div>
                   <button id="1_+" className="save-changes" onClick={saveNewEntry}>Save entry</button>
                   <button id="1_+" className="save-changes" onClick={cancelChanges}>Cancel</button>
                 </>}
