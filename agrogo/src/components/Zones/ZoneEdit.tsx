@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import ZoneDeleteWarning from './ZoneDeleteWarning'
 import axios from "axios";
 import { AuthContext } from '../../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
@@ -54,6 +55,10 @@ function ZoneEdit(props) {
 
   // this will keep track of which watering time is being edited
   const [entryBeingEdited, setEntryBeingEdited] = useState("0");
+
+  // this will keep track of which zone error is being thrown for deleting a zone
+  const [zone1DeleteError, setZone1DeleteError] = useState(false);
+  const [acceptZone1Error, setAcceptZone1Error] = useState(false);
 
   // these variables keep track of whether new watering times are being entered in each zone
   const [addingWater1, setAddingWater1] = useState(false);
@@ -415,6 +420,62 @@ function ZoneEdit(props) {
 
   }
 
+  // function to delete new zones once all watering times have been removed
+  const deleteZone = async(event) => {
+  
+        const bothIDs = event.target.id.split("_");
+        const zoneArrayID = bothIDs[0];
+
+        let zoneFinal = [];
+
+        if(zoneArrayID === "1") {
+          zoneFinal = zone1Info;
+        } else if(zoneArrayID === "2") {
+          zoneFinal = zone2Info;
+        } else if(zoneArrayID === "3") {
+          zoneFinal = zone3Info;
+        }
+
+        console.log("------------>--------------->------->------>----->", zoneFinal);
+
+        try {
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          if (!user) {
+            throw new Error('User not authenticated!');
+          }
+
+          //const userIdFB = user.uid;
+          const token = await user.getIdToken();
+
+          let id = "0";
+          id = (zoneFinal[0] != null) ? zoneFinal[0] : null;
+      
+
+          const sentResponse = await axios.delete("https://backend.agrogodev.workers.dev/api/data/zone", {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json',
+                  },
+              data: {
+                id: id
+              }
+              });
+            
+            console.log("Sending POST request for watering schedule new data - here's the response ", sentResponse);
+            } catch(error){
+            console.error('Error sending data:', error);
+          } finally {
+            // force the GET request above to re-render and grab the newly updated data for the zones
+            setSendingZoneData(true);
+            console.log("Made it to the end of the deleteNewEntry function!");
+      }
+
+      cancelUpdate();
+
+  }
+
 
 
   // here is the list of functions that are used mostly for user input, button events, and managing state outside of the database call functions
@@ -430,6 +491,9 @@ function ZoneEdit(props) {
     setZoneType1("Zone type");
     setZoneType2("Zone type");
     setZoneType3("Zone type");
+    setZone1DeleteError(false);
+    setAcceptZone1Error(false);
+    setSendingZoneData(false);
   }
   
   // functions for updating state-based rendering only
@@ -445,6 +509,20 @@ function ZoneEdit(props) {
 
   function addZone1() {
     setAddingZone1(true);
+  }
+
+  function zone1ErrorOrDelete(event) {
+    if(zone1Data.length === 0) {
+      deleteZone(event);
+    } else {
+      setZone1DeleteError(true);
+      setAcceptZone1Error(true);
+    }
+  }
+
+  function zoneErrorPopUpAccept() {
+    setZone1DeleteError(false);
+    setAcceptZone1Error(false);
   }
 
   // function to update which entry is being edited
@@ -533,7 +611,10 @@ function ZoneEdit(props) {
                         </Dropdown.Menu>
                         </Dropdown>
                     </div>
+                    <div className="zone-editing-buttons">
                     <button onClick={cancelUpdate}>Cancel</button><button id="1" onClick={updateZoneDescription}>Save</button>
+                    {acceptZone1Error === false ? <button onClick={zone1ErrorOrDelete}>Delete zone</button> : <button onClick={zoneErrorPopUpAccept}>Ok I'll delete them</button>}{zone1DeleteError === true ? <ZoneDeleteWarning/> : <></>}
+                    </div>
                   </div>
                 }
               </div>

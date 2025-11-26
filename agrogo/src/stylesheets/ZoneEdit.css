@@ -17,3 +17,7 @@
     font-style: normal; 
     font-size: max(1.2vw, 18px);
 }
+
+.zone-editing-buttons {
+    display: flex;
+}
