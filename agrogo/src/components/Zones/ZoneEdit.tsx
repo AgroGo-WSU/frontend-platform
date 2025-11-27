@@ -51,6 +51,8 @@ function ZoneEdit(props) {
   // state variables for user input
   // for updating the descriptions for each zone - when true, user is editing a field, so they should all be defaulted to false until the user clicks the "update" buttons
   const [updatedDescription1, setUpdatedDescription1] = useState(false);
+  const [updatedDescription2, setUpdatedDescription2] = useState(false);
+  const [updatedDescription3, setUpdatedDescription3] = useState(false);
   const [updatedWaterInput, setUpdatedWaterInput] = useState(null);
 
   // this state will hold the user input for the new zone description, and be passed in the put request; it is updated in the change handler function below
@@ -64,12 +66,20 @@ function ZoneEdit(props) {
   // this will keep track of which zone error is being thrown for deleting a zone
   const [zone1DeleteError, setZone1DeleteError] = useState(false);
   const [acceptZone1Error, setAcceptZone1Error] = useState(false);
+  const [zone2DeleteError, setZone2DeleteError] = useState(false);
+  const [acceptZone2Error, setAcceptZone2Error] = useState(false);
+  const [zone3DeleteError, setZone3DeleteError] = useState(false);
+  const [acceptZone3Error, setAcceptZone3Error] = useState(false);
 
   // these variables keep track of whether new watering times are being entered in each zone
   const [addingWater1, setAddingWater1] = useState(false);
+  const [addingWater2, setAddingWater2] = useState(false);
+  const [addingWater3, setAddingWater3] = useState(false);
 
   // these variables keep track of whether a new zone is being added
   const [addingZone1, setAddingZone1] = useState(false);
+  const [addingZone2, setAddingZone2] = useState(false);
+  const [addingZone3, setAddingZone3] = useState(false);
 
   // here are our zone types for tracking button input
   const [zoneType1, setZoneType1] = useState("Zone type");
@@ -113,9 +123,7 @@ function ZoneEdit(props) {
     };
 
     // call the getWateringTimes function inside the useEffect function, and then set the setSendingWaterSchedule back to false
-    console.log("llllllllllllllllllllllllllllllllll", sendingWaterSchedule);
     getWateringTimes();
-    console.log("pppppppppppppppppppp", sendingWaterSchedule);
 
     },[sendingWaterSchedule]); // this useEffect function will run any time the sendingWaterSchedule state is updated, which will happen when a user enters or updates a water time
 
@@ -520,18 +528,34 @@ function ZoneEdit(props) {
   // here is the list of functions that are used mostly for user input, button events, and managing state outside of the database call functions
   function cancelUpdate() {
     setUpdatedDescription1(false);
+    setUpdatedDescription2(false);
+    setUpdatedDescription3(false);
+
     setNewZoneDescription1(null);
     setNewZoneDescription2(null);
     setNewZoneDescription3(null);
+
     setUpdatedWaterInput(null);
     setEntryBeingEdited("0");
+
     setAddingWater1(false);
+    setAddingWater2(false);
+    setAddingWater3(false);
+
     setAddingZone1(false);
+    setAddingZone2(false);
+    setAddingZone3(false);
+
     setZoneType1("Zone type");
     setZoneType2("Zone type");
     setZoneType3("Zone type");
+
     setZone1DeleteError(false);
     setAcceptZone1Error(false);
+    setZone2DeleteError(false);
+    setAcceptZone2Error(false);
+    setZone3DeleteError(false);
+    setAcceptZone3Error(false);
     // DO NOT set the sendingZoneData or sendingWaterSchedule to false here!!
     // these MUST be set false in the called functions - setting them false here inside the cancelUpdates() function will cause errors with rendering the data
     // these are the flags for triggering the get requests for zones and water times, so they have to be returned to false outside of the function that sets them to true
@@ -546,12 +570,40 @@ function ZoneEdit(props) {
     setNewZoneDescription1(zone1Info[0].description);
   }
 
+  function updatingDescription2() {
+    setUpdatedDescription2(true);
+    setZoneType2(zone2Info[0].zoneName);
+    setNewZoneDescription2(zone2Info[0].description);
+  }
+
+  function updatingDescription3() {
+    setUpdatedDescription3(true);
+    setZoneType3(zone3Info[0].zoneName);
+    setNewZoneDescription3(zone3Info[0].description);
+  }
+
   function addNewWater1() {
     setAddingWater1(true);
   }
 
+  function addNewWater2() {
+    setAddingWater2(true);
+  }
+
+  function addNewWater3() {
+    setAddingWater3(true);
+  }
+
   function addZone1() {
     setAddingZone1(true);
+  }
+
+  function addZone2() {
+    setAddingZone2(true);
+  }
+
+  function addZone3() {
+    setAddingZone3(true);
   }
 
   function zone1ErrorOrDelete(event) {
@@ -563,9 +615,31 @@ function ZoneEdit(props) {
     }
   }
 
+  function zone2ErrorOrDelete(event) {
+    if(zone2Data.length === 0) {
+      deleteZone(event);
+    } else {
+      setZone2DeleteError(true);
+      setAcceptZone2Error(true);
+    }
+  }
+
+  function zone3ErrorOrDelete(event) {
+    if(zone3Data.length === 0) {
+      deleteZone(event);
+    } else {
+      setZone3DeleteError(true);
+      setAcceptZone3Error(true);
+    }
+  }
+
   function zoneErrorPopUpAccept() {
     setZone1DeleteError(false);
     setAcceptZone1Error(false);
+    setZone2DeleteError(false);
+    setAcceptZone2Error(false);
+    setZone3DeleteError(false);
+    setAcceptZone3Error(false);
   }
 
   // function to update which entry is being edited
@@ -577,6 +651,8 @@ function ZoneEdit(props) {
   // these are "handleChange" functions for displaying what the user is typing in the input fields
   function handleNewZoneDescriptionChange(event) {
     setNewZoneDescription1(event.target.value);
+    setNewZoneDescription2(event.target.value);
+    setNewZoneDescription3(event.target.value);
   }
 
   function handleChangeWaterTime(event) {
@@ -585,8 +661,16 @@ function ZoneEdit(props) {
   }
 
   // these are functions for handling zone type button inputs
-    function chooseZoneType1(event) {
+  function chooseZoneType1(event) {
     setZoneType1(event.target.firstChild.data);
+  }
+
+  function chooseZoneType2(event) {
+    setZoneType2(event.target.firstChild.data);
+  }
+
+      function chooseZoneType3(event) {
+    setZoneType3(event.target.firstChild.data);
   }
 
 
@@ -698,10 +782,205 @@ function ZoneEdit(props) {
                     </div>
                     </>
                   }
-              </div></>} {/** end of zone 1 */}
+              </div></>} 
             </div>
           </div>
-        </div>
+        </div>{/** end of zone 1 */}
+
+        {/** begin zone 2 */}
+        <div className="zone-2-container">
+          <div className="zone-info">
+              <div className="zone-or-not">{zone2Info.length === 0 ? (addingZone2 === false ? <button onClick={addZone2} className="add-a-zone">Add zone 2</button> : 
+                <div className="adding-zone-info">
+                  <div className="add-new-description">
+                      <label htmlFor="zone_description">Enter new zone description: </label>
+                      <input type="text" name="update_zone_description" id={"2_+"} value={newZoneDescription2} onChange={handleNewZoneDescriptionChange}></input>                   
+                  </div>
+                  <div className="drop-down-zone-choice">
+                      <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType2}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                          <Dropdown.Item><button className="vegetable-button" id={"2_+"} onClick={chooseZoneType2}>Vegetables</button></Dropdown.Item>
+                          <Dropdown.Item><button className="flower-button" id={"2_+"} onClick={chooseZoneType2}>Flowers</button></Dropdown.Item>
+                          <Dropdown.Item><button className="general-button" id={"2_+"} onClick={chooseZoneType2}>Mixed/other</button></Dropdown.Item>
+                      </Dropdown.Menu>
+                      </Dropdown>
+                  </div>
+                  <div className="new-zone-buttons">
+                    <button id={"2_-"} className="save-entry" onClick={saveNewZone}>Save zone</button>
+                    <button id={"2_-"} className="cancel-changes" onClick={cancelUpdate}>Cancel</button>                    
+                  </div>
+                </div>) :
+              <>
+              <div className="zone-heading">{"Zone 2 - " + zone2Info[0].zoneName}</div>
+              <div className="zone-description">
+                {/** this is a nested ternary operation to display 2) either the custom description or the default, and 2) either the description or the user input  */}
+                {/** the next line checks that we got the data fom the database and sorted it, and whether the user is updating the description - if they're NOT updating, render the display divs; if they ARE updating, skip to show the input field and cancel/save buttons */}
+                {zone2Info != null && updatedDescription2 === false ? 
+                  (zone2Info[0] ? <div className="show-description"><>{zone2Info[0].description}</><button onClick={updatingDescription2}>Update description</button></div> : <div className="show-description"><>Add a description</><button>Update description</button></div>) : 
+                  <div className="editing-description">
+                    <div className = "update-description-field">
+                      <label htmlFor="zone_description">Enter new zone description: </label>
+                      <input type="text" name="update_zone_description" id={"2_+"} value={newZoneDescription2} onChange={handleNewZoneDescriptionChange}></input>
+                    </div>
+                    <div className="drop-down-zone-choice">
+                        <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType2}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item><button className="vegetable-button" id={"2_+"} onClick={chooseZoneType2}>Vegetables</button></Dropdown.Item>
+                            <Dropdown.Item><button className="flower-button" id={"2_+"} onClick={chooseZoneType2}>Flowers</button></Dropdown.Item>
+                            <Dropdown.Item><button className="general-button" id={"2_+"} onClick={chooseZoneType2}>Mixed/other</button></Dropdown.Item>
+                        </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+                    <div className="zone-editing-buttons">
+                    <button onClick={cancelUpdate}>Cancel</button><button id="2" onClick={updateZoneDescription}>Save</button>
+                    {acceptZone2Error === false ? <button id="2_+" onClick={zone2ErrorOrDelete}>Delete zone</button> : <button id="2_+" onClick={zoneErrorPopUpAccept}>Ok I'll delete them</button>}{zone2DeleteError === true ? <ZoneDeleteWarning/> : <></>}
+                    </div>
+                  </div>
+                }
+              </div>
+              <div className="zone-watering-times">
+                {/** this is mapping all of the data in our sorted zone array so that we can render each one on the page dynamically */}
+                {/** what this says is: map each item in our zone array, listing each entry and assigning an index to each one */}
+                {/** if the ID doesn't match entryBeingEdited, just display the data from the array, with the button to update it */}
+                { /** if the ID DOES match entryBeingEdited, instead of displaying the data, display the input fields with buttons to delete, cancel changes, and save it */}
+                {zone2Data.map((item, index: number) => (  
+                  entryBeingEdited != "2_"+index ? 
+                    <div className="display-water-data">
+                      {item.time}<button id={"2_" + index} onClick={updateWateringTime}>Update watering time</button>
+                    </div> : 
+                    <div className="update-water-input">
+                      <div className="water-schedule-input-field">
+                        <label htmlFor="update_watering_time">Set watering time</label>
+                        <input type="text" name="edit_change" id={"2_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                      </div>
+                      <div className="update-water-buttons">
+                        <button id={"2_" + index} className="update-entry" onClick={saveChanges}>Update entry</button>
+                        <button id={"2_" + index} className="delete-entry" onClick={saveChanges}>Delete entry</button>
+                        <button id={"2_"+index} className="cancel-changes" onClick={cancelUpdate}>Cancel</button>
+                      </div>
+                    </div>
+                    ))}
+              </div>
+              {/** this is for adding new watering times - if the user isn't currently adding a time, show the button; if they ARE, show the input field and cancel/save buttons, but no "add water" button */}
+              <div className="add-water-time">
+                  {addingWater2 === false ? <button id={"2_+"} className="add-new-water" onClick={addNewWater2}>Add water time</button> : 
+                    <>
+                    <div className="add-water-info">
+                      <label htmlFor="zone_water_time">Set watering time</label>
+                      <input type="text" name="zone_water_time" id={"2_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                    </div>
+                    <div className="add-water-buttons">
+                      <button id="2_+" className="save-entry" onClick={saveChanges}>Save entry</button>
+                      <button id="2_+" className="cancel-changes" onClick={cancelUpdate}>Cancel</button>
+                    </div>
+                    </>
+                  }
+              </div></>} 
+            </div>
+          </div>
+        </div>{/** end of zone 2 */}
+
+        {/** begin zone 3 */}
+        <div className="zone-3-container">
+          <div className="zone-info">
+              <div className="zone-or-not">{zone3Info.length === 0 ? (addingZone3 === false ? <button onClick={addZone3} className="add-a-zone">Add zone 3</button> : 
+                <div className="adding-zone-info">
+                  <div className="add-new-description">
+                      <label htmlFor="zone_description">Enter new zone description: </label>
+                      <input type="text" name="update_zone_description" id={"3_+"} value={newZoneDescription3} onChange={handleNewZoneDescriptionChange}></input>                   
+                  </div>
+                  <div className="drop-down-zone-choice">
+                      <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType3}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                          <Dropdown.Item><button className="vegetable-button" id={"3_+"} onClick={chooseZoneType3}>Vegetables</button></Dropdown.Item>
+                          <Dropdown.Item><button className="flower-button" id={"3_+"} onClick={chooseZoneType3}>Flowers</button></Dropdown.Item>
+                          <Dropdown.Item><button className="general-button" id={"3_+"} onClick={chooseZoneType3}>Mixed/other</button></Dropdown.Item>
+                      </Dropdown.Menu>
+                      </Dropdown>
+                  </div>
+                  <div className="new-zone-buttons">
+                    <button id={"3_-"} className="save-entry" onClick={saveNewZone}>Save zone</button>
+                    <button id={"3_-"} className="cancel-changes" onClick={cancelUpdate}>Cancel</button>                    
+                  </div>
+                </div>) :
+              <>
+              <div className="zone-heading">{"Zone 3 - " + zone3Info[0].zoneName}</div>
+              <div className="zone-description">
+                {/** this is a nested ternary operation to display 3) either the custom description or the default, and 3) either the description or the user input  */}
+                {/** the next line checks that we got the data fom the database and sorted it, and whether the user is updating the description - if they're NOT updating, render the display divs; if they ARE updating, skip to show the input field and cancel/save buttons */}
+                {zone3Info != null && updatedDescription3 === false ? 
+                  (zone3Info[0] ? <div className="show-description"><>{zone3Info[0].description}</><button onClick={updatingDescription3}>Update description</button></div> : <div className="show-description"><>Add a description</><button>Update description</button></div>) : 
+                  <div className="editing-description">
+                    <div className = "update-description-field">
+                      <label htmlFor="zone_description">Enter new zone description: </label>
+                      <input type="text" name="update_zone_description" id={"3_+"} value={newZoneDescription3} onChange={handleNewZoneDescriptionChange}></input>
+                    </div>
+                    <div className="drop-down-zone-choice">
+                        <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">{zoneType3}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item><button className="vegetable-button" id={"3_+"} onClick={chooseZoneType3}>Vegetables</button></Dropdown.Item>
+                            <Dropdown.Item><button className="flower-button" id={"3_+"} onClick={chooseZoneType3}>Flowers</button></Dropdown.Item>
+                            <Dropdown.Item><button className="general-button" id={"3_+"} onClick={chooseZoneType3}>Mixed/other</button></Dropdown.Item>
+                        </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+                    <div className="zone-editing-buttons">
+                    <button onClick={cancelUpdate}>Cancel</button><button id="3" onClick={updateZoneDescription}>Save</button>
+                    {acceptZone3Error === false ? <button id="3_+" onClick={zone3ErrorOrDelete}>Delete zone</button> : <button id="3_+" onClick={zoneErrorPopUpAccept}>Ok I'll delete them</button>}{zone3DeleteError === true ? <ZoneDeleteWarning/> : <></>}
+                    </div>
+                  </div>
+                }
+              </div>
+              <div className="zone-watering-times">
+                {/** this is mapping all of the data in our sorted zone array so that we can render each one on the page dynamically */}
+                {/** what this says is: map each item in our zone array, listing each entry and assigning an index to each one */}
+                {/** if the ID doesn't match entryBeingEdited, just display the data from the array, with the button to update it */}
+                { /** if the ID DOES match entryBeingEdited, instead of displaying the data, display the input fields with buttons to delete, cancel changes, and save it */}
+                {zone3Data.map((item, index: number) => (  
+                  entryBeingEdited != "3_"+index ? 
+                    <div className="display-water-data">
+                      {item.time}<button id={"3_" + index} onClick={updateWateringTime}>Update watering time</button>
+                    </div> : 
+                    <div className="update-water-input">
+                      <div className="water-schedule-input-field">
+                        <label htmlFor="update_watering_time">Set watering time</label>
+                        <input type="text" name="edit_change" id={"3_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                      </div>
+                      <div className="update-water-buttons">
+                        <button id={"3_" + index} className="update-entry" onClick={saveChanges}>Update entry</button>
+                        <button id={"3_" + index} className="delete-entry" onClick={saveChanges}>Delete entry</button>
+                        <button id={"3_"+index} className="cancel-changes" onClick={cancelUpdate}>Cancel</button>
+                      </div>
+                    </div>
+                    ))}
+              </div>
+              {/** this is for adding new watering times - if the user isn't currently adding a time, show the button; if they ARE, show the input field and cancel/save buttons, but no "add water" button */}
+              <div className="add-water-time">
+                  {addingWater3 === false ? <button id={"3_+"} className="add-new-water" onClick={addNewWater3}>Add water time</button> : 
+                    <>
+                    <div className="add-water-info">
+                      <label htmlFor="zone_water_time">Set watering time</label>
+                      <input type="text" name="zone_water_time" id={"3_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                    </div>
+                    <div className="add-water-buttons">
+                      <button id="3_+" className="save-entry" onClick={saveChanges}>Save entry</button>
+                      <button id="3_+" className="cancel-changes" onClick={cancelUpdate}>Cancel</button>
+                    </div>
+                    </>
+                  }
+              </div></>} 
+            </div>
+          </div>
+        </div>{/** end of zone 3 */}
+
       </div>
     </div>
     </Modal.Body>
