@@ -108,11 +108,14 @@ function ZoneEdit(props) {
           } finally {
             console.log("Data for water schedule: ", waterSchedData);
       }
+
+      setSendingWaterSchedule(false);
     };
 
     // call the getWateringTimes function inside the useEffect function, and then set the setSendingWaterSchedule back to false
+    console.log("llllllllllllllllllllllllllllllllll", sendingWaterSchedule);
     getWateringTimes();
-    setSendingWaterSchedule(false);
+    console.log("pppppppppppppppppppp", sendingWaterSchedule);
 
     },[sendingWaterSchedule]); // this useEffect function will run any time the sendingWaterSchedule state is updated, which will happen when a user enters or updates a water time
 
@@ -180,6 +183,7 @@ function ZoneEdit(props) {
     };
 
     getZoneData();
+    
 
     },[sendingZoneData]);
 
@@ -300,7 +304,7 @@ function ZoneEdit(props) {
         findData = waterSchedZone3;
       }
 
-      console.log(">>>>>>>>>>>>----------------------->>>>>>", findData[zoneArrayIndex], zoneArrayIndex, zoneArrayID);
+      console.log(">>>>>>>>>>>>----------------------->>>>>>", findData, findData[zoneArrayIndex], zoneArrayIndex, zoneArrayID);
 
       console.log("----------------------->>>>>>", findData[zoneArrayIndex]);
 
@@ -335,6 +339,9 @@ function ZoneEdit(props) {
                 'Content-Type': 'application/json',
                 }
             });
+
+            // force the GET request above to re-render and grab the newly updated data for the water schedule
+            setSendingWaterSchedule(true);
           
         // else statement for PUT requests
         } else if(eventTYPE === "update-entry") {
@@ -355,11 +362,13 @@ function ZoneEdit(props) {
               'Content-Type': 'application/json',
               }
           });
+            
+          // force the GET request above to re-render and grab the newly updated data for the water schedule
+           setSendingWaterSchedule(true);
         
         // else statement for DELETE requests - no need to package data for the DELETE request, just need to send the ID in the data portion of the request 
         } else if(eventTYPE === "delete-entry") {
 
-          setSendingWaterSchedule(true);
           let deleteID;
 
           if(findData[zoneArrayIndex] != undefined) {
@@ -379,14 +388,14 @@ function ZoneEdit(props) {
                 id: deleteID
               }
             });
-          
+            // force the GET request above to re-render and grab the newly updated data for the water schedule
+            setSendingWaterSchedule(true);
           } 
 
           } catch(error){
             console.error('Error sending data:', error);
           } finally {
-            // force the GET request above to re-render and grab the newly updated data for the water schedule
-            setSendingWaterSchedule(true);
+
             console.log("We made it to the end of the saveChanges function!");
       }
 
@@ -446,12 +455,10 @@ function ZoneEdit(props) {
             } catch(error){
             console.error('Error sending data:', error);
           } finally {
-            // force the GET request above to re-render and grab the newly updated data for the water schedule
-            setSendingZoneData(true);
             console.log("Made it to the end of the saveNewEntry function!");
       }
 
-      setSendingWaterSchedule(true);
+      //setSendingWaterSchedule(true);
       cancelUpdate();
 
   }
@@ -494,14 +501,13 @@ function ZoneEdit(props) {
                 id: id
               }
               });
-            // force the GET request above to re-render and grab the newly updated data for the zones
+
+            // force the GET request above to re-render and grab the newly updated data for the water schedule
             setSendingZoneData(true);
             console.log("Sending POST request for watering schedule new data - here's the response ", sentResponse);
             } catch(error){
             console.error('Error sending data:', error);
           } finally {
-            // force the GET request above to re-render and grab the newly updated data for the zones
-            setSendingZoneData(true);
             console.log("Made it to the end of the deleteNewEntry function!");
       }
 
@@ -526,8 +532,11 @@ function ZoneEdit(props) {
     setZoneType3("Zone type");
     setZone1DeleteError(false);
     setAcceptZone1Error(false);
-    setSendingZoneData(false);
-    setSendingWaterSchedule(false);
+    // DO NOT set the sendingZoneData or sendingWaterSchedule to false here!!
+    // these MUST be set false in the called functions - setting them false here inside the cancelUpdates() function will cause errors with rendering the data
+    // these are the flags for triggering the get requests for zones and water times, so they have to be returned to false outside of the function that sets them to true
+    // setSendingZoneData(false);
+    // setSendingWaterSchedule(false);
   }
   
   // functions for updating state-based rendering only
