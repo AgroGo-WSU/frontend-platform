@@ -34,6 +34,11 @@ function ZoneEdit(props) {
   const [waterSchedZone2, setWaterSchedZone2] = useState();
   const [waterSchedZone3, setWaterSchedZone3] = useState();
 
+  // sorted zone data by zone
+  const [zone1InfoSorted, setZone1InfoSorted] = useState();
+  const [zone2InfoSorted, setZone2InfoSorted] = useState();
+  const [water3InfoSorted, setZone3InfoSorted] = useState();
+
   // sorted zone description data by zone
   const [zone1Description, setZone1Description] = useState();
   const [zone2Description, setZone2Description] = useState();
@@ -137,7 +142,7 @@ function ZoneEdit(props) {
       setWaterSchedZone3(zone3Data);
     }
       setZoneArrays();
-    }, [sendingZoneData]);
+    }, [sendingWaterSchedule]);
 
 
     // get user zone data
@@ -196,6 +201,17 @@ function ZoneEdit(props) {
       }
     }
 
+    // set zone data into state so it can be accessed above
+    useEffect(() => {
+    const setZoneInfoArrays = async() => {
+      setZone1InfoSorted(zone1Info);
+      setZone2InfoSorted(zone2Info);
+      setZone3InfoSorted(zone3Info);
+    }
+      setZoneInfoArrays();
+    }, [sendingZoneData]);
+
+
     // send the put request to update the zone description
     const updateZoneDescription = async (event) => {
 
@@ -203,21 +219,21 @@ function ZoneEdit(props) {
 
       let whichZoneData;
       let zoneTypeFinal;
-      let newZoneDescription;
+      let newZoneDescriptionFinal;
 
       // figure out which zone we are looking at and assign the correct variables
       if(zoneArrayID === "1") {
         whichZoneData = zone1Info;
         zoneTypeFinal = zoneType1;
-        newZoneDescription = newZoneDescription1;
+        newZoneDescriptionFinal = newZoneDescription1;
       } else if(zoneArrayID === "2") {
         whichZoneData = zone2Info;
         zoneTypeFinal = zoneType2;
-        newZoneDescription = newZoneDescription2;
+        newZoneDescriptionFinal = newZoneDescription2;
       } else if(zoneArrayID === "3") {
         whichZoneData = zone3Info;
         zoneTypeFinal = zoneType3;
-        newZoneDescription = newZoneDescription3;
+        newZoneDescriptionFinal = newZoneDescription3;
       }
 
       try {
@@ -234,7 +250,7 @@ function ZoneEdit(props) {
 
       const putData = {
         createdAt: moment().format("MM/DD/yyyy"),
-        description: newZoneDescription,
+        description: newZoneDescriptionFinal,
         id: whichZoneData[0].id,
         userId: userIdFB,
         zoneName: zoneTypeFinal,
@@ -283,6 +299,10 @@ function ZoneEdit(props) {
       } else if(zoneArrayID === "3") {
         findData = waterSchedZone3;
       }
+
+      console.log(">>>>>>>>>>>>----------------------->>>>>>", findData[zoneArrayIndex], zoneArrayIndex, zoneArrayID);
+
+      console.log("----------------------->>>>>>", findData[zoneArrayIndex]);
 
       // try to get the user token and make the post request
         try {
@@ -339,6 +359,16 @@ function ZoneEdit(props) {
         // else statement for DELETE requests - no need to package data for the DELETE request, just need to send the ID in the data portion of the request 
         } else if(eventTYPE === "delete-entry") {
 
+          setSendingWaterSchedule(true);
+          let deleteID;
+
+          if(findData[zoneArrayIndex] != undefined) {
+            deleteID = findData[zoneArrayIndex].id;
+          } else {
+            deleteID = "0";
+          }
+          //const deleteID = findData[zoneArrayIndex] === null ? ("0") : findData[zoneArrayIndex].id;
+
           // DELETE request
           const sentResponse = await axios.delete("https://backend.agrogodev.workers.dev/api/data/waterSchedule", {
               headers: {
@@ -346,7 +376,7 @@ function ZoneEdit(props) {
                 'Content-Type': 'application/json',
                 },
               data: {
-                id: findData[zoneArrayIndex].id
+                id: deleteID
               }
             });
           
@@ -371,13 +401,17 @@ function ZoneEdit(props) {
         const zoneArrayID = bothIDs[0];
 
         let zoneTypeFinal;
+        let newZoneDescriptionFinal;
 
         if(zoneArrayID === "1") {
           zoneTypeFinal = zoneType1;
+          newZoneDescriptionFinal = newZoneDescription1;
         } else if(zoneArrayID === "2") {
           zoneTypeFinal = zoneType2;
+          newZoneDescriptionFinal = newZoneDescription2;
         } else if(zoneArrayID === "3") {
           zoneTypeFinal = zoneType3;
+          newZoneDescriptionFinal = newZoneDescription3;
         }
 
         try {
@@ -393,7 +427,7 @@ function ZoneEdit(props) {
       
           const postData = {
             createdAt: moment().format("MM/DD/yyyy"),
-            description: newZoneDescription,
+            description: newZoneDescriptionFinal,
             id: Math.round(Math.random()*100),
             userId: userIdFB,
             zoneName: zoneTypeFinal,
@@ -406,7 +440,8 @@ function ZoneEdit(props) {
                   'Content-Type': 'application/json',
                   }
               });
-            
+
+            setSendingZoneData(true);
             console.log("Sending POST request for watering schedule new data - here's the response ", sentResponse);
             } catch(error){
             console.error('Error sending data:', error);
@@ -416,6 +451,7 @@ function ZoneEdit(props) {
             console.log("Made it to the end of the saveNewEntry function!");
       }
 
+      setSendingWaterSchedule(true);
       cancelUpdate();
 
   }
@@ -436,8 +472,6 @@ function ZoneEdit(props) {
           zoneFinal = zone3Info;
         }
 
-        console.log("------------>--------------->------->------>----->", zoneFinal);
-
         try {
           const auth = getAuth();
           const user = auth.currentUser;
@@ -449,10 +483,8 @@ function ZoneEdit(props) {
           //const userIdFB = user.uid;
           const token = await user.getIdToken();
 
-          let id = "0";
-          id = (zoneFinal[0] != null) ? zoneFinal[0] : null;
+          const id = zoneFinal[0].id;
       
-
           const sentResponse = await axios.delete("https://backend.agrogodev.workers.dev/api/data/zone", {
                 headers: {
                   'Authorization': `Bearer ${token}`,
@@ -462,7 +494,8 @@ function ZoneEdit(props) {
                 id: id
               }
               });
-            
+            // force the GET request above to re-render and grab the newly updated data for the zones
+            setSendingZoneData(true);
             console.log("Sending POST request for watering schedule new data - here's the response ", sentResponse);
             } catch(error){
             console.error('Error sending data:', error);
@@ -494,6 +527,7 @@ function ZoneEdit(props) {
     setZone1DeleteError(false);
     setAcceptZone1Error(false);
     setSendingZoneData(false);
+    setSendingWaterSchedule(false);
   }
   
   // functions for updating state-based rendering only
@@ -613,7 +647,7 @@ function ZoneEdit(props) {
                     </div>
                     <div className="zone-editing-buttons">
                     <button onClick={cancelUpdate}>Cancel</button><button id="1" onClick={updateZoneDescription}>Save</button>
-                    {acceptZone1Error === false ? <button onClick={zone1ErrorOrDelete}>Delete zone</button> : <button onClick={zoneErrorPopUpAccept}>Ok I'll delete them</button>}{zone1DeleteError === true ? <ZoneDeleteWarning/> : <></>}
+                    {acceptZone1Error === false ? <button id="1_+" onClick={zone1ErrorOrDelete}>Delete zone</button> : <button id="1_+" onClick={zoneErrorPopUpAccept}>Ok I'll delete them</button>}{zone1DeleteError === true ? <ZoneDeleteWarning/> : <></>}
                     </div>
                   </div>
                 }
