@@ -1,107 +1,233 @@
 .background-container {
     background-color: #f2eee3;
     display: flex;
-    justify-content: space-around;
-    width: 98.8vw;
-    height: 92vh;
-}
-
-.form-container {
-    background-color: white;
+    justify-content: center;
+    align-items: flex-start;
+    padding: max(2vh, 16px);
+    width: 100vw;
+    min-height: calc(100vh - 80px);
+    box-sizing: border-box;
+  }
+  
+  /* Main white card */
+  .form-container {
+    background-color: #ffffff;
     display: flex;
-    height: 90vh;
-    margin: 8px;
-    padding: 20px;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 24px 28px 32px;
     border-radius: 28px;
-    overflow: scroll;
-    border: solid 2px #800020;
-}
-
-.table-container {
-    /* background-color: red; */
+    border: 2px solid #800020;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    overflow-y: auto;
+  }
+  
+  /* Layout for the inventory content */
+  .table-container {
     display: flex;
     flex-direction: row;
-}
-
-/* .inventory-head {
-    background-color: blue;
-} */
-
-/** this is the class that includes the row of plant names, types, quantities, or dates*/
-.table-row {
-    /* background-color: purple; */
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  /* Column that holds one heading + all cells underneath */
+  .table-row {
     display: flex;
     flex-direction: column;
-}
-
-/** this is specifically for the headings that "Plant name", "Type", "Quantity", and "Date planted" */
-.table-heading {
-    /* background-color: green; */
+    min-width: 220px;
+  }
+  
+  /* Make first column wider for plant names */
+  .table-row:first-child {
+    min-width: 300px;
+    max-width: 360px;
+  }
+  
+  /* Column heading: Plant name, Type, Quantity, Date planted */
+  .table-heading {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    width: 200px;
-    font-family: "Roboto", sans-serif;
+    justify-content: center;
+    min-height: 48px;
+    padding: 6px 10px;
+    margin-bottom: 8px;
+    border-radius: 18px;
+    border: 1px solid #173d23;
+    background-color: #173d23;
+    color: #f2eee3;
+    font-family: "Nunito", sans-serif;
     font-weight: 600;
-    font-style: bold;
-    font-size: max(1.2vw, 18px);
-}
-
-/* .inventory-body {
-    background-color: lightpink;
-} */
-
-/** This is the div that holds the actual data entered by the user for each entry of all types */
-.table-data {
-    /* background-color: lightseagreen; */
+    font-size: max(1.1vw, 16px);
+  }
+  
+  /* Each individual cell */
+  .table-data {
     display: flex;
     align-items: center;
-    min-width: fit-content;
-    height: 60px;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 220px;
+    min-height: 60px;
     max-height: 200px;
-    font-size: max(1vw, 15px);
-    border: solid 1px #173D23;
-    padding: 6px;
-}
-
-
-.add-enabled {    
-    color: #173D23;
-    background-color: #F2EEE3;
-    font-size: 10px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 14px;
+    border: 1px solid #c9c0aa;
+    background-color: #ffffff;
+    font-size: max(1vw, 14px);
+  }
+  
+  /* Slight zebra striping so columns feel more like cards */
+  .table-row .table-data:nth-child(odd) {
+    background-color: #f7f3e9;
+  }
+  
+  /* Labels + inputs inside cells */
+  .table-data label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #597160;
+    margin-bottom: 2px;
+  }
+  
+  .table-data input[type="text"],
+  .table-data input[type="number"],
+  .table-data input[type="date"] {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #c9c0aa;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    font-family: "Nunito", sans-serif;
+    outline: none;
+    background-color: #fdfbf6;
+    color: #000000;              /* black text when typing */
+    box-sizing: border-box;      /* prevents overflow out of the cell */
+    transition: border-color 0.12s ease,
+                box-shadow 0.12s ease,
+                background-color 0.12s ease;
+  }
+  
+  .table-data input::placeholder {
+    color: #9b978e;
+    opacity: 1;
+  }
+  
+  .table-data input[type="text"]:focus,
+  .table-data input[type="number"]:focus,
+  .table-data input[type="date"]:focus {
+    border-color: #173d23;
+    box-shadow: 0 0 0 2px rgba(23, 61, 35, 0.15);
+    background-color: #ffffff;
+  }
+  
+  /* Special styling for date picker */
+  .date-input {
+    max-width: 160px;
+    cursor: pointer;
+  }
+  
+  .date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+  
+  /* Shared button treatment – match overall app style */
+  .add-enabled,
+  .edit-enabled,
+  .small-button,
+  .edit-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #c9c0aa;
+    background-color: #f2eee3;
+    color: #173d23;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
     margin: 2px;
-}
-
-.add-disabled {
-    color: #F2EEE3;
-    background-color: #173D23;
-    cursor: text;
-    text-decoration: none;
-    pointer-events: none;
-    font-size: 10px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.15s ease,
+                border-color 0.15s ease,
+                box-shadow 0.15s ease,
+                transform 0.05s ease;
+  }
+  
+  /* Smaller “edit” style */
+  .edit-enabled,
+  .small-button {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    border-radius: 12px;
+  }
+  
+  .add-enabled:hover,
+  .edit-enabled:hover,
+  .small-button:hover,
+  .edit-delete:hover {
+    background-color: #e6ddc7;
+    border-color: #b4a78a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+  }
+  
+  /* Make the main “ADD / SAVE ENTRY” feel more primary */
+  .add-enabled {
+    background-color: #173d23;
+    color: #f2eee3;
+    border-color: #173d23;
+  }
+  
+  .add-enabled:hover {
+    background-color: #0f2917;
+    border-color: #0f2917;
+  }
+  
+  /* Disabled buttons */
+  .add-disabled,
+  .edit-disabled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid #c9c0aa;
+    background-color: #d5d0c3;
+    color: #f7f3e9;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     margin: 2px;
-}
-
-.edit-enabled {
-    font-size: 10px;
-    background-color: #F2EEE3;
-    margin: 2px;
-}
-
-.edit-disabled {
-    font-size: 10px;
-    background-color: #F2EEE3;
-    margin: 2px;
-}
-
-.small-button {
-    font-size: 10px;
-    background-color: #F2EEE3;
-    margin: 2px;
-}
-
-.edit-delete {
-    font-size: 10px;
-    background-color: #F2EEE3;
-    margin: 2px;
-}
+    cursor: not-allowed;
+    opacity: 0.75;
+    box-shadow: none;
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 900px) {
+    .table-container {
+      flex-direction: column;
+    }
+  
+    .table-row {
+      width: 100%;
+    }
+  
+    .table-heading {
+      justify-content: flex-start;
+      padding-left: 14px;
+    }
+  }
+  
