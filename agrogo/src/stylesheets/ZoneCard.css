@@ -1,23 +1,39 @@
-.zone-card-container {
+/* ===========================
+   ZoneCard – icon + caption
+   =========================== */
+
+   .zone-card-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
     margin: 4px;
-}
-
-.circle-img {
-    background-color: white;
+    text-align: center;
+  }
+  
+  /* Circle behind the plant icon */
+  .circle-img {
+    background-color: #f2eee3;
     width: max(7vw, 100px);
     height: max(7vw, 100px);
     border-radius: 50%;
-    border-color: black;
-    border-width: 5px;
-}
-
-.caption {
+    border: 2px solid #173d23;
+    object-fit: contain;
+    padding: 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Text under the icon (e.g., Tomatoes) */
+  .caption {
     width: max(7vw, 100px);
-    height: max(3vw, 50px);
-    font-size: max(1vw, 12px); /* font will be 1.2 times the view width (if 1.2vw > 12px), but at least 12px */
+    min-height: max(3vw, 40px);
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: max(1vw, 14px);
+    color: #173d23;
+    line-height: 1.3;
     text-align: center;
     overflow: hidden;
-}
+  }
+  
