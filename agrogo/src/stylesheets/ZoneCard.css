@@ -1,6 +1,4 @@
-/* ===========================
-   ZoneCard – icon + caption
-   =========================== */
+/* ZoneCard – icon + caption */
 
    .zone-card-container {
     display: flex;
@@ -24,7 +22,7 @@
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
   }
   
-  /* Text under the icon (e.g., Tomatoes) */
+  /* Text under the icon */
   .caption {
     width: max(7vw, 100px);
     min-height: max(3vw, 40px);

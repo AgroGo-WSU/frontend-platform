@@ -1,6 +1,4 @@
-/* ===========================
-   Zones section on dashboard
-   =========================== */
+/* Zones section on dashboard */
 
 /* Overall container for the zones area */
 .zone-container-top {
@@ -21,9 +19,7 @@
   margin-top: 4px;
 }
 
-/* ===========================
-   Edit zones button area
-   =========================== */
+/* Edit zones button area */
 
 .add-zone-button {
   margin-top: 16px;
@@ -31,8 +27,7 @@
   justify-content: center;
 }
 
-/* Style ANY button in this container
-   (covers the current "eit-zones" class typo too) */
+/* Style ANY button in this container */
 .add-zone-button button {
   border-radius: 999px;
   padding: 8px 22px;
@@ -53,7 +48,7 @@
               transform 0.05s ease;
 }
 
-/* Keep existing selector around (in case TSX uses it elsewhere) */
+
 .edit-zones {
   display: block;
 }
@@ -71,9 +66,7 @@
   box-shadow: 0 0 0 2px rgba(23, 61, 35, 0.15);
 }
 
-/* ===========================
-   Responsive tweaks
-   =========================== */
+/* Responsive tweaks */
 
 @media (max-width: 768px) {
   .zone-flex-container {

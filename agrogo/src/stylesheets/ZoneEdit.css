@@ -1,167 +1,163 @@
-/* ZoneEdit – Manage zones modal */
+/* Manage zones modal */
 
-   .zone-edit-container {
-    background-color: #f2eee3;
-    border-radius: 24px;
-    border: 2px solid #800020;
-    padding: 28px 30px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 26px;
+.zone-edit-container {
+  background-color: #f2eee3;
+  border-radius: 24px;
+  border: 2px solid #800020;
+  padding: 28px 30px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* Wrapper for all zones */
+.zone-edits {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* Each zone box */
+.zone-1-container,
+.zone-2-container,
+.zone-3-container {
+  background-color: #fdfbf6;
+  border-radius: 18px;
+  border: 1px solid #c9c0aa;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Zone header */
+.zone-heading {
+  color: #173d23;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: max(1.7vw, 22px);
+}
+
+/* Text description */
+.show-description {
+  color: #173d23;
+  font-family: "Nunito", sans-serif;
+  font-size: max(1vw, 18px);
+  margin-bottom: 4px;
+}
+
+.zone-info {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.95rem;
+  color: #37423a;
+  margin-bottom: 10px;
+}
+
+/* Buttons inside zones */
+.zone-edit-container button,
+.zone-editing-buttons button,
+.add-a-zone {
+  border-radius: 999px;
+  padding: 8px 18px;
+  border: 1px solid #c9c0aa;
+  background-color: #f2eee3;
+  color: #173d23;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  background-image: none;
+  transition: background-color 0.15s ease,
+              border-color 0.15s ease,
+              box-shadow 0.15s ease,
+              transform 0.05s ease;
+}
+
+/* Button container layout */
+.zone-editing-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* NEW SPACING ADDED HERE */
+.zone-1-container .zone-editing-buttons,
+.zone-2-container .zone-editing-buttons,
+.zone-3-container .zone-editing-buttons {
+  margin-left: 14px;
+}
+
+/* Add margin around individual buttons */
+.zone-1-container button,
+.zone-2-container button,
+.zone-3-container button {
+  margin-left: 12px;
+  margin-bottom: 10px;
+}
+
+/* Hover effects */
+.zone-edit-container button:hover,
+.zone-editing-buttons button:hover,
+.add-a-zone:hover {
+  background-color: #e6ddc7;
+  border-color: #b4a78a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+}
+
+/* Inputs inside editing/replacing UI */
+.adding-zone-info,
+.editing-description {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.add-new-description label,
+.update-description-field label {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #597160;
+}
+
+.add-new-description input[type="text"],
+.update-description-field input[type="text"] {
+  border-radius: 10px;
+  border: 1px solid #c9c0aa;
+  padding: 8px 10px;
+  font-size: 0.94rem;
+  background-color: #ffffff;
+  color: #000000;  /* <-- ADDED (text now black) */
+}
+
+/* Big add-zone button spacing */
+.add-a-zone {
+  margin-top: 10px;
+  align-self: flex-start;
+}
+
+/* Bottom modal button ("Close") */
+.modal-footer button {
+  background-color: #173d23 !important;
+  border-color: #173d23 !important;
+  color: #f2eee3 !important;
+}
+
+/* Responsive view */
+@media (max-width: 768px) {
+  .zone-edit-container {
+    padding: 22px 18px;
   }
-  
-  /* Wrapper for all zones */
-  .zone-edits {
-    display: flex;
-    flex-direction: column;
-    gap: 26px;
-  }
-  
-  /* Each zone box */
   .zone-1-container,
   .zone-2-container,
   .zone-3-container {
-    background-color: #fdfbf6;
-    border-radius: 18px;
-    border: 1px solid #c9c0aa;
-    padding: 20px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    padding: 18px 14px;
   }
-  
-  /* Zone header */
-  .zone-heading {
-    color: #173d23;
-    font-family: "Roboto", sans-serif;
-    font-weight: 600;
-    font-size: max(1.7vw, 22px);
-  }
-  
-  /* Text description */
-  .show-description {
-    color: #173d23;
-    font-family: "Nunito", sans-serif;
-    font-size: max(1vw, 18px);
-    margin-bottom: 4px;
-  }
-  
-  .zone-info {
-    font-family: "Nunito", sans-serif;
-    font-size: 0.95rem;
-    color: #37423a;
-    margin-bottom: 10px;
-  }
-  
-  /* Buttons inside zones */
-  
-  .zone-edit-container button,
-  .zone-editing-buttons button,
-  .add-a-zone {
-    border-radius: 999px;
-    padding: 8px 18px;
-    border: 1px solid #c9c0aa;
-    background-color: #f2eee3;
-    color: #173d23;
-    font-family: "Nunito", sans-serif;
-    font-weight: 600;
-    font-size: 0.78rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-    cursor: pointer;
-    background-image: none;
-    transition: background-color 0.15s ease,
-                border-color 0.15s ease,
-                box-shadow 0.15s ease,
-                transform 0.05s ease;
-  }
-  
-  /* Button container layout */
-  .zone-editing-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; 
-  }
-  
-  /* NEW SPACING ADDED HERE */
-  
-  /* Push buttons away from labels */
-  .zone-1-container .zone-editing-buttons,
-  .zone-2-container .zone-editing-buttons,
-  .zone-3-container .zone-editing-buttons {
-    margin-left: 14px; 
-  }
-  
-  /* Add margin around individual buttons */
-  .zone-1-container button,
-  .zone-2-container button,
-  .zone-3-container button {
-    margin-left: 12px;
-    margin-bottom: 10px;
-  }
-  
-  /* Hover effects */
-  .zone-edit-container button:hover,
-  .zone-editing-buttons button:hover,
-  .add-a-zone:hover {
-    background-color: #e6ddc7;
-    border-color: #b4a78a;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
-  }
-  
-  /* Inputs inside editing/replacing UI */
-  .adding-zone-info,
-  .editing-description {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 6px;
-  }
-  
-  .add-new-description label,
-  .update-description-field label {
-    font-family: "Nunito", sans-serif;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #597160;
-  }
-  
-  .add-new-description input[type="text"],
-  .update-description-field input[type="text"] {
-    border-radius: 10px;
-    border: 1px solid #c9c0aa;
-    padding: 8px 10px;
-    font-size: 0.94rem;
-    background-color: #ffffff;
-  }
-  
-  /* Big add-zone button spacing */
-  .add-a-zone {
-    margin-top: 10px;
-    align-self: flex-start;
-  }
-  
-  /* Bottom modal button ("Close") */
-  .modal-footer button {
-    background-color: #173d23 !important;
-    border-color: #173d23 !important;
-    color: #f2eee3 !important;
-  }
-  
-  /* Responsive view */
-  
-  @media (max-width: 768px) {
-    .zone-edit-container {
-      padding: 22px 18px;
-    }
-    .zone-1-container,
-    .zone-2-container,
-    .zone-3-container {
-      padding: 18px 14px;
-    }
-  }
-  
+}
