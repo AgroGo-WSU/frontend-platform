@@ -154,7 +154,7 @@ function ZoneEdit(props) {
       setWaterSchedZone3(zone3Data);
     }
       setZoneArrays();
-    }, [sendingWaterSchedule]);
+    }, [sendingWaterSchedule, sendingZoneData, waterSchedData]);
 
 
     // get user zone data
@@ -306,14 +306,14 @@ function ZoneEdit(props) {
 
       // assign the correct zone array to findData:
       if(zoneArrayID === "1") {
-        findData = waterSchedZone1;
+        findData = zone1Data;
       } else if(zoneArrayID === "2") {
-        findData = waterSchedZone2;
+        findData = zone2Data;
       } else if(zoneArrayID === "3") {
-        findData = waterSchedZone3;
+        findData = zone3Data;
       }
 
-      console.log(">>>>>>>>>>>>----------------------->>>>>>", findData, findData[zoneArrayIndex], zoneArrayIndex, zoneArrayID);
+      console.log(">>>>>>>>>>>>----------------------->>>>>>", waterSchedZone1, findData, findData[zoneArrayIndex], zoneArrayIndex, zoneArrayID);
 
       console.log("----------------------->>>>>>", findData[zoneArrayIndex]);
 
