@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import ZoneDeleteWarning from './ZoneDeleteWarning'
+import ZoneDeleteWarning from './ZoneDeleteWarning';
+import ZoneFan from './ZoneFan';
 import axios from "axios";
 import { AuthContext } from '../../hooks/UseAuth';
 import { getAuth } from "firebase/auth";
@@ -690,6 +691,9 @@ function ZoneEdit(props) {
 
       
     <div className="zone-edit-container">
+      <div className="zone-fan">
+        <ZoneFan />
+      </div>
       <div className="zone-edits">
         <div className="zone-1-container">
           <div className="zone-info">
@@ -721,7 +725,7 @@ function ZoneEdit(props) {
                 {/** this is a nested ternary operation to display 1) either the custom description or the default, and 2) either the description or the user input  */}
                 {/** the next line checks that we got the data fom the database and sorted it, and whether the user is updating the description - if they're NOT updating, render the display divs; if they ARE updating, skip to show the input field and cancel/save buttons */}
                 {zone1Info != null && updatedDescription1 === false ? 
-                  (zone1Info[0] ? <div className="show-description"><>{zone1Info[0].description}</><button onClick={updatingDescription1}>Update description</button></div> : <div className="show-description"><>Add a description</><button>Update description</button></div>) : 
+                  (zone1Info[0] ? <div className="show-description"><>{zone1Info[0].description}</><button onClick={updatingDescription1}>Update zone details</button></div> : <div className="show-description"><>Add a description</><button>Update zone details</button></div>) : 
                   <div className="editing-description">
                     <div className = "update-description-field">
                       <label htmlFor="zone_description">Enter new zone description: </label>
@@ -758,7 +762,7 @@ function ZoneEdit(props) {
                     <div className="update-water-input">
                       <div className="water-schedule-input-field">
                         <label htmlFor="update_watering_time">Set watering time</label>
-                        <input type="text" name="edit_change" id={"1_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                        <input type="time" name="edit_change" id={"1_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                       </div>
                       <div className="update-water-buttons">
                         <button id={"1_" + index} className="update-entry" onClick={saveChanges}>Update entry</button>
@@ -774,7 +778,7 @@ function ZoneEdit(props) {
                     <>
                     <div className="add-water-info">
                       <label htmlFor="zone_water_time">Set watering time</label>
-                      <input type="text" name="zone_water_time" id={"1_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                      <input type="time" name="zone_water_time" id={"1_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                     </div>
                     <div className="add-water-buttons">
                       <button id="1_+" className="save-entry" onClick={saveChanges}>Save entry</button>
@@ -818,7 +822,7 @@ function ZoneEdit(props) {
                 {/** this is a nested ternary operation to display 2) either the custom description or the default, and 2) either the description or the user input  */}
                 {/** the next line checks that we got the data fom the database and sorted it, and whether the user is updating the description - if they're NOT updating, render the display divs; if they ARE updating, skip to show the input field and cancel/save buttons */}
                 {zone2Info != null && updatedDescription2 === false ? 
-                  (zone2Info[0] ? <div className="show-description"><>{zone2Info[0].description}</><button onClick={updatingDescription2}>Update description</button></div> : <div className="show-description"><>Add a description</><button>Update description</button></div>) : 
+                  (zone2Info[0] ? <div className="show-description"><>{zone2Info[0].description}</><button onClick={updatingDescription2}>Update zone details</button></div> : <div className="show-description"><>Add a description</><button>Update zone details</button></div>) : 
                   <div className="editing-description">
                     <div className = "update-description-field">
                       <label htmlFor="zone_description">Enter new zone description: </label>
@@ -855,7 +859,7 @@ function ZoneEdit(props) {
                     <div className="update-water-input">
                       <div className="water-schedule-input-field">
                         <label htmlFor="update_watering_time">Set watering time</label>
-                        <input type="text" name="edit_change" id={"2_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                        <input type="time" name="edit_change" id={"2_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                       </div>
                       <div className="update-water-buttons">
                         <button id={"2_" + index} className="update-entry" onClick={saveChanges}>Update entry</button>
@@ -871,7 +875,7 @@ function ZoneEdit(props) {
                     <>
                     <div className="add-water-info">
                       <label htmlFor="zone_water_time">Set watering time</label>
-                      <input type="text" name="zone_water_time" id={"2_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                      <input type="time" name="zone_water_time" id={"2_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                     </div>
                     <div className="add-water-buttons">
                       <button id="2_+" className="save-entry" onClick={saveChanges}>Save entry</button>
@@ -915,7 +919,7 @@ function ZoneEdit(props) {
                 {/** this is a nested ternary operation to display 3) either the custom description or the default, and 3) either the description or the user input  */}
                 {/** the next line checks that we got the data fom the database and sorted it, and whether the user is updating the description - if they're NOT updating, render the display divs; if they ARE updating, skip to show the input field and cancel/save buttons */}
                 {zone3Info != null && updatedDescription3 === false ? 
-                  (zone3Info[0] ? <div className="show-description"><>{zone3Info[0].description}</><button onClick={updatingDescription3}>Update description</button></div> : <div className="show-description"><>Add a description</><button>Update description</button></div>) : 
+                  (zone3Info[0] ? <div className="show-description"><>{zone3Info[0].description}</><button onClick={updatingDescription3}>Update zone details</button></div> : <div className="show-description"><>Add a description</><button>Update zone details</button></div>) : 
                   <div className="editing-description">
                     <div className = "update-description-field">
                       <label htmlFor="zone_description">Enter new zone description: </label>
@@ -952,7 +956,7 @@ function ZoneEdit(props) {
                     <div className="update-water-input">
                       <div className="water-schedule-input-field">
                         <label htmlFor="update_watering_time">Set watering time</label>
-                        <input type="text" name="edit_change" id={"3_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                        <input type="time" name="edit_change" id={"3_"+index} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                       </div>
                       <div className="update-water-buttons">
                         <button id={"3_" + index} className="update-entry" onClick={saveChanges}>Update entry</button>
@@ -968,7 +972,7 @@ function ZoneEdit(props) {
                     <>
                     <div className="add-water-info">
                       <label htmlFor="zone_water_time">Set watering time</label>
-                      <input type="text" name="zone_water_time" id={"3_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
+                      <input type="time" name="zone_water_time" id={"3_+"} value={updatedWaterInput} onChange={handleChangeWaterTime}></input>
                     </div>
                     <div className="add-water-buttons">
                       <button id="3_+" className="save-entry" onClick={saveChanges}>Save entry</button>

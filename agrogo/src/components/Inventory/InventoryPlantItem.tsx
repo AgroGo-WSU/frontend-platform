@@ -1,3 +1,4 @@
+import "../../stylesheets/Inventory.css";
 
 
 interface InventoryValue {
@@ -11,7 +12,7 @@ function InventoryPlantItem ({ value }: InventoryValue) {
 
     return(
         <div>
-            <td>{value}</td>
+            <td className="plant-data-displays">{value}</td>
         </div>
     )
 }

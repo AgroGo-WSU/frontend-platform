@@ -78,6 +78,10 @@
     background-color: #ffffff;
     font-size: max(1vw, 14px);
   }
+
+  .plant-data-displays {
+    pointer-events: none;
+  }
   
   /* Slight zebra striping so columns feel more like cards */
   .table-row .table-data:nth-child(odd) {
@@ -210,7 +214,7 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     margin: 2px;
-    cursor: not-allowed;
+    pointer-events: none;
     opacity: 0.75;
     box-shadow: none;
   }

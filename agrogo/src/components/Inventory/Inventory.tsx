@@ -370,7 +370,7 @@ function Inventory() {
                           />
                         </div>
                         <button
-                          className="edit-disabled"
+                          className="edit-enabled"
                           id={item[1]}
                           onClick={saveChanges}
                         >
@@ -416,7 +416,7 @@ function Inventory() {
                     )}
                     {newEntry === true ? (
                       <button className="small-button" onClick={clearState}>
-                        Clear
+                        Cancel
                       </button>
                     ) : (
                       <></>
