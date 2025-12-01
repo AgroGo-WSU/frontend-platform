@@ -59,6 +59,7 @@ function ConnectivityStatus() {
   const [error, setMessage] = useState<string | null>(null);
   const [token, setToken] = useState(null);
   const [hasPi, setHasPi] = useState(false);
+  const [piOnline, setPiOnline] = useState(false);
   
   useEffect(() => {
     const getConnection = async () => {
@@ -78,7 +79,7 @@ function ConnectivityStatus() {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
-              }
+            }
           });
 
         console.log("SETTING DATA: ", response.data.data);
@@ -94,7 +95,34 @@ function ConnectivityStatus() {
     }
   };
 
+  const getPiOnlineStatus = async () => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        throw new Error('User not authenticated!');
+      }
+
+      const token = await user.getIdToken();
+      console.log(token);
+
+      const response = await axios.get("https://backend.agrogodev.workers.dev/api/userDeviceHealth", {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log("Pi online status data: ", response.data.deviceActive);
+      setPiOnline(response.data.deviceActive);
+    } catch(error){
+      console.error('Error fetching data:', error);
+    }
+  }
+
   getConnection();
+  getPiOnlineStatus();
 
   },[hasPi]);
 
@@ -111,7 +139,7 @@ function ConnectivityStatus() {
   const time_checked = time_checked_moment.tz('America/New_York').format('h:mm A');
 
   let status = "offline ";
-  if((last_connection.id != "00") && (last_connection.id != null)) {
+  if(piOnline) {
     status = "online ";
   }
 
@@ -121,7 +149,7 @@ function ConnectivityStatus() {
     <div className="connect-container">
       {hasPi === true ? (
         <>
-          <div className="device-line"><div className="your-device">Your device is</div> <div>{status === "online " ? <div className="status-online">{status}<img src={"../../src/assets/connected.svg"} width="10px"></img></div> : <div className="status-onffline">{status}<img src={"../../src/assets/disconnected.svg"} width="10px"></img></div>}</div></div>
+          <div className="device-line"><div className="your-device">Your device is</div> <div>{piOnline ? <div className="status-online">{status}<img src={"../../src/assets/connected.svg"} width="10px"></img></div> : <div className="status-onffline">{status}<img src={"../../src/assets/disconnected.svg"} width="10px"></img></div>}</div></div>
           <div className="checked-line"><div> last checked at {time_checked}</div></div>
         </>
       ) : (
