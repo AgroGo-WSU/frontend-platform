@@ -32,7 +32,8 @@
   }
   
   /* Zone header */
-  .zone-heading {
+  .zone-heading,
+  .fan-heading {
     color: #173d23;
     font-family: "Roboto", sans-serif;
     font-weight: 600;
@@ -164,4 +165,29 @@
       padding: 18px 14px;
     }
   }
-  
+
+  .add-fan-button-enabled {
+    padding: 12px;
+  }
+
+  .fan-data {
+    padding-right: 12px;
+  }
+
+  .fan-data-display {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+  }
+
+  .update-fan-button {
+    margin: 8px!important;
+  }
+
+  .zone-fan-container {
+    background-color: #fdfbf6;
+    border-radius: 18px;
+    border: 1px solid #c9c0aa;
+    padding: 20px 22px;
+    gap: 16px;
+  }
