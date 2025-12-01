@@ -39,21 +39,44 @@
     font-style: italic;
 }
 
+/* Pill-style button to match the "EDIT ZONES" button */
 .action-buttons {
     display: flex;
     justify-content: center;
+    margin-top: 12px;
 }
 
 .action-buttons button {
-    background-color: #ffffff00;
-    font-family: "Nunito";
-    color: #173D23;
-    border: 2px solid #173D23;
-    border-radius: 5px;
-    font-size: 1.5em;
-
+    border-radius: 999px;
+    padding: 8px 22px;
+    border: 1px solid #c9c0aa;
+    background-color: #f2eee3;
+    color: #173d23;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    background-image: none;
     display: block;
-    font-size: 1em;
+    transition: background-color 0.15s ease,
+                border-color 0.15s ease,
+                box-shadow 0.15s ease,
+                transform 0.05s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #e6ddc7;
+    border-color: #b4a78a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+}
+
+.action-buttons button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(23, 61, 35, 0.15);
 }
 
 .stats {

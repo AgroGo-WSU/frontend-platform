@@ -51,31 +51,47 @@
 /* --- Sign Out button on the far right --- */
 .nav-signout {
   position: absolute;
-  top: 10px;          /* adjust vertical placement */
-  right: 20px;        /* smaller = closer to browser edge */
+  top: 10px;
+  right: 20px;
   z-index: 10;/
 }
 
+/* Pill-style Sign Out button matching Edit Zones & Profile buttons */
 .signout-button {
-  background-color: #f2eee3;
+  border-radius: 999px;
+  padding: 8px 22px;
   border: 1px solid #c9c0aa;
-  border-radius: 6px;
-  padding: 6px 18px;
-  font-family: "Nunito", sans-serif;
-  font-size: 0.95rem;
+  background-color: #f2eee3;
   color: #173d23;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease,
-    transform 0.05s ease;
+  background-image: none;
+  transition: background-color 0.15s ease,
+              border-color 0.15s ease,
+              box-shadow 0.15s ease,
+              transform 0.05s ease;
 }
 
 .signout-button:hover:not(:disabled) {
   background-color: #e6ddc7;
   border-color: #b4a78a;
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+}
+
+.signout-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(23, 61, 35, 0.15);
 }
 
 .signout-button:disabled {
   opacity: 0.7;
   cursor: default;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }
